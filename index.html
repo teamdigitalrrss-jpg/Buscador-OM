@@ -2033,6 +2033,7 @@ function cargarLicencias() {
       dataLicencias = XLSX.utils.sheet_to_json(sheet);
 
       console.log("Licencias cargadas:", dataLicencias);
+      buscarLicencias();
     })
     .catch(error => {
       console.error("Error cargando Excel:", error);
@@ -2046,17 +2047,19 @@ function buscarLicencias() {
   const tbody = document.querySelector("#tablaLicencias tbody");
   tbody.innerHTML = "";
 
+  let resultados = [];
+
+  // ✅ SI NO HAY BÚSQUEDA → MOSTRAR TODO
   if (!input) {
-    document.getElementById("tablaLicencias").style.display = "none";
-    return;
+    resultados = dataLicencias;
+  } else {
+    resultados = dataLicencias.filter(row => {
+      const usuario = (row["Usuario nuevo"] || "").toLowerCase();
+      const agente = (row["Agente Asignado"] || "").toLowerCase();
+
+      return usuario.includes(input) || agente.includes(input);
+    });
   }
-
-  const resultados = dataLicencias.filter(row => {
-    const usuario = (row["Usuario nuevo"] || "").toLowerCase();
-    const agente = (row["Agente Asignado"] || "").toLowerCase();
-
-    return usuario.includes(input) || agente.includes(input);
-  });
 
   resultados.forEach(row => {
     const tr = document.createElement("tr");
