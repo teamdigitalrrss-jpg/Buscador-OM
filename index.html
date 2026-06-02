@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscador OM</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/Juank930/ImagenesRRSS/main/Icono23.png" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+      /* Estilos existentes (sin cambios) */
+      body {
+        background: #200122;
+        background: -webkit-linear-gradient(to right, #000000, #200122);
+        background: linear-gradient(to right, #ffffff, #ffffff);
+        color: rgb(0, 0, 0);
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff;
+        color: #000000;
+      }
+
+      th, td {
+        border: 1px solid #070707;
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #ffffff;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        cursor: pointer;
+      }
+
+      th:hover {
+        background-color: #e64d4d;
+      }
+
+      .sort-icon {
+        margin-left: 5px;
+        font-size: 12px;
+      }
+
+      .table-container {
+        max-height: 70vh;
+        overflow-y: auto;
+        margin-top: 20px;
+      }
+
+      #search, #textSearch, #mobileSearch, #agentSearch, #fileInput, #searchBtn, #chartBtn, #copyBtn, #backBtn, #extraBackBtn, #downloadBtn, #extraReportBtn, #omErrorChartBtn, #resetBtn, #textChartBtn {
+        padding: 8px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+
+      #searchBtn {
+        background-color: rgb(209, 18, 18);
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      #searchBtn:hover {
+        background-color: rgb(197, 197, 197);
+      }
+
+      #copyBtn {
+        background-color: rgb(30, 30, 197);
+        color: rgb(8, 8, 8);
+        border: none;
+        cursor: pointer;
+      }
+
+      #copyBtn:hover {
+        background-color: rgb(197, 197, 197);
+      }
+
+      #downloadBtn {
+        background-color: rgb(34, 139, 34);
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      #downloadBtn:hover {
+        background-color: rgb(243, 243, 243);
+      }
+
+      #extraReportBtn {
+        background-color: orange;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      #extraReportBtn:hover {
+        background-color: darkorange;
+      }
+
+      #resetBtn {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      #resetBtn:hover {
+        background-color: rgb(197, 197, 197);
+      }
+
+      #textChartBtn {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      #textChartBtn:hover {
+        background-color: rgb(197, 197, 197);
+      }
+
+      .filter-input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 5px;
+        background-color: #faf7f7;
+        border: 1px solid #555;
+        color: #050505;
+      }
+
+      .filter-input:disabled {
+        background-color: #222;
+        color: #777;
+        border-color: #333;
+      }
+
+      .chart-container {
+        width: 100%;
+        margin: 20px auto;
+        position: relative;
+        height: 500px; /* Aumenté la altura para mejor visualización */
+        display: none;
+      }
+
+      #eventChart, #omErrorByHourChart, #textByHourChart {
+        width: 100% !important;
+        height: 500px !important; /* Aumenté la altura para mejor visualización */
+        margin-top: 20px;
+      }
+
+      button {
+        padding: 10px 16px;
+        margin: 6px 4px;
+        font-size: 14px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background-color: #f0f0f0;
+        color: #333;
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+      }
+
+      button:hover {
+        background-color: #e0e0e0;
+        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      #searchBtn {
+        background-color: #f14848;
+        color: white;
+        border: none;
+      }
+
+      #chartBtn {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+      }
+
+      #omErrorChartBtn {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+      }
+
+      #textChartBtn {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+      }
+
+      #copyBtn {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+      }
+
+      #downloadBtn {
+        background-color: #2a9c1f;
+        color: white;
+        border: none;
+      }
+
+      #backBtn {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+      }
+
+      #cuadro-flotante {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background-color: rgb(236, 70, 70);
+        color: rgb(252, 252, 252);
+        padding: 15px 10px 10px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+        z-index: 9999;
+        cursor: move;
+        width: 250px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      }
+
+      #cerrar {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: rgb(255, 255, 255);
+        color: rgb(12, 11, 11);
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+
+      #cerrar:hover {
+        background-color: rgb(245, 141, 141);
+      }
+
+      .spinner {
+          display: none;
+          width: 40px;
+          height: 40px;
+          border: 4px solid rgba(255, 255, 255, 0.3);
+          border-radius: 50%;
+          border-top-color: #f14848;
+          animation: spin 1s ease-in-out infinite;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 9999;
+      }
+
+      @keyframes spin {
+          to { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+
+      .overlay {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 9998;
+      }
+
+      #helpBtn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      #helpBtn:hover {
+        background-color: #0069d9;
+        transform: scale(1.05);
+      }
+
+      #manualModal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.9);
+        z-index: 2000;
+        overflow-y: auto;
+      }
+
+      #manualContent {
+        background-color: #222;
+        color: white;
+        margin: 50px auto;
+        padding: 30px;
+        width: 80%;
+        max-width: 800px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      }
+
+      #closeManual {
+        float: right;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        color: white;
+        margin-top: -20px;
+      }
+
+      #manualContent h2 {
+        color: #4da6ff;
+        text-align: center;
+      }
+
+      #manualContent h3 {
+        color: #4da6ff;
+      }
+
+      #manualContent strong {
+        color: #4da6ff;
+      }
+
+      #manualContent table {
+        border: 1px solid #444;
+      }
+
+      #manualContent th {
+        background-color: #333;
+        color: white;
+      }
+
+      #manualContent tr {
+        background-color: #2a2a2a;
+      }
+
+      #manualContent tr:nth-child(even) {
+        background-color: #333;
+      }
+
+      #manualContent td {
+        border: 1px solid #444;
+      }
+
+      .date-filter-container {
+        display: none;
+        margin: 15px 0;
+        padding: 10px;
+        background-color: #333;
+        border-radius: 5px;
+      }
+
+      .date-filter-container label {
+        margin-right: 10px;
+        font-weight: bold;
+      }
+
+      .date-filter-container input {
+        padding: 8px;
+        margin-right: 10px;
+        border-radius: 4px;
+        border: 1px solid #555;
+        background-color: #222;
+        color: white;
+      }
+
+      .date-filter-container button {
+        padding: 8px 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .date-filter-container button:hover {
+        background-color: #45a049;
+      }
+
+      .flatpickr-input {
+        color: white !important;
+        background-color: #222 !important;
+        border: 1px solid #555 !important;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 10000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+      }
+
+      .modal-content {
+        background-color: #333;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 50%;
+        max-width: 500px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .close:hover {
+        color: white;
+      }
+
+      .modal-body {
+        margin-bottom: 20px;
+      }
+
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .modal-footer button {
+        margin-left: 10px;
+      }
+
+      .progress-container {
+        width: 100%;
+        background-color: #333;
+        border-radius: 5px;
+        margin: 10px 0;
+        display: none;
+      }
+
+      .progress-bar {
+        width: 0%;
+        height: 20px;
+        background-color: #4CAF50;
+        border-radius: 5px;
+        text-align: center;
+        line-height: 20px;
+        color: white;
+        transition: width 0.3s ease;
+      }
+
+      /* Nuevos estilos para el contador de resultados */
+      #resultCounter {
+        margin: 10px 0;
+        padding: 8px;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        font-weight: bold;
+        color: #333;
+        display: none;
+      }
+
+      #buscarLicenciasBtn {
+  background-color: #0396a6;
+  color: white;
+  border: none;
+}
+
+#buscarLicenciasBtn:hover {
+  background-color: #027a87;
+}
+
+.titulo-licencias {
+  color: #0396a6;
+  font-size: 36px;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+}
+
+#tablaLicencias th {
+  background-color: #0396a6;
+  color: white;
+}
+
+.input-licencias {
+  padding: 10px 15px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  outline: none;
+  width: 250px;
+  font-size: 14px;
+  
+  /* sombra */
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+
+  /* transición suave */
+  transition: all 0.2s ease;
+}
+
+/* cuando haces clic */
+.input-licencias:focus {
+  border-color: #0396a6;
+  box-shadow: 0 4px 10px rgba(3,150,166,0.4);
+}
+
+/* texto placeholder */
+.input-licencias::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+</head>
+  
+<body>
+<div id="mainContent">
+
+     <h1 style="text-align: center; font-family: Arial, sans-serif;">
+  <span style="color: #000000;">Reportes y fallas</span> 
+  <span style="color: #43a1e0;">One Marketer</span>
+</h1>
+  
+<button onclick="goToLicencias()" id="buscarLicenciasBtn">🔎 Buscar licencias</button>
+<br>
+<input type="file" id="fileInput" accept=".csv" multiple />
+
+  <div class="progress-container" id="progressContainer">
+    <div class="progress-bar" id="progressBar">0%</div>
+  </div>
+<br>
+<br>
+  <label>Tipos de fallas OM </label><input type="text" id="search" placeholder="Ingresa #, 13, API" />
+  <label>Fallas BOT o palabras clave </label><input type="text" id="textSearch" placeholder="Ingresa texto o textos aquí" />
+  <label>Búsqueda por Móvil </label><input type="text" id="mobileSearch" placeholder="Ingresa número de móvil" />
+  <label>Búsqueda por Agente </label><input type="text" id="agentSearch" placeholder="Ingresa nombre de agente" />
+  <button id="searchBtn" onclick="openDateModal()">🔍 <b>Buscar</b></button>
+  <button id="resetBtn" onclick="resetSearch()">🔄 <b>Nueva búsqueda</b></button>
+  <button id="chartBtn" onclick="showChart()">📊 Gráfico errores BOT</button>
+  <button id="omErrorChartBtn" onclick="showOMErrorChart()">📈 Gráfico fallas OM</button>
+  <button id="textChartBtn" onclick="showTextChart()">📝 Gráfico de texto</button>
+  <button id="copyBtn" onclick="copyResults()">📋 Copiar resultados</button>
+  <button id="downloadBtn" onclick="downloadExcel()">📥 Descargar Excel</button>
+  <button id="backBtn" onclick="goBack()" style="display:none; background-color: grey; color: white; border: none; cursor: pointer;">Inicio</button>
+
+  <!-- Contador de resultados -->
+  <div id="resultCounter"></div>
+
+  <!-- Filtro de fechas para gráficos -->
+  <div id="dateFilterContainer" class="date-filter-container">
+    <label for="startDate">Fecha inicio:</label>
+    <input type="text" id="startDate" class="flatpickr-input" placeholder="Seleccione fecha inicio">
+    
+    <label for="endDate">Fecha fin:</label>
+    <input type="text" id="endDate" class="flatpickr-input" placeholder="Seleccione fecha fin">
+    
+    <button id="applyDateFilter" onclick="applyDateFilter()">Aplicar filtro</button>
+    <button id="resetDateFilter" onclick="resetDateFilter()">Restablecer</button>
+  </div>
+
+  <!-- Modal para selección de fechas -->
+  <div id="dateModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Seleccionar rango de fechas</h2>
+        <span class="close" onclick="closeDateModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <label for="modalStartDate">Fecha desde:</label>
+        <input type="text" id="modalStartDate" class="flatpickr-input" placeholder="Seleccione fecha inicio">
+        
+        <label for="modalEndDate">Fecha hasta:</label>
+        <input type="text" id="modalEndDate" class="flatpickr-input" placeholder="Seleccione fecha fin">
+      </div>
+      <div class="modal-footer">
+        <button onclick="closeDateModal()">Cancelar</button>
+        <button onclick="applyDateSelection()" style="background-color: #4CAF50; color: white;">Aplicar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table id="dataTable" style="display: none;">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th onclick="sortTable(1)">Fecha<span class="sort-icon">↕</span><br><input class="filter-input" id="filter1" onkeyup="columnFilter(1, this.value)" placeholder="Filtrar" disabled></th>
+          <th onclick="sortTable(2)">Agente<span class="sort-icon">↕</span><br><input class="filter-input" id="filter2" onkeyup="columnFilter(2, this.value)" placeholder="Filtrar" disabled></th>
+          <th onclick="sortTable(3)">Movil<span class="sort-icon">↕</span><br><input class="filter-input" id="filter3" onkeyup="columnFilter(3, this.value)" placeholder="Filtrar" disabled></th>
+          <th onclick="sortTable(4)">Remoto<span class="sort-icon">↕</span><br><input class="filter-input" id="filter4" onkeyup="columnFilter(4, this.value)" placeholder="Filtrar" disabled></th>
+          <th onclick="sortTable(5)">Event<span class="sort-icon">↕</span><br><input class="filter-input" id="filter5" onkeyup="columnFilter(5, this.value)" placeholder="Filtrar" disabled></th>
+          <th onclick="sortTable(6)">Texto<span class="sort-icon">↕</span><br><input class="filter-input" id="filter6" onkeyup="columnFilter(6, this.value)" placeholder="Filtrar" disabled></th>
+          <th onclick="sortTable(7)">Hora<span class="sort-icon">↕</span><br><input class="filter-input" id="filter7" onkeyup="columnFilter(7, this.value)" placeholder="Filtrar" disabled></th>
+          <th onclick="sortTable(8)">Detalles de error<span class="sort-icon">↕</span><br><input class="filter-input" id="filter8" onkeyup="columnFilter(8, this.value)" placeholder="Filtrar" disabled></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="chart-container">
+    <canvas id="eventChart"></canvas>
+  </div>
+  <div class="chart-container">
+    <canvas id="omErrorByHourChart"></canvas>
+  </div>
+  <div class="chart-container">
+    <canvas id="textByHourChart"></canvas>
+  </div>
+  
+<div id="cuadro-flotante">
+  <button id="cerrar">X</button>
+  Buscar fallas OM con el texto:<br>
+  <span class="copiable" data-text="#, 13, API" style="text-decoration: underline;" title="Puedes copiar con doble clic">#, 13, API</span><br><br>
+  Busca errores del BOT con:<br>
+  <span class="copiable" data-text="ocurrido un problema" style="text-decoration: underline;" title="Puedes copiar con doble clic">ocurrido un problema</span><br><br>
+  Busca trasferencias:<br>
+  <span class="copiable" data-text="Skill o transferred" style="text-decoration: underline;" title="Puedes copiar con doble clic">Skill o transferred</span><br><br>
+    Cierres ASESOR:<br>
+  <span class="copiable" data-text="Caso marcado pendiente, Caso marcado pendiente auto, Cierra caso agente" style="text-decoration: underline;" title="Puedes copiar con doble clic">Caso marcado pendiente, Caso marcado pendiente auto, Cierra caso agente</span><br><br>
+</div>
+
+<!-- Spinner de carga -->
+<div class="overlay" id="loadingOverlay"></div>
+<div class="spinner" id="loadingSpinner"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Función para copiar texto
+        function copiarTexto(elemento) {
+            const texto = elemento.getAttribute('data-text') || elemento.textContent;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(texto)
+                    .then(() => mostrarFeedback(elemento))
+                    .catch(err => {
+                        console.error('Error al copiar:', err);
+                        copiarTextoFallback(texto, elemento);
+                    });
+            } else {
+                copiarTextoFallback(texto, elemento);
+            }
+        }
+
+        function copiarTextoFallback(texto, elemento) {
+            const textarea = document.createElement('textarea');
+            textarea.value = texto;
+            textarea.style.position = 'fixed';
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                mostrarFeedback(elemento);
+            } catch (err) {
+                console.error('Error al copiar:', err);
+                alert('No se pudo copiar el texto. Por favor, cópialo manualmente.');
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+        function mostrarFeedback(elemento) {
+            elemento.classList.add('copiado');
+            setTimeout(() => {
+                elemento.classList.remove('copiado');
+            }, 1000);
+        }
+
+        document.querySelectorAll('.copiable').forEach(element => {
+            element.addEventListener('dblclick', () => copiarTexto(element));
+        });
+
+        document.getElementById('cerrar').addEventListener('click', function() {
+            document.getElementById('cuadro-flotante').style.display = 'none';
+        });
+    });
+</script>
+  
+  <script>
+    let data = [];
+    let filteredData = [];
+    let availableDates = [];
+    let dateFilterActive = false;
+    let currentStartDate = null;
+    let currentEndDate = null;
+    let modalDateFilterActive = false;
+    let modalStartDate = null;
+    let modalEndDate = null;
+    let currentSortColumn = -1;
+    let sortDirection = 1; // 1 para ascendente, -1 para descendente
+
+    // Función para actualizar el contador de resultados
+    function updateResultCounter(count) {
+      const counterElement = document.getElementById('resultCounter');
+      counterElement.textContent = `Total de resultados: ${count}`;
+      counterElement.style.display = count > 0 ? 'block' : 'none';
+    }
+
+    // Función para ordenar la tabla
+    function sortTable(columnIndex) {
+      if (filteredData.length === 0) return;
+      
+      // Cambiar dirección si es la misma columna
+      if (currentSortColumn === columnIndex) {
+        sortDirection *= -1;
+      } else {
+        currentSortColumn = columnIndex;
+        sortDirection = 1;
+      }
+      
+      // Actualizar iconos de ordenamiento
+      document.querySelectorAll('th .sort-icon').forEach((icon, index) => {
+        if (index === columnIndex) {
+          icon.textContent = sortDirection === 1 ? '↑' : '↓';
+        } else {
+          icon.textContent = '↕';
+        }
+      });
+      
+      // Ordenar los datos
+      filteredData.sort((a, b) => {
+        let valueA, valueB;
+        
+        // Obtener valores según la columna
+        switch(columnIndex) {
+          case 1: valueA = a.Fecha; valueB = b.Fecha; break;
+          case 2: valueA = a.Agente; valueB = b.Agente; break;
+          case 3: valueA = a.Movil; valueB = b.Movil; break;
+          case 4: valueA = a.Remoto; valueB = b.Remoto; break;
+          case 5: valueA = a.Event; valueB = b.Event; break;
+          case 6: valueA = a.Texto; valueB = b.Texto; break;
+          case 7: valueA = a.Hora; valueB = b.Hora; break;
+          case 8: valueA = a.DetalleError; valueB = b.DetalleError; break;
+          default: return 0;
+        }
+        
+        // Comparar valores
+        if (valueA < valueB) return -1 * sortDirection;
+        if (valueA > valueB) return 1 * sortDirection;
+        return 0;
+      });
+      
+      // Volver a renderizar la tabla
+      renderTable(filteredData);
+    }
+
+    function openDateModal() {
+      if (data.length === 0) {
+        alert("Primero debe cargar archivos CSV.");
+        return;
+      }
+      
+      setupModalDatePickers();
+      document.getElementById('dateModal').style.display = 'block';
+    }
+
+    function closeDateModal() {
+      document.getElementById('dateModal').style.display = 'none';
+    }
+
+    function applyDateSelection() {
+      const startDateStr = document.getElementById('modalStartDate').value;
+      const endDateStr = document.getElementById('modalEndDate').value;
+      
+      if (!startDateStr || !endDateStr) {
+        alert('Por favor seleccione ambas fechas (inicio y fin)');
+        return;
+      }
+      
+      const [startDay, startMonth, startYear] = startDateStr.split('/').map(Number);
+      modalStartDate = new Date(startYear, startMonth - 1, startDay);
+      
+      const [endDay, endMonth, endYear] = endDateStr.split('/').map(Number);
+      modalEndDate = new Date(endYear, endMonth - 1, endDay);
+      
+      modalEndDate.setHours(23, 59, 59, 999);
+      
+      modalDateFilterActive = true;
+      closeDateModal();
+      
+      // CORRECCIÓN: Llamar directamente a filterTable para ejecutar la búsqueda
+      filterTable();
+    }
+
+    function setupModalDatePickers() {
+      // Limpiar datepickers existentes
+      if (document.getElementById('modalStartDate')._flatpickr) {
+        document.getElementById('modalStartDate')._flatpickr.destroy();
+      }
+      if (document.getElementById('modalEndDate')._flatpickr) {
+        document.getElementById('modalEndDate')._flatpickr.destroy();
+      }
+      
+      // Crear datepickers con las fechas disponibles
+      flatpickr("#modalStartDate", {
+        locale: "es",
+        dateFormat: "d/m/Y",
+        enable: availableDates,
+        onChange: function(selectedDates, dateStr, instance) {
+          if (selectedDates.length) {
+            const endDatePicker = document.querySelector("#modalEndDate")._flatpickr;
+            if (endDatePicker) {
+              endDatePicker.set("minDate", selectedDates[0]);
+            }
+          }
+        }
+      });
+      
+      flatpickr("#modalEndDate", {
+        locale: "es",
+        dateFormat: "d/m/Y",
+        enable: availableDates
+      });
+    }
+
+    function setupEnterKey() {
+      // CORRECCIÓN: Agregar event listeners para Enter en todos los campos de búsqueda
+      document.getElementById('search').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          openDateModal();
+        }
+      });
+      
+      document.getElementById('textSearch').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          openDateModal();
+        }
+      });
+      
+      document.getElementById('mobileSearch').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          openDateModal();
+        }
+      });
+
+      document.getElementById('agentSearch').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          openDateModal();
+        }
+      });
+    }
+
+    function resetSearch() {
+      document.getElementById('search').value = '';
+      document.getElementById('textSearch').value = '';
+      document.getElementById('mobileSearch').value = '';
+      document.getElementById('agentSearch').value = '';
+      
+      modalDateFilterActive = false;
+      modalStartDate = null;
+      modalEndDate = null;
+      
+      document.getElementById("dataTable").style.display = "table";
+      document.querySelectorAll('.chart-container').forEach(el => {
+        el.style.display = 'none';
+      });
+      document.getElementById("backBtn").style.display = "none";
+      document.getElementById("dateFilterContainer").style.display = "none";
+      
+      // Restablecer ordenamiento
+      currentSortColumn = -1;
+      sortDirection = 1;
+      document.querySelectorAll('th .sort-icon').forEach(icon => {
+        icon.textContent = '↕';
+      });
+      
+      // Mostrar todos los datos nuevamente
+      filteredData = data;
+      renderTable(data);
+    }
+
+    // Función optimizada para procesar archivos CSV en lotes
+    function processCSVFile(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const contents = e.target.result;
+          const lines = contents.split(/\r?\n/);
+          const fileData = [];
+          
+          // Procesar líneas en lotes para no bloquear la UI
+          const batchSize = 1000;
+          let index = 0;
+          
+          function processBatch() {
+            const end = Math.min(index + batchSize, lines.length);
+            
+            for (; index < end; index++) {
+              const line = lines[index];
+              if (!line) continue;
+              
+              const cols = line.split(';');
+              if (cols.length >= 6) {
+                const fecha = cols[0];
+                const hora = fecha.match(/\b(\d{1,2}):/) ? fecha.match(/\b(\d{1,2}):/)[1] : "";
+                
+                fileData.push({
+                  Fecha: fecha,
+                  Agente: cols[1],
+                  Movil: cols[2],
+                  Remoto: cols[3],
+                  Event: cols[4],
+                  Texto: cols[5] || "",
+                  Hora: hora,
+                  DetalleError: generateErrorDetail(cols[4], cols[5] || ""),
+                  FechaDate: parseFechaToDate(fecha)
+                });
+              }
+            }
+            
+            // Actualizar barra de progreso
+            const progress = Math.round((index / lines.length) * 100);
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressBar').textContent = progress + '%';
+            
+            if (index < lines.length) {
+              // Procesar siguiente lote en el siguiente frame
+              setTimeout(processBatch, 0);
+            } else {
+              resolve(fileData);
+            }
+          }
+          
+          // Iniciar procesamiento por lotes
+          processBatch();
+        };
+        reader.readAsText(file, 'ISO-8859-1');
+      });
+    }
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+
+      document.getElementById('loadingSpinner').style.display = 'block';
+      document.getElementById('loadingOverlay').style.display = 'block';
+      document.getElementById('progressContainer').style.display = 'block';
+
+      const filePromises = [];
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        filePromises.push(processCSVFile(file));
+      }
+
+      Promise.all(filePromises).then(fileDataArrays => {
+        data = fileDataArrays.flat();
+        extractAvailableDates();
+        filteredData = data;
+        renderTable(data);
+        
+        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('loadingOverlay').style.display = 'none';
+        document.getElementById('progressContainer').style.display = 'none';
+        
+        // CORRECCIÓN: Configurar eventos de teclado después de cargar datos
+        setupEnterKey();
+      }).catch(error => {
+        console.error('Error al cargar archivos:', error);
+        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('loadingOverlay').style.display = 'none';
+        document.getElementById('progressContainer').style.display = 'none';
+        alert('Error al procesar los archivos: ' + error.message);
+      });
+    });
+
+    function extractAvailableDates() {
+      const dateSet = new Set();
+      
+      data.forEach(item => {
+        if (item.Fecha) {
+          // Extraer fecha en formato dd/mm/aaaa
+          const dateMatch = item.Fecha.match(/(\d{1,2}\/\d{1,2}\/\d{4})/);
+          if (dateMatch && dateMatch[1]) {
+            dateSet.add(dateMatch[1]);
+          }
+        }
+      });
+      
+      availableDates = Array.from(dateSet).sort();
+      console.log("Fechas disponibles:", availableDates);
+      
+      // Configurar datepickers
+      setupDatePickers();
+    }
+    
+    function setupDatePickers() {
+      // Limpiar datepickers existentes
+      if (document.getElementById('startDate')._flatpickr) {
+        document.getElementById('startDate')._flatpickr.destroy();
+      }
+      if (document.getElementById('endDate')._flatpickr) {
+        document.getElementById('endDate')._flatpickr.destroy();
+      }
+      
+      // Convertir fechas a objetos Date para flatpickr
+      const dateObjects = availableDates.map(dateStr => {
+        const [day, month, year] = dateStr.split('/').map(Number);
+        return new Date(year, month - 1, day);
+      });
+      
+      console.log("Objetos Date para flatpickr:", dateObjects);
+      
+      // Configurar datepickers principales
+      flatpickr("#startDate", {
+        locale: "es",
+        dateFormat: "d/m/Y",
+        enable: dateObjects,
+        onChange: function(selectedDates, dateStr, instance) {
+          if (selectedDates.length) {
+            const endDatePicker = document.querySelector("#endDate")._flatpickr;
+            if (endDatePicker) {
+              endDatePicker.set("minDate", selectedDates[0]);
+            }
+          }
+        }
+      });
+      
+      flatpickr("#endDate", {
+        locale: "es",
+        dateFormat: "d/m/Y",
+        enable: dateObjects
+      });
+    }
+    
+    function parseFechaToDate(fechaStr) {
+      if (!fechaStr) return null;
+      
+      try {
+        // Extraer la parte de la fecha (dd/mm/aaaa)
+        const datePart = fechaStr.split(' ')[0];
+        const [day, month, year] = datePart.split('/').map(Number);
+        
+        if (isNaN(day) || isNaN(month) || isNaN(year)) {
+          return null;
+        }
+        
+        return new Date(year, month - 1, day);
+      } catch (error) {
+        console.error('Error al parsear fecha:', fechaStr, error);
+        return null;
+      }
+    }
+    
+    function applyDateFilter() {
+      const startDateStr = document.getElementById('startDate').value;
+      const endDateStr = document.getElementById('endDate').value;
+      
+      if (!startDateStr || !endDateStr) {
+        alert('Por favor seleccione ambas fechas (inicio y fin)');
+        return;
+      }
+      
+      const [startDay, startMonth, startYear] = startDateStr.split('/').map(Number);
+      const startDate = new Date(startYear, startMonth - 1, startDay);
+      
+      const [endDay, endMonth, endYear] = endDateStr.split('/').map(Number);
+      const endDate = new Date(endYear, endMonth - 1, endDay);
+      
+      endDate.setHours(23, 59, 59, 999);
+      
+      const filteredByDate = filteredData.filter(item => {
+        if (!item.FechaDate) return false;
+        
+        const itemDate = new Date(item.FechaDate);
+        return itemDate >= startDate && itemDate <= endDate;
+      });
+      
+      currentStartDate = startDate;
+      currentEndDate = endDate;
+      dateFilterActive = true;
+      
+      if (window.currentChartType === 'event') {
+        showChart(filteredByDate);
+      } else if (window.currentChartType === 'omError') {
+        showOMErrorChart(filteredByDate);
+      } else if (window.currentChartType === 'text') {
+        showTextChart(filteredByDate);
+      }
+    }
+    
+    function resetDateFilter() {
+      document.getElementById('startDate').value = '';
+      document.getElementById('endDate').value = '';
+      dateFilterActive = false;
+      currentStartDate = null;
+      currentEndDate = null;
+      
+      if (window.currentChartType === 'event') {
+        showChart();
+      } else if (window.currentChartType === 'omError') {
+        showOMErrorChart();
+      } else if (window.currentChartType === 'text') {
+        showTextChart();
+      }
+    }
+
+    function renderTable(dataArray) {
+      const tbody = document.querySelector("#dataTable tbody");
+      tbody.innerHTML = "";
+      
+      // Actualizar contador de resultados
+      updateResultCounter(dataArray.length);
+      
+      // Limitar la visualización inicial a 1000 registros para mejor rendimiento
+      const displayData = dataArray.length > 1000 ? dataArray.slice(0, 1000) : dataArray;
+      
+      displayData.forEach((row, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${row.Fecha}</td>
+          <td>${row.Agente}</td>
+          <td>${row.Movil}</td>
+          <td>${row.Remoto}</td>
+          <td>${row.Event}</td>
+          <td>${row.Texto}</td>
+          <td>${row.Hora}</td>
+          <td>${row.DetalleError}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+      
+      // Mostrar advertencia si hay más datos
+      if (dataArray.length > 1000) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td colspan="9" style="text-align: center; background-color: #444; color: #ffcc00;">
+            Mostrando 1000 de ${dataArray.length} registros. Use los filtros para reducir los resultados.
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
+      
+      document.getElementById("dataTable").style.display = dataArray.length > 0 ? "table" : "none";
+
+      for (let i = 1; i <= 8; i++) {
+        document.getElementById(`filter${i}`).disabled = dataArray.length === 0;
+      }
+    }
+
+    function filterTable() {
+      document.getElementById('loadingSpinner').style.display = 'block';
+      document.getElementById('loadingOverlay').style.display = 'block';
+      
+      const eventInput = document.getElementById("search").value.toLowerCase().trim();
+      const textInput = document.getElementById("textSearch").value.toLowerCase().trim();
+      const mobileInput = document.getElementById("mobileSearch").value.trim();
+      const agentInput = document.getElementById("agentSearch").value.toLowerCase().trim();
+
+      const eventKeywords = eventInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
+      const textKeywords = textInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
+      const mobileKeywords = mobileInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
+      const agentKeywords = agentInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
+
+      // Usar requestAnimationFrame para mejor rendimiento
+      requestAnimationFrame(() => {
+          let tempFilteredData = data.filter(row => {
+              const matchEvent = eventKeywords.length === 0 || eventKeywords.some(word => row.Event.toLowerCase().includes(word));
+              const matchText = textKeywords.length === 0 || textKeywords.some(word => row.Texto.toLowerCase().includes(word));
+              const matchMobile = mobileKeywords.length === 0 || mobileKeywords.some(word => row.Movil.includes(word));
+              const matchAgent = agentKeywords.length === 0 || agentKeywords.some(word => row.Agente.toLowerCase().includes(word));
+              return matchEvent && matchText && matchMobile && matchAgent;
+          });
+
+          if (modalDateFilterActive) {
+            tempFilteredData = tempFilteredData.filter(item => {
+              if (!item.FechaDate) return false;
+              const itemDate = new Date(item.FechaDate);
+              return itemDate >= modalStartDate && itemDate <= modalEndDate;
+            });
+          }
+
+          filteredData = tempFilteredData;
+          renderTable(filteredData);
+          
+          document.getElementById('loadingSpinner').style.display = 'none';
+          document.getElementById('loadingOverlay').style.display = 'none';
+      });
+    }
+
+    function columnFilter(columnIndex, searchValue) {
+      searchValue = searchValue.toLowerCase();
+      const rows = document.querySelectorAll("#dataTable tbody tr");
+
+      let visibleCount = 0;
+      
+      rows.forEach(row => {
+        // Saltar la fila de advertencia si existe
+        if (row.cells.length <= 1) return;
+        
+        const cell = row.cells[columnIndex];
+        const isVisible = cell.textContent.toLowerCase().includes(searchValue);
+        row.style.display = isVisible ? "" : "none";
+        
+        if (isVisible) visibleCount++;
+      });
+      
+      // Actualizar contador cuando se filtra por columna
+      updateResultCounter(visibleCount);
+    }
+
+    function copyResults() {
+      const rows = document.querySelectorAll("#dataTable tbody tr");
+      let text = "";
+
+      rows.forEach(row => {
+        if (row.style.display !== "none" && row.cells.length > 1) {
+          const cells = row.querySelectorAll("td");
+          const line = Array.from(cells).map(cell => cell.textContent).join("\t");
+          text += line + "\n";
+        }
+      });
+
+      if (!text) {
+        alert("No hay resultados visibles para copiar.");
+        return;
+      }
+
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Resultados visibles copiados al portapapeles.");
+      }).catch(err => {
+        alert("Error al copiar: " + err);
+      });
+    }
+
+    function goBack() {
+      document.querySelectorAll('.chart-container').forEach(el => {
+        el.style.display = 'none';
+      });
+      document.getElementById("dataTable").style.display = "table";
+      document.getElementById("backBtn").style.display = "none";
+      document.getElementById("dateFilterContainer").style.display = "none";
+    }
+
+    function showChart(dataToUse) {
+      document.getElementById('loadingSpinner').style.display = 'block';
+      document.getElementById('loadingOverlay').style.display = 'block';
+      
+      const chartData = dataToUse || filteredData;
+      window.currentChartType = 'event';
+      
+      if (chartData.length === 0) {
+        alert("No hay datos filtrados para mostrar en el gráfico.");
+        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('loadingOverlay').style.display = 'none';
+        return;
+      }
+
+      document.getElementById("dateFilterContainer").style.display = "block";
+      
+      // Usar requestAnimationFrame para mejor rendimiento
+      requestAnimationFrame(() => {
+        const countMap = {};
+        chartData.forEach(row => {
+          const key = `${row.Hora} - ${row.Event}`;
+          countMap[key] = (countMap[key] || 0) + 1;
+        });
+
+        const entries = Object.entries(countMap);
+        entries.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+
+        const labels = entries.map(entry => entry[0]);
+        const counts = entries.map(entry => entry[1]);
+
+        const ctx = document.getElementById("eventChart").getContext("2d");
+        if (window.eventChartInstance) window.eventChartInstance.destroy();
+
+        let chartTitle = "Cantidad de eventos por hora";
+        if (dateFilterActive) {
+          const startStr = currentStartDate.toLocaleDateString('es-ES');
+          const endStr = currentEndDate.toLocaleDateString('es-ES');
+          chartTitle += ` (${startStr} - ${endStr})`;
+        }
+
+        window.eventChartInstance = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [{
+              label: chartTitle,
+              data: counts,
+              backgroundColor: "#FFD700",
+              borderColor: "#FFD700",
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              datalabels: {
+                color: '#000',
+                anchor: 'center',
+                align: 'center',
+                font: { weight: 'bold' },
+                formatter: Math.round,
+                clip: false
+              },
+              legend: { display: false },
+              tooltip: { enabled: true }
+            },
+            scales: {
+              x: { 
+                title: { display: true, text: "Total por Hora" },
+                ticks: {
+                  autoSkip: false,
+                  maxRotation: 45,
+                  minRotation: 45
+                }
+              },
+              y: {
+                title: { display: true, text: "Cantidad" },
+                beginAtZero: true,
+                ticks: { precision: 0 }
+              }
+            }
+          },
+          plugins: [ChartDataLabels]
+        });
+
+        document.getElementById("eventChart").parentElement.style.display = "block";
+        document.getElementById("omErrorByHourChart").parentElement.style.display = "none";
+        document.getElementById("textByHourChart").parentElement.style.display = "none";
+        document.getElementById("dataTable").style.display = "none";
+        document.getElementById("backBtn").style.display = "inline-block";
+        
+        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('loadingOverlay').style.display = 'none';
+      });
+    }
+
+
+function downloadExcel() {
+  if (filteredData.length === 0) {
+    alert("No hay datos filtrados para exportar.");
+    return;
+  }
+
+  let dataToExport = filteredData;
+
+  if (modalDateFilterActive) {
+    dataToExport = dataToExport.filter(item => {
+      if (!item.FechaDate) return false;
+      const itemDate = new Date(item.FechaDate);
+      return itemDate >= modalStartDate && itemDate <= modalEndDate;
+    });
+  }
+
+  if (dateFilterActive) {
+    dataToExport = dataToExport.filter(item => {
+      if (!item.FechaDate) return false;
+      const itemDate = new Date(item.FechaDate);
+      return itemDate >= currentStartDate && itemDate <= currentEndDate;
+    });
+  }
+
+  if (dataToExport.length === 0) {
+    alert("No hay datos para exportar.");
+    return;
+  }
+
+  const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Resultados");
+  XLSX.writeFile(workbook, 'resultado_busqueda.xlsx');
+}
+
+
+    const knownErrors = [
+      { error: "#131056", comentario: "Varios mensajes en corto periodo de tiempo" },
+      { error: "(#10) This message is sent outside of allowed window.", comentario: "Encuesta IG" },
+      { error: "(#100) The action is invalid since it's not the thread owner.", comentario: "Encuesta IG" },
+      { error: "(#100) The parameter message[attachment][type] is required", comentario: "Sticker en MSG" },
+      { error: "outside of allowed window", comentario: "Política META" },
+      { error: "Media upload error", comentario: "Error recibir Template" },
+      { error: "robots.txt", comentario: "Error envío multimedia" },
+      { error: "Service Unavailable", comentario: "Error recibir Template" },
+      { error: "Service temporarily unavailable", comentario: "No recibe mensajes" },
+      { error: "24 hours have passed", comentario: "Error recibir Template" },
+      { error: "stop receiving marketing messages", comentario: "Error recibir Template" },
+      { error: "API access disrupted", comentario: "No recibe mensajes" },
+      { error: "healthy ecosystem engagement", comentario: "Error recibir Template" },
+      { error: "Something went wrong", comentario: "No recibe mensajes" },
+      { error: "new-line/tab characters", comentario: "Error recibir Template" },
+      { error: "Message undeliverable", comentario: "Error recibir Template" },
+      { error: "Re-engagement message", comentario: "Política META" },
+      { error: "part of an experiment", comentario: "Error recibir Template" },
+      { error: "Unexpected internal error", comentario: "No recibe mensajes" },
+      { error: "Upload attachment failure", comentario: "No recibe mensajes" },
+      { error: "Parameter Invalid", comentario: "Política META" },
+      { error: "An unknown error occurred", comentario: "Error recibir Template" }
+    ];
+
+    // Función optimizada para generar detalles de error
+    function generateErrorDetail(event, text) {
+      const eventText = `${event} ${text}`.toLowerCase();
+      
+      for (const entry of knownErrors) {
+        if (eventText.includes(entry.error.toLowerCase())) {
+          return entry.comentario;
+        }
+      }
+      return "Sin detalles";
+    }
+
+    function showOMErrorChart(dataToUse) {
+      document.getElementById('loadingSpinner').style.display = 'block';
+      document.getElementById('loadingOverlay').style.display = 'block';
+      
+      const chartData = dataToUse || filteredData;
+      window.currentChartType = 'omError';
+      
+      if (chartData.length === 0) {
+        alert("No hay datos filtrados para mostrar en el gráfico.");
+        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('loadingOverlay').style.display = 'none';
+        return;
+      }
+
+      document.getElementById("dateFilterContainer").style.display = "block";
+      
+      // Usar requestAnimationFrame para mejor rendimiento
+      requestAnimationFrame(() => {
+        let chartTitle1 = "Cantidad por tipo de error";
+        let chartTitle2 = "Detalles de error por hora";
+        
+        if (dateFilterActive) {
+          const startStr = currentStartDate.toLocaleDateString('es-ES');
+          const endStr = currentEndDate.toLocaleDateString('es-ES');
+          const dateRange = ` (${startStr} - ${endStr})`;
+          chartTitle1 += dateRange;
+          chartTitle2 += dateRange;
+        }
+
+        const countMap = {};
+        chartData.forEach(row => {
+          const detail = row.DetalleError;
+          countMap[detail] = (countMap[detail] || 0) + 1;
+        });
+
+        const labels1 = Object.keys(countMap);
+        const counts1 = Object.values(countMap);
+
+        const ctx1 = document.getElementById("eventChart").getContext("2d");
+        if (window.eventChartInstance) window.eventChartInstance.destroy();
+
+        window.eventChartInstance = new Chart(ctx1, {
+          type: "bar",
+          data: {
+            labels: labels1,
+            datasets: [{
+              label: chartTitle1,
+              data: counts1,
+              backgroundColor: "rgb(255, 215, 0)"
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              datalabels: {
+                color: '#000',
+                anchor: 'center',
+                align: 'center',
+                font: { weight: 'bold' },
+                formatter: Math.round,
+                clip: false
+              },
+              legend: { display: false },
+              tooltip: { enabled: true }
+            },
+            scales: {
+              x: { 
+                title: { display: true, text: "Tipo de Error" },
+                ticks: {
+                  autoSkip: false,
+                  maxRotation: 45,
+                  minRotation: 45
+                }
+              },
+              y: {
+                title: { display: true, text: "Cantidad" },
+                beginAtZero: true,
+                ticks: { precision: 0 }
+              }
+            }
+          },
+          plugins: [ChartDataLabels]
+        });
+
+        const detailByHourMap = {};
+        chartData.forEach(row => {
+          const hour = row.Hora;
+          const detail = row.DetalleError;
+          const key = `${hour} - ${detail}`;
+          detailByHourMap[key] = (detailByHourMap[key] || 0) + 1;
+        });
+
+        const entries2 = Object.entries(detailByHourMap);
+        entries2.sort((a, b) => {
+          const [hourA, detailA] = a[0].split(' - ');
+          const [hourB, detailB] = b[0].split(' - ');
+          if (parseInt(hourA) !== parseInt(hourB)) {
+            return parseInt(hourA) - parseInt(hourB);
+          }
+          return detailA.localeCompare(detailB);
+        });
+
+        const labels2 = entries2.map(entry => entry[0]);
+        const counts2 = entries2.map(entry => entry[1]);
+
+        const ctx2 = document.getElementById("omErrorByHourChart").getContext("2d");
+        if (window.omErrorByHourChartInstance) window.omErrorByHourChartInstance.destroy();
+
+        window.omErrorByHourChartInstance = new Chart(ctx2, {
+          type: "bar",
+          data: {
+            labels: labels2,
+            datasets: [{
+              label: chartTitle2,
+              data: counts2,
+              backgroundColor: "rgb(128, 200, 255)"
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              datalabels: {
+                color: '#000',
+                anchor: 'center',
+                align: 'center',
+                font: { weight: 'bold' },
+                formatter: Math.round,
+                clip: false
+              },
+              legend: { display: false },
+              tooltip: { enabled: true }
+            },
+            scales: {
+              x: { 
+                title: { display: true, text: "Hora - Detalles de error" },
+                ticks: {
+                  autoSkip: false,
+                  maxRotation: 45,
+                  minRotation: 45
+                }
+              },
+              y: {
+                title: { display: true, text: "Cantidad" },
+                beginAtZero: true,
+                ticks: { 
+                  precision: 0,
+                  stepSize: 50
+                }
+              }
+            }
+          },
+          plugins: [ChartDataLabels]
+        });
+
+        document.getElementById("eventChart").parentElement.style.display = "block";
+        document.getElementById("omErrorByHourChart").parentElement.style.display = "block";
+        document.getElementById("textByHourChart").parentElement.style.display = "none";
+        document.getElementById("dataTable").style.display = "none";
+        document.getElementById("backBtn").style.display = "inline-block";
+        
+        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('loadingOverlay').style.display = 'none';
+      });
+    }
+
+    // Nueva función para mostrar el gráfico de detalles de texto - CORREGIDA
+    function showTextChart(dataToUse) {
+      document.getElementById('loadingSpinner').style.display = 'block';
+      document.getElementById('loadingOverlay').style.display = 'block';
+      
+      const chartData = dataToUse || filteredData;
+      window.currentChartType = 'text';
+      
+      if (chartData.length === 0) {
+        alert("No hay datos filtrados para mostrar en el gráfico.");
+        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('loadingOverlay').style.display = 'none';
+        return;
+      }
+
+      document.getElementById("dateFilterContainer").style.display = "block";
+      
+      // Usar requestAnimationFrame para mejor rendimiento
+      requestAnimationFrame(() => {
+        let chartTitle1 = "Distribución de textos por tipo";
+        let chartTitle2 = "Detalles de texto por hora";
+        
+        if (dateFilterActive) {
+          const startStr = currentStartDate.toLocaleDateString('es-ES');
+          const endStr = currentEndDate.toLocaleDateString('es-ES');
+          const dateRange = ` (${startStr} - ${endStr})`;
+          chartTitle1 += dateRange;
+          chartTitle2 += dateRange;
+        }
+
+        // Agrupar por texto completo (sin truncar)
+        const textCountMap = {};
+        chartData.forEach(row => {
+          const text = row.Texto || "";
+          // Usar el texto completo para la agrupación
+          textCountMap[text] = (textCountMap[text] || 0) + 1;
+        });
+
+        // Ordenar por frecuencia y tomar los 10 más frecuentes
+        const sortedTexts = Object.entries(textCountMap)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 10);
+
+        // Para las etiquetas, usar texto completo pero limitar visualmente a 50 caracteres
+        const labels1 = sortedTexts.map(entry => {
+          const text = entry[0];
+          return text.length > 50 ? text.substring(0, 50) + "..." : text;
+        });
+        const counts1 = sortedTexts.map(entry => entry[1]);
+
+        const ctx1 = document.getElementById("eventChart").getContext("2d");
+        if (window.eventChartInstance) window.eventChartInstance.destroy();
+
+        window.eventChartInstance = new Chart(ctx1, {
+          type: "bar",
+          data: {
+            labels: labels1,
+            datasets: [{
+              label: chartTitle1,
+              data: counts1,
+              backgroundColor: "rgb(255, 159, 64)"
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              datalabels: {
+                color: '#000',
+                anchor: 'center',
+                align: 'center',
+                font: { weight: 'bold' },
+                formatter: Math.round,
+                clip: false
+              },
+              legend: { display: false },
+              tooltip: { 
+                enabled: true,
+                callbacks: {
+                  title: function(tooltipItems) {
+                    // Mostrar texto completo en el tooltip
+                    const index = tooltipItems[0].dataIndex;
+                    return sortedTexts[index][0];
+                  }
+                }
+              }
+            },
+            scales: {
+              x: { 
+                title: { display: true, text: "Tipo de Texto" },
+                ticks: {
+                  autoSkip: false,
+                  maxRotation: 90, // Rotación máxima para mejor visualización
+                  minRotation: 45,
+                  font: {
+                    size: 10 // Tamaño de fuente más pequeño
+                  }
+                }
+              },
+              y: {
+                title: { display: true, text: "Cantidad" },
+                beginAtZero: true,
+                ticks: { precision: 0 }
+              }
+            }
+          },
+          plugins: [ChartDataLabels]
+        });
+
+        // Gráfico de texto por hora (usando textos completos)
+        const textByHourMap = {};
+        const topTexts = sortedTexts.map(entry => entry[0]);
+        
+        chartData.forEach(row => {
+          const hour = row.Hora;
+          const text = row.Texto || "";
+          
+          // Solo considerar los textos más frecuentes
+          if (topTexts.includes(text)) {
+            const key = `${hour} - ${text}`;
+            textByHourMap[key] = (textByHourMap[key] || 0) + 1;
+          }
+        });
+
+        const entries2 = Object.entries(textByHourMap);
+        entries2.sort((a, b) => {
+          const [hourA, textA] = a[0].split(' - ');
+          const [hourB, textB] = b[0].split(' - ');
+          if (parseInt(hourA) !== parseInt(hourB)) {
+            return parseInt(hourA) - parseInt(hourB);
+          }
+          return textA.localeCompare(textB);
+        });
+
+        // Para las etiquetas del segundo gráfico, también limitar visualmente
+        const labels2 = entries2.map(entry => {
+          const [hour, text] = entry[0].split(' - ');
+          const displayText = text.length > 30 ? text.substring(0, 30) + "..." : text;
+          return `${hour} - ${displayText}`;
+        });
+        const counts2 = entries2.map(entry => entry[1]);
+
+        const ctx2 = document.getElementById("textByHourChart").getContext("2d");
+        if (window.textByHourChartInstance) window.textByHourChartInstance.destroy();
+
+        window.textByHourChartInstance = new Chart(ctx2, {
+          type: "bar",
+          data: {
+            labels: labels2,
+            datasets: [{
+              label: chartTitle2,
+              data: counts2,
+              backgroundColor: "rgb(75, 192, 192)"
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              datalabels: {
+                color: '#000',
+                anchor: 'center',
+                align: 'center',
+                font: { weight: 'bold' },
+                formatter: Math.round,
+                clip: false
+              },
+              legend: { display: false },
+              tooltip: { 
+                enabled: true,
+                callbacks: {
+                  title: function(tooltipItems) {
+                    // Mostrar texto completo en el tooltip
+                    const index = tooltipItems[0].dataIndex;
+                    const fullKey = entries2[index][0];
+                    const [hour, fullText] = fullKey.split(' - ');
+                    return `${hour} - ${fullText}`;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: { 
+                title: { display: true, text: "Hora - Tipo de Texto" },
+                ticks: {
+                  autoSkip: false,
+                  maxRotation: 90,
+                  minRotation: 45,
+                  font: {
+                    size: 9 // Tamaño de fuente aún más pequeño
+                  }
+                }
+              },
+              y: {
+                title: { display: true, text: "Cantidad" },
+                beginAtZero: true,
+                ticks: { 
+                  precision: 0,
+                  stepSize: 50
+                }
+              }
+            }
+          },
+          plugins: [ChartDataLabels]
+        });
+
+        document.getElementById("eventChart").parentElement.style.display = "block";
+        document.getElementById("textByHourChart").parentElement.style.display = "block";
+        document.getElementById("omErrorByHourChart").parentElement.style.display = "none";
+        document.getElementById("dataTable").style.display = "none";
+        document.getElementById("backBtn").style.display = "inline-block";
+        
+        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('loadingOverlay').style.display = 'none';
+      });
+    }
+
+    window.onload = function() {
+      setupEnterKey();
+      
+      document.getElementById("cerrar").addEventListener("click", function () {
+        document.getElementById("cuadro-flotante").style.display = "none";
+      });
+
+      const cuadro = document.getElementById("cuadro-flotante");
+      let isDragging = false;
+      let offsetX, offsetY;
+
+      cuadro.addEventListener("mousedown", function (e) {
+        if (e.target.id === "cerrar") return;
+        isDragging = true;
+        offsetX = e.clientX - cuadro.offsetLeft;
+        offsetY = e.clientY - cuadro.offsetTop;
+        cuadro.style.cursor = "grabbing";
+      });
+
+      document.addEventListener("mousemove", function (e) {
+        if (isDragging) {
+          cuadro.style.left = `${e.clientX - offsetX}px`;
+          cuadro.style.top = `${e.clientY - offsetY}px`;
+          cuadro.style.bottom = "auto";
+        }
+      });
+
+      document.addEventListener("mouseup", function () {
+        isDragging = false;
+        cuadro.style.cursor = "move";
+      });
+    };
+  </script>
+  
+  <button id="helpBtn" onclick="openManual()">i</button>
+  
+  <div id="manualModal">
+      <div id="manualContent">
+          <span id="closeManual" onclick="closeManual()">&times;</span>
+          <h2 style="color: #007bff; text-align: center;">Manual de Uso del Buscador OM</h2>
+          
+          <h3>📌 Cómo usar el buscador</h3>
+          <ol>
+            <p><strong>📌 Toma en cuenta</strong> Antes de hacer uso del buscador, previamente tienes que haber descargado una sábana de chat desde OM (Puede ser de la fecha o periodo que deseas revisar)</p>
+            <p><strong>¿Qué puedo buscar?</strong> Este buscador esta diseñado para que puedas encontrar palabras clave en una conversación, nombre de usuario OM or errores específicos que se presenten en la herramienta</p>
+              <li><strong>Cargar archivo CSV:</strong> Selecciona el archivo o archivos CSV que descargaste previamente de OM "Seleccionar archivo"</li>
+              <li><strong>Búsqueda básica:</strong>
+                  <ul>
+                      <li>Tipos de fallas OM: Busca por códigos de error (ej. "131000 - (#131000) Something went wrong - Something went wrong" etc.)</li>
+                      <li>Fallas BOT o palabras clave: Busca por texto (ej. "no me ayudan" "Me llamo Juan")</li>
+                      <li>Buscar por Móvil: Ingresa el usuario OM que desees (ej. "juank25vs123" "260889|Juank Melendez")</li>
+                      <li>Buscar por Agente: Ingresa el nombre del agente que deseas filtrar</li>
+                  </ul>
+              </li>
+              <li><strong>Búsqueda avanzada:</strong> Puedes usar múltiples términos separados por comas o punto y coma (ej."no resuelve, siget, supervisor")</li>
+              <li><strong>Filtros por columna:</strong> Una vez cargados los datos, puedes filtrar en cada columna para una búsqueda más exacta</li>
+              <li><strong>Ordenamiento:</strong> Haz clic en los encabezados de columna para ordenar los datos de mayor a menor o viceversa</li>
+              <li><strong>Filtro por fechas:</strong> Al visualizar gráficos, puedes filtrar por rango de fechas, se habilitarán solo las fechas que contenga en el archivo cargado</li>
+          </ol>
+          
+          <h3>🔍 Funciones principales</h3>
+          <div style="background-color: #595b5c; padding: 15px; border-radius: 5px;">
+              <p><strong>🔍 Buscar:</strong> Filtra los resultados según los criterios ingresados, también puedes presionar la tecla "Enter"</p>
+              <p><strong>🔄 Nueva búsqueda:</strong> Limpia los filtros actuales</p>
+              <p><strong>📊 Gráficos:</strong> Muestra visualizaciones de los errores OM o fallas del BOT con filtro por fechas</p>
+              <p><strong>📝 Gráfico de texto:</strong> Muestra la distribución de textos por hora y tipo</p>
+              <p><strong>📋 Copiar resultados:</strong> Copia los datos filtrados al portapapeles</p>
+              <p><strong>📥 Descargar Excel:</strong> Exporta los resultados a un archivo XLSX de forma automática (Se exporta solamente los datos que tengas filtrados en la tabla de resultados de búsqueda)</p>
+          </div>
+          
+          <h3>📋 Ejemplos de búsqueda</h3>
+          <table border="1" style="width: 100%; border-collapse: collapse;">
+              <tr style="background-color: #343a40; color: white;">
+                  <th style="padding: 8px;">Ej. de palabras</th>
+                  <th style="padding: 8px;">Campo de búsqueda</th>
+                  <th style="padding: 8px;">Resultado</th>
+              </tr>
+              <tr>
+                  <td style="padding: 8px;">Siget, supervisor, defensoría</td>
+                  <td style="padding: 8px;">Fallas BOT o palabras clave</td>
+                  <td style="padding: 8px;">Encuentra todas las conversaciones que contengan una de las palabras escritas</td>
+              </tr>
+              <tr style="background-color: #636568;">
+                  <td style="padding: 8px;">ocurrido un problema</td>
+                  <td style="padding: 8px;">Fallas BOT o palabras clave</td>
+                  <td style="padding: 8px;">Se observarán todas las conversaciones que contengan ese texto,el cual corresponde a una falla del BOT</td>
+              </tr>
+              <tr>
+                  <td style="padding: 8px;">#, 13, API</td>
+                  <td style="padding: 8px;">Tipos de fallas OM</td>
+                  <td style="padding: 8px;">Encuentra errores que coincidan con los números o palabras ingresados</td>
+              </tr>
+              <tr style="background-color: #636568;">
+                  <td style="padding: 8px;">785874</td>
+                  <td style="padding: 8px;">Búsqueda por Móvil</td>
+                  <td style="padding: 8px;">Encontrará todas las coincidencias de números o palabras escritos, este campo busca el usuario OM</td>
+              </tr>
+              <tr>
+                  <td style="padding: 8px;">Juan Pérez</td>
+                  <td style="padding: 8px;">Búsqueda por Agente</td>
+                  <td style="padding: 8px;">Encontrará todas las coincidencias con el nombre del agente especificado</td>
+              </tr>
+          </table>
+          
+          <h3>❓ Preguntas frecuentes</h3>
+          <div style="margin-bottom: 20px;">
+              <button onclick="toggleFAQ('faq1')" style="background-color: #6c757d; color: white; border: none; padding: 10px; width: 100%; text-align: left; cursor: pointer;">¿Por qué no aparecen resultados?</button>
+              <div id="faq1" style="display: none; padding: 10px; background-color: rgb(100, 98, 98); border: 1px solid #ddd;">
+                  Verifica que:
+                  <ul>
+                      <li>El archivo CSV tenga el formato correcto</li>
+                      <li>Los términos de búsqueda estén bien escritos</li>
+                      <li>La búsqueda se realiza tanto al hacer clic en el botón 'Buscar' como al presionar la tecla 'Enter' después de ingresar los términos.</li>
+                  </ul>
+              </div>
+              
+              <button onclick="toggleFAQ('faq2')" style="background-color: #6c757d; color: white; border: none; padding: 10px; width: 100%; text-align: left; cursor: pointer; margin-top: 5px;">¿Cómo interpretar los códigos de error?</button>
+              <div id="faq2" style="display: none; padding: 10px; background-color: rgb(83, 83, 83); border: 1px solid #ddd;">
+                  Los códigos más comunes son:
+                  <ul>
+                      <li><strong>13XXXX</strong>: Errores relacionados con la API de Meta</li>
+                      <li><strong>#10</strong>: Problemas con ventanas de tiempo y los mensajes no son recibidos</li>
+                      
+                    </ul>
+              </div>
+              
+              <button onclick="toggleFAQ('faq3')" style="background-color: #6c757d; color: white; border: none; padding: 10px; width: 100%; text-align: left; cursor: pointer; margin-top: 5px;">¿Cómo usar el filtro de fechas?</button>
+              <div id="faq3" style="display: none; padding: 10px; background-color: rgb(83, 83, 83); border: 1px solid #ddd;">
+                  El filtro de fechas:
+                  <ul>
+                      <li>Solo aparece al visualizar gráficos</li>
+                      <li>Permite seleccionar un rango de fechas para filtrar los datos</li>
+                      <li>Muestra solo las fechas disponibles en los datos cargados</li>
+                      <li>Si selecciona la misma fecha en inicio y fin, muestra datos de todo ese día</li>
+                  </ul>
+              </div>
+          </div>
+          
+          <div style="text-align: center; margin-top: 20px; font-style: italic; color: #6c757d;">
+          <p>Última actualización: 24/06/2025</p>
+          </div>
+      </div>
+  </div>
+
+  <script>
+      function openManual() {
+          document.getElementById('manualModal').style.display = 'block';
+      }
+      
+      function closeManual() {
+          document.getElementById('manualModal').style.display = 'none';
+      }
+      
+      function toggleFAQ(id) {
+          const element = document.getElementById(id);
+          element.style.display = element.style.display === 'none' ? 'block' : 'none';
+      }
+      
+      window.onclick = function(event) {
+          const modal = document.getElementById('manualModal');
+          if (event.target === modal) {
+              closeManual();
+          }
+      }
+
+      function goToLicencias() {
+  document.getElementById("mainContent").style.display = "none";
+  document.getElementById("licenciasPage").style.display = "block";
+}
+
+function backToMain() {
+  document.getElementById("mainContent").style.display = "block";
+  document.getElementById("licenciasPage").style.display = "none";
+}
+
+let dataLicencias = [];
+
+// Cargar Excel automáticamente al abrir la página
+function goToLicencias() {
+  document.getElementById("mainContent").style.display = "none";
+  document.getElementById("licenciasPage").style.display = "block";
+
+  if (dataLicencias.length === 0) {
+    cargarLicencias();
+  }
+}
+
+// URL del Excel
+const urlLicencias = "https://raw.githubusercontent.com/teamdigitalrrss-jpg/tNPS-diario/main/Licencias.xlsx";
+
+function cargarLicencias() {
+  fetch(urlLicencias)
+    .then(res => res.arrayBuffer())
+    .then(data => {
+      const workbook = XLSX.read(data, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+
+      dataLicencias = XLSX.utils.sheet_to_json(sheet);
+
+      console.log("Licencias cargadas:", dataLicencias);
+    })
+    .catch(error => {
+      console.error("Error cargando Excel:", error);
+      alert("No se pudo cargar el archivo de licencias.");
+    });
+}
+
+// Buscar coincidencias
+function buscarLicencias() {
+  const input = document.getElementById("licenciaInput").value.toLowerCase();
+  const tbody = document.querySelector("#tablaLicencias tbody");
+  tbody.innerHTML = "";
+
+  if (!input) {
+    document.getElementById("tablaLicencias").style.display = "none";
+    return;
+  }
+
+  const resultados = dataLicencias.filter(row => {
+    const usuario = (row["Usuario nuevo"] || "").toLowerCase();
+    const agente = (row["Agente Asignado"] || "").toLowerCase();
+
+    return usuario.includes(input) || agente.includes(input);
+  });
+
+  resultados.forEach(row => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${row["Usuario nuevo"] || ""}</td>
+      <td>${row["Area"] || ""}</td>
+      <td>${row["Agente Asignado"] || ""}</td>
+      <td>${row["Supervisor"] || ""}</td>
+      <td>${row["Skill"] || ""}</td>
+      <td>${row["Site"] || ""}</td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById("tablaLicencias").style.display =
+    resultados.length > 0 ? "table" : "none";
+}
+
+  </script>
+
+</div>
+
+
+<div id="licenciasPage" style="display:none; text-align:center;">
+
+  <h1 class="titulo-licencias">Buscar licencias</h1>
+
+  <button onclick="backToMain()">⬅ Volver</button>
+
+  <br><br>
+
+  <label><b>Nombre o licencia:</b></label>
+<input
+  type="text" 
+  id="licenciaInput" 
+  placeholder="Ingresa nombre de asesor o licencia" 
+  onkeyup="buscarLicencias()"
+  class="input-licencias">
+
+  <div class="table-container">
+    <table id="tablaLicencias" style="display:none;">
+      <thead>
+        <tr>
+          <th>Usuario nuevo</th>
+          <th>Área</th>
+          <th>Agente asignado</th>
+          <th>Supervisor</th>
+          <th>Skill</th>
+          <th>Site</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+</div>
+
+
+</body>
+</html>
