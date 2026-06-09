@@ -547,6 +547,216 @@
   font-style: italic;
 }
 
+#pptBtn {
+  background-color: #ee2323;
+  color: white;
+  border: none;
+}
+
+#pptBtn:hover {
+  background-color: #c91c1c;
+}
+
+.titulo-ppt {
+  color: #ee2323;
+  font-size: 36px;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+}
+
+/* encabezados */
+#tablaPPT th {
+  background-color: #ee2323;
+  color: white;
+  text-align: center;
+}
+
+/* centrar la tabla */
+#tablaPPT td {
+  text-align: left;
+}
+
+
+#tablaPPT td:first-child {
+  text-align: left;
+  white-space: nowrap; /* 👈 evita que se parta el texto */
+}
+
+
+#tablaPPT td:first-child,
+#tablaPPT th:first-child {
+  width: 1%;
+  white-space: nowrap;
+}
+
+#tablaPPT {
+  width: 100%;
+  margin-left: 0;
+}
+
+#btnBI {
+  background-color: #0396a6;
+  color: white;
+  border: none;
+}
+
+#btnBI:hover {
+  background-color: #027a87;
+}
+
+
+
+.cards-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* 👈 más dinámico */
+}
+
+
+.card-tnps {
+  width: 180px;
+  background: #f0f0f0;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 2px 4px 10px rgba(0,0,0,0.2);
+}
+
+.card-title {
+  font-weight: bold;
+  color: #0396a6;
+  margin-bottom: 10px;
+}
+
+.gauge {
+  width: 100%;
+  height: 80px;
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px;
+  background: lightgray;
+  position: relative;
+  overflow: hidden;
+}
+
+.gauge-fill {
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.gauge-text {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.card-tnps-site {
+  background: #f3f3f3;
+  border-radius: 18px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+
+  width: 220px;   /* 👈 MÁS ANCHA */
+  height: 150px;  /* 👈 MÁS ALTA */
+
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-tnps-titulo {
+  color: #0396a6;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.cards-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card-analisis {
+  width: 300px;
+  min-height: 200px;
+
+  background: #f3f3f3;
+  border-radius: 18px;
+
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+
+  padding: 15px;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  border: 2px solid rgba(0,0,0,0.1);
+}
+
+.card-wrapper {
+  position: relative;
+}
+
+.btn-captura {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+
+  background: #000;
+  color: #fff;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  padding: 0;
+  line-height: 1; /* 🔥 clave para emojis */
+  font-size: 15px; /* 🔥 mejor centrado visual */
+}
+
+
+.card-wrapper {
+  position: relative;
+  display: inline-block; /* 🔥 CLAVE para que no se rompa */
+}
+
+.btn-captura:hover {
+  background: rgba(0,0,0,0.85);
+}
+
+.card-tnps-site canvas {
+  width: 100% !important;
+  height: 90px !important; /* 👈 controla altura aquí */
+}
+
+.custom-file-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  background-color: #008000;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  transition: 0.2s;
+}
+
+.custom-file-btn:hover {
+  background-color: #006400;
+  transform: scale(1.05);
+}
+
+#fileName {
+  margin-left: 10px;
+  font-size: 13px;
+  color: #333;
+}
 
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -564,9 +774,19 @@
   <span style="color: #43a1e0;">One Marketer</span>
 </h1>
   
-<button onclick="goToLicencias()" id="buscarLicenciasBtn">🔎 Buscar licencias</button>
-<br>
-<input type="file" id="fileInput" accept=".csv" multiple />
+
+<div class="top-buttons">
+  <button onclick="goToLicencias()" id="buscarLicenciasBtn">🔎 Buscar licencias</button>
+  <button onclick="goToPPT()" id="pptBtn">📊 PPT semanal</button>
+
+  <label for="fileInput" class="custom-file-btn">
+    📁 Cargar documentos
+  </label>
+  <input type="file" id="fileInput" accept=".csv" multiple hidden />
+  <span id="fileName">Sin archivos seleccionados</span>
+</div>
+
+
 
   <div class="progress-container" id="progressContainer">
     <div class="progress-bar" id="progressBar">0%</div>
@@ -718,6 +938,18 @@
             document.getElementById('cuadro-flotante').style.display = 'none';
         });
     });
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+  const files = e.target.files;
+  
+  if (files.length === 1) {
+    document.getElementById('fileName').textContent = files[0].name;
+  } else if (files.length > 1) {
+    document.getElementById('fileName').textContent = files.length + " archivos seleccionados";
+  } else {
+    document.getElementById('fileName').textContent = "Sin archivos seleccionados";
+  }
+});
 </script>
   
   <script>
@@ -1864,6 +2096,95 @@ function downloadExcel() {
         cuadro.style.cursor = "move";
       });
     };
+
+    
+function goToPPT() {
+  document.getElementById("mainContent").style.display = "none";
+  document.getElementById("licenciasPage").style.display = "none";
+  document.getElementById("pptPage").style.display = "block";
+
+  
+
+setTimeout(() => {
+  actualizarCards();
+  generarGraficoEncuestas()
+  generarGraficoPastel();
+}, 200);
+
+
+}
+
+
+function backFromPPT() {
+  document.getElementById("pptPage").style.display = "none";
+  document.getElementById("mainContent").style.display = "block";
+}
+
+
+document.addEventListener("input", function(e) {
+  if (e.target.closest("#tablaPPT")) {
+    actualizarCards();
+    generarGraficoEncuestas();
+    generarGraficoPastel(); // ✅ nuevo
+  }
+});
+
+
+
+function dibujarGauge(canvasId, valor) {
+
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+
+
+const width = canvas.width = 260;
+const height = canvas.height = 110;   // 👈 MÁS ALTO
+
+
+  ctx.clearRect(0, 0, width, height);
+
+
+const centerX = width / 2;
+const centerY = height - 1;         // 👈 baja el centro
+const radius = 80;                    // 👈 ligeramente menor
+
+
+  const startAngle = Math.PI;
+  const endAngle = 0;
+
+  // 🔘 fondo gris
+  ctx.beginPath();
+  ctx.lineWidth = 32;
+  ctx.strokeStyle = "#ccc";
+  ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+  ctx.stroke();
+
+  // 🔴 progreso
+  const progressAngle = startAngle + (valor / 100) * Math.PI;
+
+  const color = valor >= 75 ? "#008000" : "#e60000";
+
+  ctx.beginPath();
+  ctx.lineWidth = 32;
+  ctx.strokeStyle = color;
+  ctx.arc(centerX, centerY, radius, startAngle, progressAngle);
+  ctx.stroke();
+
+  // ✅ texto centrado perfecto
+  ctx.fillStyle = "#000";
+  ctx.font = "bold 22px Arial";
+  ctx.textAlign = "center";
+
+  ctx.fillText(
+    valor.toFixed(2) + " %",
+    centerX,
+    centerY - 1
+  );
+}
+
+
   </script>
   
   <button id="helpBtn" onclick="openManual()">i</button>
@@ -1977,6 +2298,8 @@ function downloadExcel() {
   </div>
 
   <script>
+    let posicionesLabels = {};
+
       function openManual() {
           document.getElementById('manualModal').style.display = 'block';
       }
@@ -2080,6 +2403,385 @@ function buscarLicencias() {
     resultados.length > 0 ? "table" : "none";
 }
 
+function goToBI() {
+  window.open(
+    "http://172.23.12.156/SAC/powerbi/Reportes%20SAC/Reporte%20General%20-%20Canales%20Digitales",
+    "_blank"
+  );
+}
+
+function actualizarCards() {
+
+  const filas = document.querySelectorAll("#tablaPPT tbody tr");
+  const container = document.getElementById("cardsContainer");
+
+  container.innerHTML = "";
+
+  filas.forEach((fila, index) => {
+
+    const nombre = fila.cells[0].innerText.trim();
+    const tnpsAnterior = parseFloat(fila.cells[2].innerText) || 0;
+    const tnpsActual = parseFloat(fila.cells[3].innerText) || 0;
+    const mayorNota = parseFloat(fila.cells[5].innerText) || 0;
+
+    const idCanvas = "gauge-" + index;
+
+    // ✅ CÁLCULO DE TENDENCIA
+    let diferencia = tnpsActual - tnpsAnterior;
+
+    let tendencia = diferencia > 0
+      ? `un aumento de ${diferencia.toFixed(2)}`
+      : diferencia < 0
+        ? `una disminución de ${Math.abs(diferencia).toFixed(2)}`
+        : `sin variación`;
+
+    // ✅ FRASES VARIABLES (para evitar que se vean iguales)
+    const frasesInicio = [
+      `El equipo de ${nombre} registra un tNPS actual de ${tnpsActual.toFixed(2)}.`,
+      `${nombre} presenta un tNPS de ${tnpsActual.toFixed(2)} en el periodo actual.`,
+      `Actualmente, el grupo de ${nombre} alcanza un tNPS de ${tnpsActual.toFixed(2)}.`
+    ];
+
+    const frasesTendencia = [
+      `En comparación con la semana anterior, se observa ${tendencia}.`,
+      `Respecto a la semana previa, el comportamiento refleja ${tendencia}.`,
+      `Frente a la semana pasada, el equipo muestra ${tendencia}.`
+    ];
+
+    const frasesMetaOK = [
+      `Actualmente el equipo se encuentra en meta.`,
+      `El equipo cumple con la meta establecida.`,
+      `Se ha alcanzado el objetivo esperado.`
+    ];
+
+    const frasesMetaFalta = [
+      `Aún existen brechas para alcanzar la meta, con una diferencia de ${(75 - tnpsActual).toFixed(2)} puntos.`,
+      `El equipo se mantiene por debajo de la meta, faltando ${(75 - tnpsActual).toFixed(2)} puntos.`,
+      `Se requiere una mejora de ${(75 - tnpsActual).toFixed(2)} puntos para cumplir la meta.`
+    ];
+
+    const frasesMes = [
+      `Durante el mes, la mayor nota alcanzada fue de ${mayorNota.toFixed(2)}.`,
+      `En el periodo mensual, el valor más alto registrado fue ${mayorNota.toFixed(2)}.`,
+      `El mejor resultado del mes se sitúa en ${mayorNota.toFixed(2)}.`
+    ];
+
+    // ✅ FUNCIÓN PARA VARIAR TEXTO
+    function pick(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // ✅ BLOQUES (SOLO 2)
+    const bloque1 = `${pick(frasesInicio)} ${pick(frasesTendencia)}`;
+    const bloque2 = `${tnpsActual >= 75 ? pick(frasesMetaOK) : pick(frasesMetaFalta)} ${pick(frasesMes)}`;
+
+    const texto = `${bloque1}\n\n${bloque2}`;
+
+// ✅ WRAPPER GENERAL
+const wrapper = document.createElement("div");
+wrapper.className = "card-wrapper";
+
+// ✅ BOTÓN CÁMARA
+const btn = document.createElement("button");
+btn.className = "btn-captura";
+btn.innerHTML = "📷";
+btn.onclick = () => capturarCard(wrapper);
+
+// ✅ CONTENEDOR FILA
+const row = document.createElement("div");
+row.style.display = "flex";
+row.style.alignItems = "center";
+row.style.gap = "30px";
+
+
+
+    // ✅ CARD GAUGE
+    const gaugeCard = document.createElement("div");
+    gaugeCard.className = "card-tnps-site";
+
+    gaugeCard.innerHTML = `
+      <div class="card-tnps-titulo">${nombre}</div>
+      <canvas id="${idCanvas}" width="300" height="150"></canvas>
+
+    `;
+
+    // ✅ CARD TEXTO
+    const textCard = document.createElement("div");
+    textCard.className = "card-analisis";
+    textCard.contentEditable = true;
+    textCard.style.width = "280px";
+    textCard.style.textAlign = "left";
+    textCard.style.alignSelf = "flex-start";
+
+    textCard.innerText = texto;
+
+    // ✅ ARMAR FILA
+    row.appendChild(gaugeCard);
+    row.appendChild(textCard);
+
+    
+wrapper.appendChild(btn); // ✅ botón
+wrapper.appendChild(row); // ✅ contenido
+
+
+    container.appendChild(wrapper);
+
+    // ✅ DIBUJAR GAUGE
+    setTimeout(() => {
+      dibujarGauge(idCanvas, tnpsActual);
+    }, 50);
+
+  });
+
+}
+
+function generarGraficoEncuestas() {
+
+  const filas = document.querySelectorAll("#tablaPPT tbody tr");
+
+  let dataGrafico = [];
+
+  filas.forEach(fila => {
+
+    const nombre = fila.cells[0].innerText.trim();
+    const encuestas = parseInt(fila.cells[1].innerText) || 0;
+
+    if (nombre) {
+      dataGrafico.push({
+        nombre: nombre,
+        valor: encuestas
+      });
+    }
+
+  });
+
+  // ✅ ORDEN ASCENDENTE
+  dataGrafico.sort((a, b) => a.valor - b.valor);
+
+  const labels = dataGrafico.map(d => d.nombre);
+  const valores = dataGrafico.map(d => d.valor);
+
+  const ctx = document.getElementById("graficoEncuestas");
+
+  if (!ctx) return;
+
+  // ✅ destruir gráfico anterior
+  if (window.graficoEncuestasInstance) {
+    window.graficoEncuestasInstance.destroy();
+  }
+
+  window.graficoEncuestasInstance = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Total de encuestas",
+        data: valores,
+        backgroundColor: "#0396a6",
+        borderRadius: 6, // 👈 bordes redondos
+        borderSkipped: false
+      }]
+    },
+    options: {
+      
+responsive: false,
+maintainAspectRatio: false,
+
+      indexAxis: 'y', // 👈 horizontal tipo dashboard
+      plugins: {
+  legend: {
+    display: false
+  },
+  datalabels: {
+    color: "#ffffff", // 👈 blanco
+    anchor: "center", // 👈 centrado verticalmente
+    align: "center",  // 👈 centrado horizontal
+    font: {
+      weight: "bold",
+      size: 12
+    },
+    formatter: Math.round
+  }
+},
+      scales: {
+  x: {
+    beginAtZero: true,
+    ticks: {
+      precision: 0
+    }
+  },
+  y: {
+    ticks: {
+      color: "#000",
+      font: {
+        size: 12,
+        weight: "bold" // 👈 nombres más negritos
+      }
+    }
+  }
+}
+    },
+    plugins: [ChartDataLabels] // ✅ activa los números en barras
+    
+  });
+
+}
+
+function generarGraficoPastel() {
+
+  const filas = document.querySelectorAll("#tablaPPT tbody tr");
+
+  let labels = [];
+  let valores = [];
+
+  filas.forEach(fila => {
+    const nombre = fila.cells[0].innerText.trim();
+    const encuestas = parseInt(fila.cells[1].innerText) || 0;
+
+    if (nombre && encuestas > 0) {
+      labels.push(nombre);
+      valores.push(encuestas);
+    }
+  });
+
+  const canvas = document.getElementById("graficoPastel");
+  const ctx = canvas.getContext("2d");
+
+  if (window.graficoPastelInstance) {
+    window.graficoPastelInstance.destroy();
+  }
+
+  window.graficoPastelInstance = new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: labels,
+      datasets: [{
+        data: valores,
+        
+backgroundColor: [
+  "#ee2323",  // rojo base
+  "#f04444",
+  "#f26666",
+  "#f58888",
+  "#f7aaaa",
+  "#f9cccc"
+]
+
+      }]
+    },
+    options: {
+      responsive: false,
+      plugins: {
+        legend: { display: false },
+        datalabels: {
+          clip: false,
+          color: "#000",
+          backgroundColor: "#fff",
+          borderRadius: 6,
+          padding: 4,
+          font: { weight: "bold", size: 11 },
+
+          
+align: 'center',
+anchor: 'center',
+
+x: function(context) {
+  return posicionesLabels[context.dataIndex]?.x || 0;
+},
+
+y: function(context) {
+  return posicionesLabels[context.dataIndex]?.y || 0;
+},
+
+          formatter: (value, context) => {
+            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+            const porcentaje = (value / total * 100).toFixed(1) + "%";
+            const nombre = context.chart.data.labels[context.dataIndex];
+            return `${nombre}\n${porcentaje}`;
+          }
+        }
+      }
+    },
+    plugins: [ChartDataLabels]
+  });
+
+  // ✅ DRAG REAL (AQUÍ ES DONDE DEBE ESTAR)
+  let isDragging = false;
+  let currentIndex = null;
+
+  canvas.onmousedown = function(e) {
+    const points = window.graficoPastelInstance.getElementsAtEventForMode(
+      e,
+      'nearest',
+      { intersect: false },
+      true
+    );
+
+    if (points.length) {
+      currentIndex = points[0].index;
+      isDragging = true;
+    }
+  };
+
+ 
+
+canvas.onmousemove = function(e) {
+  if (!isDragging || currentIndex === null) return;
+
+  if (!posicionesLabels[currentIndex]) {
+    posicionesLabels[currentIndex] = { x: 0, y: 0 };
+  }
+
+  posicionesLabels[currentIndex].x += e.movementX;
+  posicionesLabels[currentIndex].y += e.movementY;
+
+  window.graficoPastelInstance.update();
+};
+
+
+
+  canvas.onmouseup = function() {
+    isDragging = false;
+    currentIndex = null;
+  };
+}
+
+async function capturarCard(element) {
+  const btn = element.querySelector(".btn-captura");
+
+  // ✅ ocultar botón antes de capturar
+  btn.style.display = "none";
+
+  try {
+    const canvas = await html2canvas(element, {
+      scale: 4, // 🔥 calidad tipo 4K
+      useCORS: true,
+      backgroundColor: "#ffffff"
+    });
+
+    canvas.toBlob(async (blob) => {
+      try {
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "image/png": blob
+          })
+        ]);
+
+        alert("✅ Imagen copiada al portapapeles");
+      } catch (err) {
+        console.error(err);
+        alert("❌ No se pudo copiar automáticamente");
+      }
+    });
+
+  } catch (error) {
+    console.error(error);
+  }
+
+  // ✅ volver a mostrar botón
+  btn.style.display = "block";
+}
+
   </script>
 
 </div>
@@ -2119,6 +2821,103 @@ function buscarLicencias() {
 
 </div>
 
+<div id="pptPage" style="display:none; text-align:center;">
 
+  <h1 class="titulo-ppt">Reporte reunión semanal</h1>
+
+  <button onclick="backFromPPT()">⬅ Volver</button>
+  <button onclick="goToBI()" id="btnBI">📊 Reporte BI</button>
+
+  <div style="display:flex; gap:40px; align-items:flex-start;">
+
+    <!-- ✅ TABLA -->
+    <div class="table-container">
+      <table id="tablaPPT">
+        <thead>
+          <tr>
+            <th>Supervisor</th>
+            <th>Encuestas</th>
+            <th>tNPS semana anterior</th>
+            <th>tNPS actual</th>
+            <th>Detractores</th>
+            <th>Mayor nota en el mes</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td>Jaime Flores</td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+          </tr>
+
+          <tr>
+            <td>Erika Martínez</td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+          </tr>
+
+          <tr>
+            <td>Gerardo Leiva</td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+          </tr>
+
+          <tr>
+            <td>Erick Carpio</td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+          </tr>
+
+          <tr>
+            <td>Rodrigo Coreas</td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ✅ CARDS -->
+    <div id="cardsContainer" class="cards-vertical"></div>
+
+    
+<!-- ✅ COLUMNA DE GRÁFICOS -->
+<div style="flex:1; padding:10px; display:flex; flex-direction:column;">
+
+  <!-- ✅ GRÁFICO DE BARRAS -->
+  <div>
+    <canvas id="graficoEncuestas" width="1000" height="500"></canvas>
+  </div>
+
+  <!-- ✅ GRÁFICO DE PASTEL (DEBAJO) -->
+  <div style="margin-top:25px; display:flex; justify-content:center;">
+    <canvas id="graficoPastel" width="500" height="500"></canvas>
+  </div>
+
+</div>
+
+
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </body>
 </html>
