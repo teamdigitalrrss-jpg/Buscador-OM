@@ -758,6 +758,58 @@
   color: #333;
 }
 
+#casosOMBtn {
+  background-color: #ee2323;
+  color: white;
+  border: none;
+}
+
+#casosOMBtn:hover {
+  background-color: #c91c1c;
+}
+
+#tablaCasosOM th {
+  background-color: #ee2323; /* mismo rojo PPT */
+  color: white;
+  text-align: center;
+}
+
+#tablaCasosOM td {
+  text-align: left;
+  padding: 8px;
+}
+
+#tablaCasosOM select {
+  width: 100%;
+  padding: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#tablaCasosOM {
+  width: 100%;
+  max-width: 600px; /* 👈 tamaño tipo PPT */
+  margin: auto;
+}
+
+.card-analisis-casos {
+  max-width: 600px; /* mismo ancho tabla */
+  margin-top: 15px;
+  padding: 15px;
+  background: #f3f3f3;
+  border-radius: 12px;
+  box-shadow: 2px 4px 10px rgba(0,0,0,0.2);
+  text-align: left;
+}
+
+.card-grafico-om {
+  width: 650px;
+  background: #f3f3f3;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 2px 4px 10px rgba(0,0,0,0.2);
+}
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
@@ -778,6 +830,8 @@
 <div class="top-buttons">
   <button onclick="goToLicencias()" id="buscarLicenciasBtn">🔎 Buscar licencias</button>
   <button onclick="goToPPT()" id="pptBtn">📊 PPT semanal</button>
+
+  <button onclick="goToCasosOM()" id="casosOMBtn">📁 Casos OM</button>
 
   <label for="fileInput" class="custom-file-btn">
     📁 Cargar documentos
@@ -2185,6 +2239,145 @@ const radius = 80;                    // 👈 ligeramente menor
 }
 
 
+function generarFilasCasosOM() {
+
+  const tbody = document.querySelector("#tablaCasosOM tbody");
+  if (!tbody) return;
+
+  tbody.innerHTML = "";
+
+  for (let i = 0; i < 25; i++) {
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>
+        <select>
+          <option>WhatsApp</option>
+          <option>Messenger</option>
+          <option>Instagram</option>
+          <option>X</option>
+        </select>
+      </td>
+
+      <td>
+        <select>
+          <option>Fijo</option>
+          <option>Móvil</option>
+          <option>Consulta</option>
+        </select>
+      </td>
+
+      <td contenteditable="true"></td>
+    `;
+
+    tbody.appendChild(tr);
+  }
+}
+
+
+function analizarCasosOM() {
+
+  const filas = document.querySelectorAll("#tablaCasosOM tbody tr");
+
+  let total = 0;
+  let fijos = {};
+  let moviles = {};
+  let countFijo = 0;
+  let countMovil = 0;
+
+  filas.forEach(fila => {
+
+    const servicio = fila.cells[1].querySelector("select").value;
+    const reclamo = fila.cells[2].innerText.trim();
+
+    if (reclamo === "") return;
+
+    total++;
+
+    if (servicio === "Fijo") {
+      countFijo++;
+      fijos[reclamo] = (fijos[reclamo] || 0) + 1;
+    }
+
+    if (servicio === "Móvil") {
+      countMovil++;
+      moviles[reclamo] = (moviles[reclamo] || 0) + 1;
+    }
+
+     
+if (servicio === "Consulta") {
+    consulta[reclamo] = (consulta[reclamo] || 0) + 1;
+  }
+
+
+  });
+
+  if (total === 0) {
+    document.getElementById("textoAnalisisCasos").innerText =
+      "Ingresa datos en la tabla para ver el análisis...";
+    return;
+  }
+
+  function top3(obj) {
+    return Object.entries(obj)
+      .sort((a,b) => b[1] - a[1])
+      .slice(0,3)
+      .map(x => `${x[0]} (${x[1]})`)
+      .join(", ");
+  }
+
+  const topFijos = top3(fijos) || "Sin datos";
+  const topMoviles = top3(moviles) || "Sin datos";
+
+  const porcentajeFijo = ((countFijo / total) * 100).toFixed(1);
+  const porcentajeMovil = ((countMovil / total) * 100).toFixed(1);
+
+  const saludo = obtenerSaludo();
+
+const texto = `${saludo}
+
+Se validan interacciones en OM. De la muestra de ${total} interacciones, se obtuvo el siguiente análisis:
+
+* Servicios fijos: ${porcentajeFijo}%
+* Servicios móviles: ${porcentajeMovil}%
+
+Top 3 reclamos en servicios fijos:
+${topFijos}
+
+Top 3 reclamos en servicios móviles:
+${topMoviles}`;
+
+  document.getElementById("textoAnalisisCasos").innerText = texto;
+}
+
+document.addEventListener("input", function(e) {
+  if (e.target.closest("#tablaCasosOM")) {
+    analizarCasosOM();
+    generarGraficoCasosOM(); // ✅ gráfico
+  }
+});
+
+document.addEventListener("change", function(e) {
+  if (e.target.closest("#tablaCasosOM")) {
+    analizarCasosOM();
+    generarGraficoCasosOM(); // ✅ gráfico
+  }
+});
+
+
+function obtenerSaludo() {
+  const hora = new Date().getHours();
+
+  if (hora >= 5 && hora < 12) {
+    return "Buenos días";
+  } else if (hora >= 12 && hora < 18) {
+    return "Buenas tardes";
+  } else {
+    return "Buenas noches";
+  }
+}
+
   </script>
   
   <button id="helpBtn" onclick="openManual()">i</button>
@@ -2782,6 +2975,258 @@ async function capturarCard(element) {
   btn.style.display = "block";
 }
 
+function goToCasosOM() {
+  document.getElementById("mainContent").style.display = "none";
+  document.getElementById("licenciasPage").style.display = "none";
+  document.getElementById("pptPage").style.display = "none";
+  document.getElementById("casosOMPage").style.display = "block";
+
+  generarFilasCasosOM();
+  generarGraficoCasosOM();
+}
+
+function backFromCasosOM() {
+  document.getElementById("casosOMPage").style.display = "none";
+  document.getElementById("mainContent").style.display = "block";
+}
+
+let graficoCasosOMInstance;
+
+function generarGraficoCasosOM() {
+
+  const filas = document.querySelectorAll("#tablaCasosOM tbody tr");
+
+
+let fijo = {};
+let movil = {};
+let consulta = {};
+
+
+  filas.forEach(fila => {
+
+    const servicio = fila.cells[1].querySelector("select").value;
+    const reclamo = fila.cells[2].innerText.trim();
+
+    if (reclamo === "") return;
+
+    if (servicio === "Fijo") {
+      fijo[reclamo] = (fijo[reclamo] || 0) + 1;
+    }
+
+    if (servicio === "Móvil") {
+      movil[reclamo] = (movil[reclamo] || 0) + 1;
+    }
+
+    
+if (servicio === "Consulta") {
+  consulta[reclamo] = (consulta[reclamo] || 0) + 1;
+}
+
+  });
+
+  // ✅ labels separados
+  const labelsFijo = Object.keys(fijo);
+  const valoresFijo = Object.values(fijo);
+
+  const labelsMovil = Object.keys(movil);
+  const valoresMovil = Object.values(movil);
+
+  
+const labelsConsulta = Object.keys(consulta);
+const valoresConsulta = Object.values(consulta);
+
+
+  // ✅ separador visual
+
+
+const labels = [
+  ...labelsFijo,
+  "", // espacio separador
+  ...labelsMovil
+];
+
+const valores = [
+  ...valoresFijo,
+  0,
+  ...valoresMovil
+];
+
+
+
+  const ctx = document.getElementById("graficoCasosOM").getContext("2d");
+
+  if (graficoCasosOMInstance) {
+    graficoCasosOMInstance.destroy();
+  }
+
+  graficoCasosOMInstance = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [{
+        data: valores,
+        backgroundColor: "#0396a6",
+        borderRadius: 6
+      }]
+    },
+    options: {
+      
+layout: {
+  padding: {
+    top: 10,
+    bottom: 90   // 👈 espacio extra abajo
+  }
+},
+
+      plugins: {
+        legend: { display: false },
+
+        datalabels: {
+          color: "#fff",
+          anchor: "center",
+          align: "center",
+          font: {
+            weight: "bold"
+          },
+          formatter: value => value > 0 ? value : ""
+        }
+      },
+
+      scales: {
+
+        x: {
+          ticks: {
+            color: "#000",
+            maxRotation: 45,
+            minRotation: 45,
+
+            callback: function(val, index) {
+
+              const label = this.getLabelForValue(val);
+
+
+    // ✅ mostrar títulos sin cambio
+    if (label === "FIJO" || label === "MÓVIL") {
+      return label;
+    }
+
+    // ✅ ocultar separador
+    if (label === "") return "";
+
+    return label;
+
+            }
+          }
+        },
+
+        y: {
+  beginAtZero: true,
+
+  suggestedMax: 5,   // 👈 ESTE ES EL CAMBIO CLAVE
+
+  ticks: {
+    precision: 0,
+    color: "#000"
+  }
+}
+      }
+    },
+    plugins: [
+  ChartDataLabels,
+
+  {
+    id: 'secciones',
+
+    afterDraw(chart) {
+      const { ctx, chartArea } = chart;
+
+      const centerX = (chartArea.left + chartArea.right) / 2;
+      const y = chartArea.bottom + 95;
+
+      ctx.save();
+      ctx.font = "bold 13px Arial";
+      ctx.fillStyle = "#000";
+      ctx.textAlign = "center";
+
+      // ✅ FIJO (lado izquierdo)
+      ctx.fillText("FIJO", chartArea.left + (centerX - chartArea.left)/2, y);
+
+      // ✅ MÓVIL (lado derecho)
+      ctx.fillText("MÓVIL", centerX + (chartArea.right - centerX)/2, y);
+
+      ctx.restore();
+    }
+  }
+
+]
+  });
+}
+
+// ✅ COPIAR TABLA EN 4K
+async function copiarTablaComoImagen() {
+
+  const tabla = document.getElementById("tablaCasosOM");
+
+  if (!tabla) {
+    alert("No se encontró la tabla");
+    return;
+  }
+
+  const canvas = await html2canvas(tabla, {
+    scale: 4, // 🔥 calidad 4K
+    useCORS: true,
+    backgroundColor: "#ffffff"
+  });
+
+  canvas.toBlob(async (blob) => {
+    try {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          "image/png": blob
+        })
+      ]);
+
+      alert("✅ Tabla copiada en alta calidad");
+    } catch (err) {
+      console.error(err);
+      alert("❌ Error al copiar tabla");
+    }
+  });
+}
+
+
+// ✅ COPIAR GRÁFICO EN 4K
+async function copiarGraficoComoImagen() {
+
+  const grafico = document.getElementById("graficoCasosOM");
+
+  if (!grafico) {
+    alert("No se encontró el gráfico");
+    return;
+  }
+
+  const canvas = await html2canvas(grafico, {
+    scale: 4, // 🔥 calidad 4K
+    useCORS: true,
+    backgroundColor: "#ffffff"
+  });
+
+  canvas.toBlob(async (blob) => {
+    try {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          "image/png": blob
+        })
+      ]);
+
+      alert("✅ Gráfico copiado en alta calidad");
+    } catch (err) {
+      console.error(err);
+      alert("❌ Error al copiar gráfico");
+    }
+  });
+}
+
   </script>
 
 </div>
@@ -2919,5 +3364,90 @@ async function capturarCard(element) {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<div id="casosOMPage" style="display:none; text-align:center;">
+
+  <h1 class="titulo-ppt">Casos OM</h1>
+
+  
+<div style="margin-bottom:15px;">
+    <button onclick="copiarGraficoComoImagen()">📊 Copiar gráfico</button>
+</div>
+
+
+  <button onclick="backFromCasosOM()">⬅ Volver</button>
+
+  <br><br>
+
+  
+<div style="display:flex; justify-content:flex-start;">
+  <div class="table-container" style="width: 600px;">
+
+    <table id="tablaCasosOM">
+      <thead>
+        <tr>
+          <th>Canal</th>
+          <th>Servicio</th>
+          <th>Reclamo</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- ✅ 25 FILAS -->
+        <!-- Puedes editar manualmente -->
+        <!-- Canal y Servicio con dropdown -->
+
+        <!-- GENERADAS -->
+        <script>
+          for (let i = 0; i < 25; i++) {
+            document.write(`
+              <tr>
+                <td>
+                  <select>
+                    <option>WhatsApp</option>
+                    <option>Messenger</option>
+                    <option>Instagram</option>
+                    <option>X</option>
+                  </select>
+                </td>
+
+                <td>
+                  <select>
+                    <option>Fijo</option>
+                    <option>Móvil</option>
+                    <option>Consulta</option>
+                  </select>
+                </td>
+
+                <td contenteditable="true"></td>
+              </tr>
+            `);
+          }
+        </script>
+
+      </tbody>
+    </table>
+    
+
+</div>
+
+
+<div class="card-grafico-om">
+  <canvas id="graficoCasosOM" height="400"></canvas>
+</div>
+
+
+
+  </div>
+
+  <div id="cardAnalisisCasos" class="card-analisis-casos">
+  <div id="textoAnalisisCasos">
+    Ingresa datos en la tabla para ver el análisis...
+  </div>
+</div>
+
+</div>
+
+
 </body>
 </html>
