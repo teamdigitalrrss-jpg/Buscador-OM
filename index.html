@@ -2264,7 +2264,6 @@ function generarFilasCasosOM() {
         <select>
           <option>Fijo</option>
           <option>Móvil</option>
-          <option>Consulta</option>
         </select>
       </td>
 
@@ -3095,6 +3094,12 @@ layout: {
       scales: {
 
         x: {
+
+          
+grid: {
+      display: false   // ❌ quita líneas verticales
+    },
+
           ticks: {
             color: "#000",
             maxRotation: 45,
@@ -3120,6 +3125,12 @@ layout: {
         },
 
         y: {
+
+          
+grid: {
+      display: false   // ❌ quita líneas horizontales
+    },
+
   beginAtZero: true,
 
   suggestedMax: 5,   // 👈 ESTE ES EL CAMBIO CLAVE
