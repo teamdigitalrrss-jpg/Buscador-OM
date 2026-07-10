@@ -820,12 +820,41 @@
   background-color: #027a87;
 }
 
+/* Filtros Supervisor y Site */
+
+.ts-wrapper {
+  width: 250px;
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.ts-control {
+  border-radius: 12px !important;
+  min-height: 44px;
+  border: 1px solid #ccc !important;
+  box-shadow: 0 3px 8px rgba(0,0,0,.2);
+}
+
+.ts-control input {
+  font-size: 14px;
+}
+
+.ts-wrapper.multi .item {
+  background: #0396a6 !important;
+  color: white !important;
+  border-radius: 20px !important;
+  padding: 4px 10px !important;
+}
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <link
+  href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.cssivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 </head>
   
 <body>
@@ -3011,6 +3040,10 @@ async function capturarCard(element) {
 
 function goToPendientes() {
 
+  if (dataLicencias.length === 0) {
+  cargarLicencias();
+}
+
   document.getElementById("mainContent").style.display = "none";
   document.getElementById("licenciasPage").style.display = "none";
   document.getElementById("pptPage").style.display = "none";
@@ -3797,6 +3830,108 @@ function backFromCasosOM() {
   document.getElementById("mainContent").style.display = "block";
 }
 
+function obtenerDatosLicencia(nombreAgente) {
+
+  if (!nombreAgente) {
+
+    return {
+      supervisor: "",
+      site: ""
+    };
+
+  }
+
+  const licencia = dataLicencias.find(row => {
+
+    const agenteLicencia =
+      (row["Agente Asignado"] || "")
+        .toString()
+        .trim()
+        .toLowerCase();
+
+    return (
+      agenteLicencia ===
+      nombreAgente
+        .toString()
+        .trim()
+        .toLowerCase()
+    );
+
+  });
+
+  if (!licencia) {
+
+    return {
+      supervisor: "",
+      site: ""
+    };
+
+  }
+
+  return {
+
+    supervisor:
+      licencia["Supervisor"] || "",
+
+    site:
+      licencia["Site"] || ""
+
+  };
+
+}
+
+function obtenerDatosLicencia(usuarioOM) {
+
+  if (!usuarioOM || dataLicencias.length === 0) {
+
+    return {
+      supervisor: "",
+      site: ""
+    };
+
+  }
+
+  const licencia = dataLicencias.find(row => {
+
+    const usuarioLicencia =
+
+      (row["Usuario nuevo"] || "")
+        .toString()
+        .trim()
+        .toLowerCase();
+
+    return (
+      usuarioLicencia ===
+      usuarioOM
+        .toString()
+        .trim()
+        .toLowerCase()
+    );
+
+  });
+
+  if (!licencia) {
+
+    return {
+      supervisor: "",
+      site: ""
+    };
+
+  }
+
+  return {
+
+    supervisor:
+      licencia["Supervisor"] || "",
+
+    site:
+      licencia["Site"] || ""
+
+  };
+
+}
+
+
 function renderPendientesTable() {
 
   const tbody =
@@ -3813,12 +3948,19 @@ function renderPendientesTable() {
 
     const tr = document.createElement("tr");
 
-    tr.innerHTML = `
-      <td>${row.Fecha || ""}</td>
-      <td>${row.Agente || ""}</td>
-      <td>${row.Movil || ""}</td>
-      <td>${row.Texto || ""}</td>
-    `;
+    const datosLicencia =
+  obtenerDatosLicencia(
+    row.Agente
+  );
+
+tr.innerHTML = `
+  <td>${row.Fecha || ""}</td>
+  <td>${row.Agente || ""}</td>
+  <td>${datosLicencia.supervisor}</td>
+  <td>${datosLicencia.site}</td>
+  <td>${row.Movil || ""}</td>
+  <td>${row.Texto || ""}</td>
+`;
 
     tbody.appendChild(tr);
 
@@ -3832,7 +3974,7 @@ function renderPendientesTable() {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
-      <td colspan="4"
+      <td colspan="6"
       style="
       text-align:center;
       font-weight:bold;
@@ -4400,6 +4542,7 @@ function aplicarFechasPendientes() {
   class="input-licencias"
 >
 
+
 <input
   type="text"
   id="fechaInicioPendienteFiltro"
@@ -4458,13 +4601,15 @@ function aplicarFechasPendientes() {
     <table id="tablaPendientes" style="display:none;">
 
       <thead>
-        <tr>
-          <th>Fecha</th>
-          <th>Agente</th>
-          <th>Móvil</th>
-          <th>Texto</th>
-        </tr>
-      </thead>
+  <tr>
+    <th>Fecha</th>
+    <th>Agente</th>
+    <th>Supervisor</th>
+    <th>Site</th>
+    <th>Móvil</th>
+    <th>Texto</th>
+  </tr>
+</thead>
 
       <tbody></tbody>
 
