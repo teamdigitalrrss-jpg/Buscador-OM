@@ -193,11 +193,11 @@
         #resetBtn { background: #6c757d; color: #fff; }
         #resetBtn:hover { background: #495057; transform: translateY(-2px); }
 
-        #chartBtn, #omErrorChartBtn, #textChartBtn, #copyBtn, #downloadBtn, #backBtn {
+        #chartBtn, #textChartBtn, #copyBtn, #downloadBtn, #backBtn {
             background: #e9ecef;
             color: var(--text-dark);
         }
-        #chartBtn:hover, #omErrorChartBtn:hover, #textChartBtn:hover,
+        #chartBtn:hover, #textChartBtn:hover,
         #copyBtn:hover, #downloadBtn:hover, #backBtn:hover {
             background: #dee2e6;
             transform: translateY(-2px);
@@ -311,86 +311,6 @@
             display: none;
             height: 480px;
             border: 1px solid #f1f3f5;
-        }
-
-        #cuadro-flotante {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--bg-card);
-            color: var(--text-dark);
-            padding: 20px 18px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            font-weight: 500;
-            font-family: 'Inter', sans-serif;
-            z-index: 9999;
-            cursor: move;
-            width: 260px;
-            border: 1px solid #f1f3f5;
-            font-size: 0.85rem;
-        }
-
-        #cuadro-flotante .copiable {
-            color: var(--primary);
-            cursor: pointer;
-            text-decoration: underline;
-            text-underline-offset: 2px;
-            transition: var(--transition);
-        }
-
-        #cuadro-flotante .copiable:hover {
-            color: var(--primary-dark);
-        }
-
-        #cerrar {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #f1f3f5;
-            color: var(--text-dark);
-            border: none;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            transition: var(--transition);
-        }
-
-        #cerrar:hover {
-            background: #e9ecef;
-        }
-
-        #helpBtn {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 52px;
-            height: 52px;
-            background: var(--secondary);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            font-size: 22px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: var(--shadow-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            transition: var(--transition);
-        }
-
-        #helpBtn:hover {
-            transform: scale(1.08);
-            background: #11294a;
         }
 
         .modal {
@@ -636,10 +556,60 @@
             background: #fff;
         }
 
+        .ppt-content-wrapper {
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .ppt-left-column {
+            flex: 1.2;
+            min-width: 320px;
+            max-width: 700px;
+        }
+
+        .ppt-right-column {
+            flex: 1;
+            min-width: 320px;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .ppt-chart-box {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #f1f3f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ppt-chart-box canvas {
+            width: 100% !important;
+            height: auto !important;
+            max-height: 360px;
+        }
+
+        #graficoPastel {
+            max-height: 480px !important;
+            min-height: 400px !important;
+            width: 100% !important;
+        }
+
         .cards-vertical {
             display: flex;
             flex-direction: column;
             gap: 16px;
+            margin-top: 16px;
         }
 
         .card-wrapper {
@@ -784,16 +754,6 @@
                 padding: 8px 14px;
                 font-size: 0.75rem;
             }
-            #cuadro-flotante {
-                display: none !important;
-            }
-            #helpBtn {
-                width: 44px;
-                height: 44px;
-                font-size: 18px;
-                bottom: 16px;
-                right: 16px;
-            }
             .modal-content {
                 margin: 20% auto;
                 padding: 20px;
@@ -802,84 +762,18 @@
             .card-analisis { width: 100%; }
             .card-tnps-site { width: 100%; }
             .card-grafico-om { min-width: auto; }
+            .ppt-right-column {
+                position: static;
+            }
+            .ppt-content-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            #graficoPastel {
+                max-height: 320px !important;
+                min-height: 280px !important;
+            }
         }
-
-        #pptPage > div {
-            flex-direction: column;
-            align-items: center;
-        }
-        #pptPage > div .table-container {
-            width: 100%;
-            overflow-x: auto;
-        }
-        #pptPage > div .cards-vertical {
-            width: 100%;
-            align-items: center;
-        }
-        #casosOMPage > div {
-            flex-direction: column;
-            align-items: center;
-        }
-        #casosOMPage > div .table-container {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        #manualModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
-            z-index: 2000;
-            overflow-y: auto;
-            animation: fadeIn 0.25s ease;
-        }
-
-        #manualContent {
-            background: var(--bg-card);
-            color: var(--text-dark);
-            margin: 40px auto;
-            padding: 32px 40px;
-            width: 90%;
-            max-width: 800px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            animation: slideUp 0.3s ease;
-        }
-
-        #manualContent h2 {
-            color: var(--secondary);
-            text-align: center;
-            font-size: 1.6rem;
-            font-weight: 700;
-        }
-        #manualContent h3 {
-            color: var(--secondary);
-            margin-top: 24px;
-            font-weight: 600;
-        }
-        #manualContent strong { color: var(--primary); }
-        #manualContent table { border-collapse: collapse; width: 100%; margin: 12px 0; }
-        #manualContent th, #manualContent td {
-            border: 1px solid #dee2e6;
-            padding: 10px 14px;
-            text-align: left;
-        }
-        #manualContent th { background: #f1f3f5; font-weight: 600; }
-
-        #closeManual {
-            float: right;
-            font-size: 28px;
-            font-weight: 300;
-            cursor: pointer;
-            color: #6c757d;
-            transition: var(--transition);
-        }
-        #closeManual:hover { color: var(--text-dark); }
 
         #pendientesPage .input-licencias {
             width: 180px;
@@ -968,10 +862,6 @@
 
     <div class="search-grid">
         <label>
-            Tipos de fallas OM
-            <input type="text" id="search" placeholder="Ej: #, 13, API" />
-        </label>
-        <label>
             Fallas BOT o palabras clave
             <input type="text" id="textSearch" placeholder="Ej: ocurrido un problema" />
         </label>
@@ -987,7 +877,6 @@
             <button id="searchBtn" onclick="openDateModal()">🔍 Buscar</button>
             <button id="resetBtn" onclick="resetSearch()">🔄 Nueva búsqueda</button>
             <button id="chartBtn" onclick="showChart()">📊 Gráfico errores BOT</button>
-            <button id="omErrorChartBtn" onclick="showOMErrorChart()">📈 Gráfico fallas OM</button>
             <button id="textChartBtn" onclick="showTextChart()">📝 Gráfico de texto</button>
             <button id="copyBtn" onclick="copyResults()">📋 Copiar resultados</button>
             <button id="downloadBtn" onclick="downloadExcel()">📥 Descargar Excel</button>
@@ -1008,6 +897,27 @@
         <button id="resetDateFilter" onclick="resetDateFilter()">Restablecer</button>
     </div>
 
+    <!-- MODAL PARA SELECCIÓN DE FECHAS -->
+    <div id="dateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Seleccionar rango de fechas</h2>
+                <span class="close" onclick="closeDateModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <label for="modalStartDate">Fecha desde:</label>
+                <input type="text" id="modalStartDate" class="flatpickr-input" placeholder="Seleccione fecha inicio">
+                
+                <label for="modalEndDate">Fecha hasta:</label>
+                <input type="text" id="modalEndDate" class="flatpickr-input" placeholder="Seleccione fecha fin">
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeDateModal()">Cancelar</button>
+                <button onclick="applyDateSelection()" style="background-color: #4CAF50; color: white;">Aplicar</button>
+            </div>
+        </div>
+    </div>
+
     <div class="table-container">
         <table id="dataTable" style="display: none;">
             <thead>
@@ -1020,7 +930,6 @@
                     <th onclick="sortTable(5)">Event<span class="sort-icon">↕</span><br><input class="filter-input" id="filter5" onkeyup="columnFilter(5, this.value)" placeholder="Filtrar" disabled></th>
                     <th onclick="sortTable(6)">Texto<span class="sort-icon">↕</span><br><input class="filter-input" id="filter6" onkeyup="columnFilter(6, this.value)" placeholder="Filtrar" disabled></th>
                     <th onclick="sortTable(7)">Hora<span class="sort-icon">↕</span><br><input class="filter-input" id="filter7" onkeyup="columnFilter(7, this.value)" placeholder="Filtrar" disabled></th>
-                    <th onclick="sortTable(8)">Detalles de error<span class="sort-icon">↕</span><br><input class="filter-input" id="filter8" onkeyup="columnFilter(8, this.value)" placeholder="Filtrar" disabled></th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -1028,20 +937,7 @@
     </div>
 
     <div class="chart-container"><canvas id="eventChart"></canvas></div>
-    <div class="chart-container"><canvas id="omErrorByHourChart"></canvas></div>
     <div class="chart-container"><canvas id="textByHourChart"></canvas></div>
-
-    <div id="cuadro-flotante">
-        <button id="cerrar">✕</button>
-        Buscar fallas OM con el texto:<br>
-        <span class="copiable" data-text="#, 13, API" title="Doble clic para copiar">#, 13, API</span><br><br>
-        Busca errores del BOT con:<br>
-        <span class="copiable" data-text="ocurrido un problema" title="Doble clic para copiar">ocurrido un problema</span><br><br>
-        Busca trasferencias:<br>
-        <span class="copiable" data-text="Skill o transferred" title="Doble clic para copiar">Skill o transferred</span><br><br>
-        Cierres ASESOR:<br>
-        <span class="copiable" data-text="Caso marcado pendiente, Caso marcado pendiente auto, Cierra caso agente" title="Doble clic para copiar">Caso marcado pendiente, Caso marcado pendiente auto, Cierra caso agente</span>
-    </div>
 
     <div class="overlay" id="loadingOverlay"></div>
     <div class="spinner" id="loadingSpinner"></div>
@@ -1076,39 +972,43 @@
     <button onclick="backFromPPT()" style="background:#6c757d; color:#fff; border:none; padding:10px 24px; border-radius:50px; font-weight:600; cursor:pointer;">⬅ Volver</button>
     <button onclick="goToBI()" id="btnBI" style="background:var(--accent); color:#fff; border:none; padding:10px 24px; border-radius:50px; font-weight:600; cursor:pointer; margin-left:8px;">📊 Reporte BI</button>
 
-    <div style="display:flex; gap:32px; align-items:flex-start; flex-wrap:wrap; justify-content:center; margin-top:20px;">
-        <div class="table-container" style="flex:1; min-width:300px;">
-            <table id="tablaPPT">
-                <thead>
-                    <tr>
-                        <th>Supervisor</th>
-                        <th>Encuestas</th>
-                        <th>tNPS semana anterior</th>
-                        <th>tNPS actual</th>
-                        <th>Detractores</th>
-                        <th>Mayor nota en el mes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Jaime Flores</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                    <tr><td>Erika Martínez</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                    <tr><td>Gerardo Leiva</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                    <tr><td>Erick Carpio</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                    <tr><td>Rodrigo Coreas</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                </tbody>
-            </table>
+    <div class="ppt-content-wrapper">
+
+        <div class="ppt-left-column">
+            <div class="table-container">
+                <table id="tablaPPT">
+                    <thead>
+                        <tr>
+                            <th>Supervisor</th>
+                            <th>Encuestas</th>
+                            <th>tNPS semana anterior</th>
+                            <th>tNPS actual</th>
+                            <th>Detractores</th>
+                            <th>Mayor nota en el mes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td contenteditable="true">Jaime Flores</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">Erika Martínez</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">Gerardo Leiva</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">Erick Carpio</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">Rodrigo Coreas</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="cardsContainer" class="cards-vertical"></div>
         </div>
 
-        <div id="cardsContainer" class="cards-vertical" style="flex:1; min-width:280px;"></div>
-
-        <div style="flex:1.5; min-width:320px; display:flex; flex-direction:column; gap:24px;">
-            <div style="background:var(--bg-card); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow-sm); border:1px solid #f1f3f5;">
+        <div class="ppt-right-column">
+            <div class="ppt-chart-box">
                 <canvas id="graficoEncuestas" width="500" height="300"></canvas>
             </div>
-            <div style="background:var(--bg-card); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow-sm); border:1px solid #f1f3f5; display:flex; justify-content:center;">
-                <canvas id="graficoPastel" width="400" height="400"></canvas>
+            <div class="ppt-chart-box">
+                <canvas id="graficoPastel" width="500" height="500"></canvas>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -1235,72 +1135,10 @@
     </div>
 </div>
 
-<button id="helpBtn" onclick="openManual()">i</button>
-
-<div id="manualModal">
-    <div id="manualContent">
-        <span id="closeManual" onclick="closeManual()">✕</span>
-        <h2>📖 Manual de Uso</h2>
-        <h3>📌 Cómo usar el buscador</h3>
-        <p><strong>📌 Toma en cuenta</strong> Antes de hacer uso del buscador, previamente tienes que haber descargado una sábana de chat desde OM (Puede ser de la fecha o periodo que deseas revisar)</p>
-        <p><strong>¿Qué puedo buscar?</strong> Este buscador esta diseñado para que puedas encontrar palabras clave en una conversación, nombre de usuario OM or errores específicos que se presenten en la herramienta</p>
-        <ol>
-            <li><strong>Cargar archivo CSV:</strong> Selecciona el archivo o archivos CSV que descargaste previamente de OM "Seleccionar archivo"</li>
-            <li><strong>Búsqueda básica:</strong>
-                <ul>
-                    <li>Tipos de fallas OM: Busca por códigos de error (ej. "131000 - (#131000) Something went wrong - Something went wrong" etc.)</li>
-                    <li>Fallas BOT o palabras clave: Busca por texto (ej. "no me ayudan" "Me llamo Juan")</li>
-                    <li>Buscar por Móvil: Ingresa el usuario OM que desees (ej. "juank25vs123" "260889|Juank Melendez")</li>
-                    <li>Buscar por Agente: Ingresa el nombre del agente que deseas filtrar</li>
-                </ul>
-            </li>
-            <li><strong>Búsqueda avanzada:</strong> Puedes usar múltiples términos separados por comas o punto y coma (ej."no resuelve, siget, supervisor")</li>
-            <li><strong>Filtros por columna:</strong> Una vez cargados los datos, puedes filtrar en cada columna para una búsqueda más exacta</li>
-            <li><strong>Ordenamiento:</strong> Haz clic en los encabezados de columna para ordenar los datos de mayor a menor o viceversa</li>
-            <li><strong>Filtro por fechas:</strong> Al visualizar gráficos, puedes filtrar por rango de fechas, se habilitarán solo las fechas que contenga en el archivo cargado</li>
-        </ol>
-        <h3>🔍 Funciones principales</h3>
-        <div style="background:#f1f3f5; padding:16px; border-radius:var(--radius-sm);">
-            <p><strong>🔍 Buscar:</strong> Filtra los resultados según los criterios ingresados, también puedes presionar la tecla "Enter"</p>
-            <p><strong>🔄 Nueva búsqueda:</strong> Limpia los filtros actuales</p>
-            <p><strong>📊 Gráficos:</strong> Muestra visualizaciones de los errores OM o fallas del BOT con filtro por fechas</p>
-            <p><strong>📝 Gráfico de texto:</strong> Muestra la distribución de textos por hora y tipo</p>
-            <p><strong>📋 Copiar resultados:</strong> Copia los datos filtrados al portapapeles</p>
-            <p><strong>📥 Descargar Excel:</strong> Exporta los resultados a un archivo XLSX de forma automática (Se exporta solamente los datos que tengas filtrados en la tabla de resultados de búsqueda)</p>
-        </div>
-        <h3>📋 Ejemplos de búsqueda</h3>
-        <table>
-            <tr style="background:#f1f3f5;"><th>Ej. de palabras</th><th>Campo de búsqueda</th><th>Resultado</th></tr>
-            <tr><td>Siget, supervisor, defensoría</td><td>Fallas BOT o palabras clave</td><td>Encuentra todas las conversaciones que contengan una de las palabras escritas</td></tr>
-            <tr style="background:#f8f9fa;"><td>ocurrido un problema</td><td>Fallas BOT o palabras clave</td><td>Se observarán todas las conversaciones que contengan ese texto,el cual corresponde a una falla del BOT</td></tr>
-            <tr><td>#, 13, API</td><td>Tipos de fallas OM</td><td>Encuentra errores que coincidan con los números o palabras ingresados</td></tr>
-            <tr style="background:#f8f9fa;"><td>785874</td><td>Búsqueda por Móvil</td><td>Encontrará todas las coincidencias de números o palabras escritos, este campo busca el usuario OM</td></tr>
-            <tr><td>Juan Pérez</td><td>Búsqueda por Agente</td><td>Encontrará todas las coincidencias con el nombre del agente especificado</td></tr>
-        </table>
-        <h3>❓ Preguntas frecuentes</h3>
-        <button onclick="toggleFAQ('faq1')" style="background:#e9ecef; border:none; padding:10px; width:100%; text-align:left; font-weight:600; cursor:pointer; border-radius:8px; margin-bottom:4px;">¿Por qué no aparecen resultados?</button>
-        <div id="faq1" style="display:none; padding:10px; background:#f8f9fa; border-radius:8px; margin-bottom:8px;">
-            Verifica que: el archivo CSV tenga el formato correcto, los términos de búsqueda estén bien escritos, la búsqueda se realiza al hacer clic en 'Buscar' o presionar 'Enter'.
-        </div>
-        <button onclick="toggleFAQ('faq2')" style="background:#e9ecef; border:none; padding:10px; width:100%; text-align:left; font-weight:600; cursor:pointer; border-radius:8px; margin-bottom:4px;">¿Cómo interpretar los códigos de error?</button>
-        <div id="faq2" style="display:none; padding:10px; background:#f8f9fa; border-radius:8px; margin-bottom:8px;">
-            Los códigos más comunes: <strong>13XXXX</strong>: Errores relacionados con la API de Meta, <strong>#10</strong>: Problemas con ventanas de tiempo.
-        </div>
-        <button onclick="toggleFAQ('faq3')" style="background:#e9ecef; border:none; padding:10px; width:100%; text-align:left; font-weight:600; cursor:pointer; border-radius:8px;">¿Cómo usar el filtro de fechas?</button>
-        <div id="faq3" style="display:none; padding:10px; background:#f8f9fa; border-radius:8px;">
-            El filtro de fechas solo aparece al visualizar gráficos, permite seleccionar un rango de fechas disponibles en los datos cargados.
-        </div>
-        <div style="text-align:center; margin-top:20px; font-style:italic; color:#6c757d;">
-            <p>Última actualización: 24/06/2025</p>
-        </div>
-    </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
 // ===== TODAS LAS FUNCIONES ORIGINALES =====
-// (Código completo de tu versión original, sin modificar)
 
 let data = [];
 let filteredData = [];
@@ -1337,31 +1175,6 @@ const textosPendientes = [
     "quedamos a tus ordenes"
 ];
 
-const knownErrors = [
-    { error: "#131056", comentario: "Varios mensajes en corto periodo de tiempo" },
-    { error: "(#10) This message is sent outside of allowed window.", comentario: "Encuesta IG" },
-    { error: "(#100) The action is invalid since it's not the thread owner.", comentario: "Encuesta IG" },
-    { error: "(#100) The parameter message[attachment][type] is required", comentario: "Sticker en MSG" },
-    { error: "outside of allowed window", comentario: "Política META" },
-    { error: "Media upload error", comentario: "Error recibir Template" },
-    { error: "robots.txt", comentario: "Error envío multimedia" },
-    { error: "Service Unavailable", comentario: "Error recibir Template" },
-    { error: "Service temporarily unavailable", comentario: "No recibe mensajes" },
-    { error: "24 hours have passed", comentario: "Error recibir Template" },
-    { error: "stop receiving marketing messages", comentario: "Error recibir Template" },
-    { error: "API access disrupted", comentario: "No recibe mensajes" },
-    { error: "healthy ecosystem engagement", comentario: "Error recibir Template" },
-    { error: "Something went wrong", comentario: "No recibe mensajes" },
-    { error: "new-line/tab characters", comentario: "Error recibir Template" },
-    { error: "Message undeliverable", comentario: "Error recibir Template" },
-    { error: "Re-engagement message", comentario: "Política META" },
-    { error: "part of an experiment", comentario: "Error recibir Template" },
-    { error: "Unexpected internal error", comentario: "No recibe mensajes" },
-    { error: "Upload attachment failure", comentario: "No recibe mensajes" },
-    { error: "Parameter Invalid", comentario: "Política META" },
-    { error: "An unknown error occurred", comentario: "Error recibir Template" }
-];
-
 // ===== FUNCIONES =====
 
 function updateResultCounter(count) {
@@ -1395,7 +1208,6 @@ function sortTable(columnIndex) {
             case 5: valueA = a.Event; valueB = b.Event; break;
             case 6: valueA = a.Texto; valueB = b.Texto; break;
             case 7: valueA = a.Hora; valueB = b.Hora; break;
-            case 8: valueA = a.DetalleError; valueB = b.DetalleError; break;
             default: return 0;
         }
         if (valueA < valueB) return -1 * sortDirection;
@@ -1463,9 +1275,6 @@ function setupModalDatePickers() {
 }
 
 function setupEnterKey() {
-    document.getElementById('search').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') openDateModal();
-    });
     document.getElementById('textSearch').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') openDateModal();
     });
@@ -1478,7 +1287,6 @@ function setupEnterKey() {
 }
 
 function resetSearch() {
-    document.getElementById('search').value = '';
     document.getElementById('textSearch').value = '';
     document.getElementById('mobileSearch').value = '';
     document.getElementById('agentSearch').value = '';
@@ -1526,7 +1334,6 @@ function processCSVFile(file) {
                             Event: cols[4],
                             Texto: cols[5] || "",
                             Hora: hora,
-                            DetalleError: generateErrorDetail(cols[4], cols[5] || ""),
                             FechaDate: parseFechaToDate(fecha)
                         });
                     }
@@ -1654,8 +1461,6 @@ function applyDateFilter() {
     dateFilterActive = true;
     if (window.currentChartType === 'event') {
         showChart(filteredByDate);
-    } else if (window.currentChartType === 'omError') {
-        showOMErrorChart(filteredByDate);
     } else if (window.currentChartType === 'text') {
         showTextChart(filteredByDate);
     }
@@ -1669,8 +1474,6 @@ function resetDateFilter() {
     currentEndDate = null;
     if (window.currentChartType === 'event') {
         showChart();
-    } else if (window.currentChartType === 'omError') {
-        showOMErrorChart();
     } else if (window.currentChartType === 'text') {
         showTextChart();
     }
@@ -1692,21 +1495,20 @@ function renderTable(dataArray) {
             <td>${row.Event}</td>
             <td>${row.Texto}</td>
             <td>${row.Hora}</td>
-            <td>${row.DetalleError}</td>
         `;
         tbody.appendChild(tr);
     });
     if (dataArray.length > 1000) {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td colspan="9" style="text-align: center; background-color: #444; color: #ffcc00;">
+            <td colspan="8" style="text-align: center; background-color: #444; color: #ffcc00;">
                 Mostrando 1000 de ${dataArray.length} registros. Use los filtros para reducir los resultados.
             </td>
         `;
         tbody.appendChild(tr);
     }
     document.getElementById("dataTable").style.display = dataArray.length > 0 ? "table" : "none";
-    for (let i = 1; i <= 8; i++) {
+    for (let i = 1; i <= 7; i++) {
         document.getElementById(`filter${i}`).disabled = dataArray.length === 0;
     }
 }
@@ -1714,21 +1516,24 @@ function renderTable(dataArray) {
 function filterTable() {
     document.getElementById('loadingSpinner').style.display = 'block';
     document.getElementById('loadingOverlay').style.display = 'block';
-    const eventInput = document.getElementById("search").value.toLowerCase().trim();
     const textInput = document.getElementById("textSearch").value.toLowerCase().trim();
     const mobileInput = document.getElementById("mobileSearch").value.trim();
     const agentInput = document.getElementById("agentSearch").value.toLowerCase().trim();
-    const eventKeywords = eventInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
     const textKeywords = textInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
     const mobileKeywords = mobileInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
     const agentKeywords = agentInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
+    
+    // También filtrar por Event si hay texto en search (pero search fue eliminado, así que usamos textSearch para Event también)
+    // Para mantener compatibilidad con la funcionalidad original, si textSearch contiene # o números, buscar en Event
+    
     requestAnimationFrame(() => {
         let tempFilteredData = data.filter(row => {
-            const matchEvent = eventKeywords.length === 0 || eventKeywords.some(word => row.Event.toLowerCase().includes(word));
-            const matchText = textKeywords.length === 0 || textKeywords.some(word => row.Texto.toLowerCase().includes(word));
+            const matchText = textKeywords.length === 0 || textKeywords.some(word => 
+                row.Texto.toLowerCase().includes(word) || row.Event.toLowerCase().includes(word)
+            );
             const matchMobile = mobileKeywords.length === 0 || mobileKeywords.some(word => row.Movil.includes(word));
             const matchAgent = agentKeywords.length === 0 || agentKeywords.some(word => row.Agente.toLowerCase().includes(word));
-            return matchEvent && matchText && matchMobile && matchAgent;
+            return matchText && matchMobile && matchAgent;
         });
         if (modalDateFilterActive) {
             tempFilteredData = tempFilteredData.filter(item => {
@@ -1864,7 +1669,6 @@ function showChart(dataToUse) {
             plugins: [ChartDataLabels]
         });
         document.getElementById("eventChart").parentElement.style.display = "block";
-        document.getElementById("omErrorByHourChart").parentElement.style.display = "none";
         document.getElementById("textByHourChart").parentElement.style.display = "none";
         document.getElementById("dataTable").style.display = "none";
         document.getElementById("backBtn").style.display = "inline-block";
@@ -1901,166 +1705,6 @@ function downloadExcel() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Resultados");
     XLSX.writeFile(workbook, 'resultado_busqueda.xlsx');
-}
-
-function generateErrorDetail(event, text) {
-    const eventText = `${event} ${text}`.toLowerCase();
-    for (const entry of knownErrors) {
-        if (eventText.includes(entry.error.toLowerCase())) {
-            return entry.comentario;
-        }
-    }
-    return "Sin detalles";
-}
-
-function showOMErrorChart(dataToUse) {
-    document.getElementById('loadingSpinner').style.display = 'block';
-    document.getElementById('loadingOverlay').style.display = 'block';
-    const chartData = dataToUse || filteredData;
-    window.currentChartType = 'omError';
-    if (chartData.length === 0) {
-        alert("No hay datos filtrados para mostrar en el gráfico.");
-        document.getElementById('loadingSpinner').style.display = 'none';
-        document.getElementById('loadingOverlay').style.display = 'none';
-        return;
-    }
-    document.getElementById("dateFilterContainer").style.display = "block";
-    requestAnimationFrame(() => {
-        let chartTitle1 = "Cantidad por tipo de error";
-        let chartTitle2 = "Detalles de error por hora";
-        if (dateFilterActive) {
-            const startStr = currentStartDate.toLocaleDateString('es-ES');
-            const endStr = currentEndDate.toLocaleDateString('es-ES');
-            const dateRange = ` (${startStr} - ${endStr})`;
-            chartTitle1 += dateRange;
-            chartTitle2 += dateRange;
-        }
-        const countMap = {};
-        chartData.forEach(row => {
-            const detail = row.DetalleError;
-            countMap[detail] = (countMap[detail] || 0) + 1;
-        });
-        const labels1 = Object.keys(countMap);
-        const counts1 = Object.values(countMap);
-        const ctx1 = document.getElementById("eventChart").getContext("2d");
-        if (window.eventChartInstance) window.eventChartInstance.destroy();
-        window.eventChartInstance = new Chart(ctx1, {
-            type: "bar",
-            data: {
-                labels: labels1,
-                datasets: [{
-                    label: chartTitle1,
-                    data: counts1,
-                    backgroundColor: "rgb(255, 215, 0)"
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    datalabels: {
-                        color: '#000',
-                        anchor: 'center',
-                        align: 'center',
-                        font: { weight: 'bold' },
-                        formatter: Math.round,
-                        clip: false
-                    },
-                    legend: { display: false },
-                    tooltip: { enabled: true }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: "Tipo de Error" },
-                        ticks: {
-                            autoSkip: false,
-                            maxRotation: 45,
-                            minRotation: 45
-                        }
-                    },
-                    y: {
-                        title: { display: true, text: "Cantidad" },
-                        beginAtZero: true,
-                        ticks: { precision: 0 }
-                    }
-                }
-            },
-            plugins: [ChartDataLabels]
-        });
-        const detailByHourMap = {};
-        chartData.forEach(row => {
-            const hour = row.Hora;
-            const detail = row.DetalleError;
-            const key = `${hour} - ${detail}`;
-            detailByHourMap[key] = (detailByHourMap[key] || 0) + 1;
-        });
-        const entries2 = Object.entries(detailByHourMap);
-        entries2.sort((a, b) => {
-            const [hourA, detailA] = a[0].split(' - ');
-            const [hourB, detailB] = b[0].split(' - ');
-            if (parseInt(hourA) !== parseInt(hourB)) {
-                return parseInt(hourA) - parseInt(hourB);
-            }
-            return detailA.localeCompare(detailB);
-        });
-        const labels2 = entries2.map(entry => entry[0]);
-        const counts2 = entries2.map(entry => entry[1]);
-        const ctx2 = document.getElementById("omErrorByHourChart").getContext("2d");
-        if (window.omErrorByHourChartInstance) window.omErrorByHourChartInstance.destroy();
-        window.omErrorByHourChartInstance = new Chart(ctx2, {
-            type: "bar",
-            data: {
-                labels: labels2,
-                datasets: [{
-                    label: chartTitle2,
-                    data: counts2,
-                    backgroundColor: "rgb(128, 200, 255)"
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    datalabels: {
-                        color: '#000',
-                        anchor: 'center',
-                        align: 'center',
-                        font: { weight: 'bold' },
-                        formatter: Math.round,
-                        clip: false
-                    },
-                    legend: { display: false },
-                    tooltip: { enabled: true }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: "Hora - Detalles de error" },
-                        ticks: {
-                            autoSkip: false,
-                            maxRotation: 45,
-                            minRotation: 45
-                        }
-                    },
-                    y: {
-                        title: { display: true, text: "Cantidad" },
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0,
-                            stepSize: 50
-                        }
-                    }
-                }
-            },
-            plugins: [ChartDataLabels]
-        });
-        document.getElementById("eventChart").parentElement.style.display = "block";
-        document.getElementById("omErrorByHourChart").parentElement.style.display = "block";
-        document.getElementById("textByHourChart").parentElement.style.display = "none";
-        document.getElementById("dataTable").style.display = "none";
-        document.getElementById("backBtn").style.display = "inline-block";
-        document.getElementById('loadingSpinner').style.display = 'none';
-        document.getElementById('loadingOverlay').style.display = 'none';
-    });
 }
 
 function showTextChart(dataToUse) {
@@ -2238,7 +1882,6 @@ function showTextChart(dataToUse) {
         });
         document.getElementById("eventChart").parentElement.style.display = "block";
         document.getElementById("textByHourChart").parentElement.style.display = "block";
-        document.getElementById("omErrorByHourChart").parentElement.style.display = "none";
         document.getElementById("dataTable").style.display = "none";
         document.getElementById("backBtn").style.display = "inline-block";
         document.getElementById('loadingSpinner').style.display = 'none';
@@ -2248,50 +1891,6 @@ function showTextChart(dataToUse) {
 
 window.onload = function() {
     setupEnterKey();
-    document.getElementById("cerrar").addEventListener("click", function () {
-        document.getElementById("cuadro-flotante").style.display = "none";
-    });
-    const cuadro = document.getElementById("cuadro-flotante");
-    let isDragging = false;
-    let offsetX, offsetY;
-    cuadro.addEventListener("mousedown", function (e) {
-        if (e.target.id === "cerrar") return;
-        isDragging = true;
-        offsetX = e.clientX - cuadro.offsetLeft;
-        offsetY = e.clientY - cuadro.offsetTop;
-        cuadro.style.cursor = "grabbing";
-    });
-    document.addEventListener("mousemove", function (e) {
-        if (isDragging) {
-            cuadro.style.left = `${e.clientX - offsetX}px`;
-            cuadro.style.top = `${e.clientY - offsetY}px`;
-            cuadro.style.bottom = "auto";
-        }
-    });
-    document.addEventListener("mouseup", function () {
-        isDragging = false;
-        cuadro.style.cursor = "move";
-    });
-    document.querySelectorAll('.copiable').forEach(element => {
-        element.addEventListener('dblclick', function() {
-            const texto = this.getAttribute('data-text') || this.textContent;
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(texto).then(() => {
-                    this.classList.add('copiado');
-                    setTimeout(() => this.classList.remove('copiado'), 1000);
-                }).catch(() => {
-                    const textarea = document.createElement('textarea');
-                    textarea.value = texto;
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-                    this.classList.add('copiado');
-                    setTimeout(() => this.classList.remove('copiado'), 1000);
-                });
-            }
-        });
-    });
 };
 
 function goToLicencias() {
@@ -2579,6 +2178,7 @@ function generarGraficoPastel() {
         },
         options: {
             responsive: false,
+            maintainAspectRatio: false,
             plugins: {
                 legend: { display: false },
                 datalabels: {
@@ -3175,24 +2775,6 @@ async function copiarGraficoComoImagen() {
         }
     });
 }
-
-function openManual() {
-    document.getElementById('manualModal').style.display = 'block';
-}
-
-function closeManual() {
-    document.getElementById('manualModal').style.display = 'none';
-}
-
-function toggleFAQ(id) {
-    const element = document.getElementById(id);
-    element.style.display = element.style.display === 'none' ? 'block' : 'none';
-}
-
-window.onclick = function(event) {
-    const modal = document.getElementById('manualModal');
-    if (event.target === modal) closeManual();
-};
 </script>
 </body>
 </html>
