@@ -110,6 +110,14 @@
         #pendientesBtn { background: var(--accent); color: #fff; }
         #pendientesBtn:hover { background: var(--accent-dark); }
 
+        #conexionesBtn {
+            background: #6f42c1;
+            color: #fff;
+        }
+        #conexionesBtn:hover {
+            background: #5a32a3;
+        }
+
         .custom-file-btn {
             background: #2d6a4f;
             color: #fff;
@@ -735,6 +743,345 @@
             width: 100%;
         }
 
+        /* ===== ESTILOS PARA LA TABLA DE CONEXIONES CON FILTRO ===== */
+        #tablaConexiones {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        #tablaConexiones thead th {
+            background: #6f42c1;
+            color: #ffffff;
+            padding: 12px 14px;
+            font-weight: 600;
+            text-align: left;
+            border-bottom: 2px solid #5a32a3;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        #tablaConexiones tbody td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #f1f3f5;
+        }
+
+        #tablaConexiones tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        #tablaConexiones tbody tr:nth-child(even) {
+            background: #fcfcfd;
+        }
+
+        .conexiones-search-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 16px;
+            border: 1px solid #f1f3f5;
+        }
+
+        .conexiones-search-wrapper label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .conexiones-search-wrapper input {
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid #e9ecef;
+            font-size: 0.9rem;
+            width: 280px;
+            transition: var(--transition);
+            background: #f8f9fa;
+            font-family: inherit;
+        }
+
+        .conexiones-search-wrapper input:focus {
+            outline: none;
+            border-color: #6f42c1;
+            box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.15);
+            background: #fff;
+        }
+
+        .conexiones-search-wrapper input::placeholder {
+            color: #adb5bd;
+        }
+
+        .conexiones-total {
+            font-weight: 600;
+            color: var(--secondary);
+            font-size: 0.95rem;
+            padding: 6px 16px;
+            background: #eef2f7;
+            border-radius: 50px;
+        }
+
+        .conexiones-total span {
+            color: #6f42c1;
+            font-weight: 700;
+        }
+
+        /* ===== ESTILOS PARA LÍNEA DE TIEMPO ===== */
+        .timeline-container {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #f1f3f5;
+        }
+
+        .timeline-container h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .timeline-container h2 .badge-alert {
+            background: #dc3545;
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .timeline-container h2 .badge-alert:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .timeline-container h2 .badge-alert.active-filter {
+            background: #28a745;
+        }
+
+        .timeline-user {
+            background: var(--bg-card);
+            border: 1px solid #e9ecef;
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+
+        .timeline-user:hover {
+            box-shadow: var(--shadow-sm);
+        }
+
+        .timeline-user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .timeline-user-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+        }
+
+        .timeline-user-name .alert-icon {
+            color: #dc3545;
+            margin-left: 8px;
+            font-size: 1.1rem;
+        }
+
+        .timeline-user-stats {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .timeline-user-stats span {
+            background: #f1f3f5;
+            padding: 2px 10px;
+            border-radius: 50px;
+        }
+
+        .timeline-track {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 4px 0;
+            min-height: 32px;
+            align-items: center;
+        }
+
+        .timeline-item {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: default;
+            transition: var(--transition);
+            border: 1px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+
+        .timeline-item:hover {
+            transform: scale(1.05);
+            z-index: 2;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .timeline-item .estado-nombre {
+            font-size: 0.7rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .timeline-item .estado-duracion {
+            font-size: 0.55rem;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-top: 1px;
+        }
+
+        .timeline-item.alerta {
+            border-color: #dc3545;
+            animation: pulse-alert 1.5s ease-in-out infinite;
+            position: relative;
+        }
+
+        .timeline-item.alerta::after {
+            content: "⚠️";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes pulse-alert {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+            50% { box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.1); }
+        }
+
+        .timeline-item.estado-linea { background: #ffd700; color: #000; }
+        .timeline-item.estado-fin-turno { background: #6c757d; color: #fff; }
+        .timeline-item.estado-conectado { background: #28a745; color: #fff; }
+        .timeline-item.estado-desconectado { background: #dc3545; color: #fff; }
+        .timeline-item.estado-pausa { background: #ffc107; color: #000; }
+        .timeline-item.estado-almuerzo { background: #fd7e14; color: #fff; }
+        .timeline-item.estado-ocupado { background: #007bff; color: #fff; }
+        .timeline-item.estado-disponible { background: #17a2b8; color: #fff; }
+        .timeline-item.estado-casos-fin-turno { background: #8b0000; color: #fff; }
+        .timeline-item.estado-gestion-bo { background: #6c3483; color: #fff; }
+        .timeline-item.estado-en-bano { background: #1a5276; color: #fff; }
+        .timeline-item.estado-en-break { background: #7d6608; color: #fff; }
+        .timeline-item.estado-default { background: #e9ecef; color: #000; }
+
+        /* Tabla de resumen de tiempos */
+        .resumen-tiempos-container {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #f1f3f5;
+        }
+
+        .resumen-tiempos-container h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 12px;
+        }
+
+        #tablaResumenTiempos {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        #tablaResumenTiempos th {
+            background: #f1f3f5;
+            padding: 8px 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #dee2e6;
+            position: sticky;
+            top: 0;
+        }
+
+        #tablaResumenTiempos td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f3f5;
+        }
+
+        #tablaResumenTiempos tr:hover {
+            background: #f8f9fa;
+        }
+
+        #tablaResumenTiempos .total-row {
+            background: #f1f3f5;
+            font-weight: 600;
+        }
+
+        .alert-row {
+            background: #fff5f5 !important;
+            border-left: 4px solid #dc3545;
+        }
+
+        .alert-row td:first-child::before {
+            content: "⚠️ ";
+        }
+
+        .conexiones-table-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .badge-alerta {
+            background: #dc3545;
+            color: #fff;
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 50px;
+            margin-left: 6px;
+        }
+
+        /* Filtro de alertas activo */
+        .filtering-alerts .timeline-user:not(.has-alert) {
+            display: none;
+        }
+
+        .filtering-alerts .timeline-user.has-alert {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             body { padding: 12px; }
             .main-header h1 { font-size: 1.5rem; }
@@ -772,6 +1119,37 @@
             #graficoPastel {
                 max-height: 320px !important;
                 min-height: 280px !important;
+            }
+            .conexiones-search-wrapper input {
+                width: 100%;
+            }
+            .conexiones-search-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .timeline-track {
+                gap: 4px;
+            }
+            .timeline-item {
+                font-size: 0.65rem;
+                padding: 4px 8px;
+                min-width: 40px;
+            }
+            .timeline-item .estado-nombre {
+                font-size: 0.6rem;
+            }
+            .timeline-item .estado-duracion {
+                font-size: 0.5rem;
+            }
+            .timeline-user-stats {
+                font-size: 0.7rem;
+            }
+            #tablaResumenTiempos {
+                font-size: 0.65rem;
+            }
+            #tablaResumenTiempos th,
+            #tablaResumenTiempos td {
+                padding: 3px 5px;
             }
         }
 
@@ -826,6 +1204,41 @@
             transition: var(--transition);
         }
         #tablaReporteAgentes th:hover { background: #e9ecef; }
+
+        .registros-adicionales {
+            padding: 12px;
+            text-align: center;
+            background: #f8f9fa;
+            color: #6c757d;
+            font-style: italic;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .btn-timeline {
+            background: #6f42c1;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+        }
+
+        .btn-timeline:hover {
+            background: #5a32a3;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-timeline.active {
+            background: #dc3545;
+        }
+
+        .btn-timeline.active:hover {
+            background: #c1121f;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
@@ -848,6 +1261,7 @@
         <button onclick="goToPPT()" id="pptBtn">📊 PPT semanal</button>
         <button onclick="goToCasosOM()" id="casosOMBtn">📁 Casos OM</button>
         <button onclick="goToPendientes()" id="pendientesBtn">📌 Pendientes</button>
+        <button onclick="goToConexiones()" id="conexionesBtn">🔌 Conexiones</button>
 
         <label for="fileInput" class="custom-file-btn">
             📁 Cargar documentos
@@ -907,7 +1321,7 @@
             <div class="modal-body">
                 <label for="modalStartDate">Fecha desde:</label>
                 <input type="text" id="modalStartDate" class="flatpickr-input" placeholder="Seleccione fecha inicio">
-                
+               
                 <label for="modalEndDate">Fecha hasta:</label>
                 <input type="text" id="modalEndDate" class="flatpickr-input" placeholder="Seleccione fecha fin">
             </div>
@@ -925,11 +1339,12 @@
                     <th>#</th>
                     <th onclick="sortTable(1)">Fecha<span class="sort-icon">↕</span><br><input class="filter-input" id="filter1" onkeyup="columnFilter(1, this.value)" placeholder="Filtrar" disabled></th>
                     <th onclick="sortTable(2)">Agente<span class="sort-icon">↕</span><br><input class="filter-input" id="filter2" onkeyup="columnFilter(2, this.value)" placeholder="Filtrar" disabled></th>
-                    <th onclick="sortTable(3)">Movil<span class="sort-icon">↕</span><br><input class="filter-input" id="filter3" onkeyup="columnFilter(3, this.value)" placeholder="Filtrar" disabled></th>
-                    <th onclick="sortTable(4)">Remoto<span class="sort-icon">↕</span><br><input class="filter-input" id="filter4" onkeyup="columnFilter(4, this.value)" placeholder="Filtrar" disabled></th>
-                    <th onclick="sortTable(5)">Event<span class="sort-icon">↕</span><br><input class="filter-input" id="filter5" onkeyup="columnFilter(5, this.value)" placeholder="Filtrar" disabled></th>
-                    <th onclick="sortTable(6)">Texto<span class="sort-icon">↕</span><br><input class="filter-input" id="filter6" onkeyup="columnFilter(6, this.value)" placeholder="Filtrar" disabled></th>
-                    <th onclick="sortTable(7)">Hora<span class="sort-icon">↕</span><br><input class="filter-input" id="filter7" onkeyup="columnFilter(7, this.value)" placeholder="Filtrar" disabled></th>
+                    <th onclick="sortTable(3)">Supervisor<span class="sort-icon">↕</span><br><input class="filter-input" id="filter3" onkeyup="columnFilter(3, this.value)" placeholder="Filtrar" disabled></th>
+                    <th onclick="sortTable(4)">Movil<span class="sort-icon">↕</span><br><input class="filter-input" id="filter4" onkeyup="columnFilter(4, this.value)" placeholder="Filtrar" disabled></th>
+                    <th onclick="sortTable(5)">Remoto<span class="sort-icon">↕</span><br><input class="filter-input" id="filter5" onkeyup="columnFilter(5, this.value)" placeholder="Filtrar" disabled></th>
+                    <th onclick="sortTable(6)">Event<span class="sort-icon">↕</span><br><input class="filter-input" id="filter6" onkeyup="columnFilter(6, this.value)" placeholder="Filtrar" disabled></th>
+                    <th onclick="sortTable(7)">Texto<span class="sort-icon">↕</span><br><input class="filter-input" id="filter7" onkeyup="columnFilter(7, this.value)" placeholder="Filtrar" disabled></th>
+                    <th onclick="sortTable(8)">Hora<span class="sort-icon">↕</span><br><input class="filter-input" id="filter8" onkeyup="columnFilter(8, this.value)" placeholder="Filtrar" disabled></th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -1109,6 +1524,91 @@
     </div>
 </div>
 
+<!-- ===== PÁGINA DE CONEXIONES CON LÍNEA DE TIEMPO ===== -->
+<div id="conexionesPage" style="display:none; text-align:center;">
+
+    <h1 style="color:#6f42c1;font-weight:700;">
+        🔌 Conexiones - Línea de Tiempo
+    </h1>
+
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:12px 0;">
+        <button onclick="backFromConexiones()"
+            style="background:#6c757d;color:white;border:none;padding:10px 24px;border-radius:50px;font-weight:600;cursor:pointer;">
+            ⬅ Volver
+        </button>
+
+        <label for="conexionesFileInput" class="custom-file-btn">
+            📁 Cargar archivo
+        </label>
+
+        <input type="file" id="conexionesFileInput" accept=".csv" hidden>
+
+        <button id="toggleTimelineBtn" class="btn-timeline active" onclick="toggleTimelineView()">
+            📊 Ver Línea de Tiempo
+        </button>
+    </div>
+
+    <!-- Buscador y contador de resultados -->
+    <div class="conexiones-search-wrapper">
+        <label>
+            🔍 Buscar usuario:
+            <input type="text" id="conexionesSearchInput" placeholder="Escribe el nombre del usuario..." oninput="filtrarConexiones()">
+        </label>
+        <div class="conexiones-total">
+            Total de resultados: <span id="conexionesTotalCount">0</span>
+        </div>
+    </div>
+
+    <!-- Tabla de datos original -->
+    <div class="conexiones-table-container" id="tablaOriginalContainer">
+        <table id="tablaConexiones" style="display:none; width:100%;">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Duración</th>
+                    <th>Estado</th>
+                    <th>Descripción</th>
+                    <th>Casos Abiertos</th>
+                </tr>
+            </thead>
+            <tbody id="conexionesTbody"></tbody>
+        </table>
+    </div>
+
+    <!-- Línea de Tiempo -->
+    <div id="timelineView" class="timeline-container">
+        <h2>
+            ⏳ Línea de Tiempo por Usuario
+            <span class="badge-alert" id="alertCount" onclick="toggleAlertFilter()">0 alertas</span>
+        </h2>
+        <div id="timelineContent"></div>
+    </div>
+
+    <!-- Tabla de resumen de tiempos -->
+    <div id="resumenView" class="resumen-tiempos-container">
+        <h3>📊 Resumen de Tiempos por Usuario</h3>
+        <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+            <table id="tablaResumenTiempos">
+                <thead id="resumenThead">
+                    <tr id="resumenHeaderRow">
+                        <th>Usuario</th>
+                        <th>Alertas</th>
+                    </tr>
+                </thead>
+                <tbody id="resumenTbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Mensaje cuando no hay datos -->
+    <div id="conexionesSinDatos" style="padding: 30px; color: #6c757d; font-size: 1.1rem; display: none;">
+        No hay datos de conexiones cargados. Por favor, carga un archivo CSV.
+    </div>
+
+</div>
+
 <div id="modalReporteAgentes">
     <div>
         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1138,8 +1638,7 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
-// ===== TODAS LAS FUNCIONES ORIGINALES =====
-
+// ===== VARIABLES GLOBALES =====
 let data = [];
 let filteredData = [];
 let availableDates = [];
@@ -1163,6 +1662,29 @@ let mapaLicencias = {};
 let dataLicencias = [];
 let posicionesLabels = {};
 let graficoCasosOMInstance = null;
+
+// Variables para conexiones
+let conexionesData = [];
+let conexionesFiltradas = [];
+let showTimeline = true;
+let alertFilterActive = false;
+
+// Mapeo de colores para estados
+const estadoColores = {
+    'línea': 'estado-linea',
+    'linea': 'estado-linea',
+    'fin de turno': 'estado-fin-turno',
+    'casos fin de turno': 'estado-casos-fin-turno',
+    'conectado': 'estado-conectado',
+    'desconectado': 'estado-desconectado',
+    'pausa': 'estado-pausa',
+    'almuerzo': 'estado-almuerzo',
+    'ocupado': 'estado-ocupado',
+    'disponible': 'estado-disponible',
+    'gestión bo': 'estado-gestion-bo',
+    'en baño': 'estado-en-bano',
+    'en break': 'estado-en-break'
+};
 
 const textosPendientes = [
     "caso marcado pendiente",
@@ -1203,11 +1725,12 @@ function sortTable(columnIndex) {
         switch(columnIndex) {
             case 1: valueA = a.Fecha; valueB = b.Fecha; break;
             case 2: valueA = a.Agente; valueB = b.Agente; break;
-            case 3: valueA = a.Movil; valueB = b.Movil; break;
-            case 4: valueA = a.Remoto; valueB = b.Remoto; break;
-            case 5: valueA = a.Event; valueB = b.Event; break;
-            case 6: valueA = a.Texto; valueB = b.Texto; break;
-            case 7: valueA = a.Hora; valueB = b.Hora; break;
+            case 3: valueA = a.Supervisor || ""; valueB = b.Supervisor || ""; break;
+            case 4: valueA = a.Movil; valueB = b.Movil; break;
+            case 5: valueA = a.Remoto; valueB = b.Remoto; break;
+            case 6: valueA = a.Event; valueB = b.Event; break;
+            case 7: valueA = a.Texto; valueB = b.Texto; break;
+            case 8: valueA = a.Hora; valueB = b.Hora; break;
             default: return 0;
         }
         if (valueA < valueB) return -1 * sortDirection;
@@ -1326,12 +1849,18 @@ function processCSVFile(file) {
                     if (cols.length >= 6) {
                         const fecha = cols[0];
                         const hora = fecha.match(/\b(\d{1,2}):/) ? fecha.match(/\b(\d{1,2}):/)[1] : "";
+                        const agente = cols[1] || "";
+                        const usuarioOM = agente.toLowerCase().trim();
+                        const licencia = mapaLicencias[usuarioOM] || {};
+                        const supervisor = licencia.Supervisor || "";
+                       
                         fileData.push({
                             Fecha: fecha,
-                            Agente: cols[1],
-                            Movil: cols[2],
-                            Remoto: cols[3],
-                            Event: cols[4],
+                            Agente: agente,
+                            Supervisor: supervisor,
+                            Movil: cols[2] || "",
+                            Remoto: cols[3] || "",
+                            Event: cols[4] || "",
                             Texto: cols[5] || "",
                             Hora: hora,
                             FechaDate: parseFechaToDate(fecha)
@@ -1353,9 +1882,49 @@ function processCSVFile(file) {
     });
 }
 
+function cargarLicenciasInicial() {
+    const urlLicencias = "https://raw.githubusercontent.com/teamdigitalrrss-jpg/tNPS-diario/main/Licencias.xlsx";
+    fetch(urlLicencias)
+        .then(res => res.arrayBuffer())
+        .then(data => {
+            const workbook = XLSX.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            dataLicencias = XLSX.utils.sheet_to_json(sheet);
+            mapaLicencias = {};
+            dataLicencias.forEach(row => {
+                const usuario = (row["Usuario nuevo"] || "").toLowerCase().trim();
+                if (usuario) {
+                    mapaLicencias[usuario] = {
+                        Supervisor: row["Supervisor"] || "",
+                        Site: row["Site"] || "",
+                        Area: row["Area"] || ""
+                    };
+                }
+            });
+        })
+        .catch(error => {
+            console.error("Error cargando Excel de licencias:", error);
+        });
+}
+
+cargarLicenciasInicial();
+
 document.getElementById('fileInput').addEventListener('change', function(e) {
     const files = e.target.files;
     if (!files || files.length === 0) return;
+   
+    if (Object.keys(mapaLicencias).length === 0) {
+        cargarLicenciasInicial();
+        setTimeout(() => {
+            procesarArchivos(files);
+        }, 1000);
+    } else {
+        procesarArchivos(files);
+    }
+});
+
+function procesarArchivos(files) {
     document.getElementById('loadingSpinner').style.display = 'block';
     document.getElementById('loadingOverlay').style.display = 'block';
     document.getElementById('progressContainer').style.display = 'block';
@@ -1379,7 +1948,7 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
         document.getElementById('progressContainer').style.display = 'none';
         alert('Error al procesar los archivos: ' + error.message);
     });
-});
+}
 
 function extractAvailableDates() {
     const dateSet = new Set();
@@ -1488,27 +2057,28 @@ function renderTable(dataArray) {
         const tr = document.createElement("tr");
         tr.innerHTML = `
             <td>${index + 1}</td>
-            <td>${row.Fecha}</td>
-            <td>${row.Agente}</td>
-            <td>${row.Movil}</td>
-            <td>${row.Remoto}</td>
-            <td>${row.Event}</td>
-            <td>${row.Texto}</td>
-            <td>${row.Hora}</td>
+            <td>${row.Fecha || ""}</td>
+            <td>${row.Agente || ""}</td>
+            <td>${row.Supervisor || ""}</td>
+            <td>${row.Movil || ""}</td>
+            <td>${row.Remoto || ""}</td>
+            <td>${row.Event || ""}</td>
+            <td>${row.Texto || ""}</td>
+            <td>${row.Hora || ""}</td>
         `;
         tbody.appendChild(tr);
     });
     if (dataArray.length > 1000) {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td colspan="8" style="text-align: center; background-color: #444; color: #ffcc00;">
+            <td colspan="9" style="text-align: center; background-color: #444; color: #ffcc00;">
                 Mostrando 1000 de ${dataArray.length} registros. Use los filtros para reducir los resultados.
             </td>
         `;
         tbody.appendChild(tr);
     }
     document.getElementById("dataTable").style.display = dataArray.length > 0 ? "table" : "none";
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 1; i <= 8; i++) {
         document.getElementById(`filter${i}`).disabled = dataArray.length === 0;
     }
 }
@@ -1522,13 +2092,10 @@ function filterTable() {
     const textKeywords = textInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
     const mobileKeywords = mobileInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
     const agentKeywords = agentInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
-    
-    // También filtrar por Event si hay texto en search (pero search fue eliminado, así que usamos textSearch para Event también)
-    // Para mantener compatibilidad con la funcionalidad original, si textSearch contiene # o números, buscar en Event
-    
+   
     requestAnimationFrame(() => {
         let tempFilteredData = data.filter(row => {
-            const matchText = textKeywords.length === 0 || textKeywords.some(word => 
+            const matchText = textKeywords.length === 0 || textKeywords.some(word =>
                 row.Texto.toLowerCase().includes(word) || row.Event.toLowerCase().includes(word)
             );
             const matchMobile = mobileKeywords.length === 0 || mobileKeywords.some(word => row.Movil.includes(word));
@@ -1907,6 +2474,7 @@ function backToMain() {
     document.getElementById("pptPage").style.display = "none";
     document.getElementById("casosOMPage").style.display = "none";
     document.getElementById("pendientesPage").style.display = "none";
+    document.getElementById("conexionesPage").style.display = "none";
 }
 
 const urlLicencias = "https://raw.githubusercontent.com/teamdigitalrrss-jpg/tNPS-diario/main/Licencias.xlsx";
@@ -2261,6 +2829,418 @@ document.addEventListener("input", function(e) {
     }
 });
 
+// ===== FUNCIONES DE CONEXIONES CON LÍNEA DE TIEMPO =====
+
+function goToConexiones() {
+    document.getElementById("mainContent").style.display = "none";
+    document.getElementById("licenciasPage").style.display = "none";
+    document.getElementById("pptPage").style.display = "none";
+    document.getElementById("casosOMPage").style.display = "none";
+    document.getElementById("pendientesPage").style.display = "none";
+    document.getElementById("conexionesPage").style.display = "block";
+   
+    if (conexionesData.length === 0) {
+        document.getElementById("conexionesSinDatos").style.display = "block";
+        document.getElementById("tablaConexiones").style.display = "none";
+        document.querySelector(".conexiones-search-wrapper").style.display = "none";
+        document.getElementById("timelineView").style.display = "none";
+        document.getElementById("resumenView").style.display = "none";
+    } else {
+        document.getElementById("conexionesSinDatos").style.display = "none";
+        document.getElementById("tablaConexiones").style.display = "table";
+        document.querySelector(".conexiones-search-wrapper").style.display = "flex";
+        actualizarVistas();
+    }
+}
+
+function backFromConexiones() {
+    document.getElementById("conexionesPage").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+}
+
+function toggleTimelineView() {
+    showTimeline = !showTimeline;
+    const btn = document.getElementById('toggleTimelineBtn');
+    if (showTimeline) {
+        btn.textContent = '📊 Ver Línea de Tiempo';
+        btn.classList.add('active');
+        document.getElementById('timelineView').style.display = 'block';
+        document.getElementById('resumenView').style.display = 'block';
+        document.getElementById('tablaOriginalContainer').style.display = 'block';
+    } else {
+        btn.textContent = '📊 Ver Tabla';
+        btn.classList.remove('active');
+        document.getElementById('timelineView').style.display = 'none';
+        document.getElementById('resumenView').style.display = 'none';
+        document.getElementById('tablaOriginalContainer').style.display = 'block';
+    }
+    filtrarConexiones();
+}
+
+function toggleAlertFilter() {
+    alertFilterActive = !alertFilterActive;
+    const badge = document.getElementById('alertCount');
+    const container = document.getElementById('timelineContent');
+   
+    if (alertFilterActive) {
+        badge.classList.add('active-filter');
+        badge.textContent = '🔍 Solo alertas';
+        container.classList.add('filtering-alerts');
+    } else {
+        badge.classList.remove('active-filter');
+        const totalAlertas = document.querySelectorAll('.timeline-user.has-alert').length;
+        badge.textContent = `${totalAlertas} alertas`;
+        container.classList.remove('filtering-alerts');
+    }
+    renderTimeline();
+}
+
+function actualizarContadorConexiones() {
+    const tbody = document.getElementById("conexionesTbody");
+    const filas = tbody.querySelectorAll("tr:not(.no-results-message)");
+    let total = 0;
+    filas.forEach(fila => {
+        const celdas = fila.querySelectorAll("td");
+        if (celdas.length > 0 && celdas[0].textContent.trim() !== "") {
+            total++;
+        }
+    });
+    document.getElementById("conexionesTotalCount").textContent = total;
+}
+
+function getEstadoClase(descripcion) {
+    const key = descripcion.toLowerCase().trim();
+    return estadoColores[key] || 'estado-default';
+}
+
+function calcularDuracion(inicio, fin) {
+    if (!inicio || !fin) return '';
+    try {
+        const parseFecha = (str) => {
+            const partes = str.trim().split(' ');
+            if (partes.length !== 2) return null;
+            const fecha = partes[0].split('-');
+            const hora = partes[1].split(':');
+            if (fecha.length !== 3 || hora.length !== 3) return null;
+            return new Date(
+                parseInt(fecha[2]),
+                parseInt(fecha[1]) - 1,
+                parseInt(fecha[0]),
+                parseInt(hora[0]),
+                parseInt(hora[1]),
+                parseInt(hora[2])
+            );
+        };
+        const fechaInicio = parseFecha(inicio);
+        const fechaFin = parseFecha(fin);
+        if (!fechaInicio || !fechaFin) return '';
+        const diffMs = fechaFin - fechaInicio;
+        if (diffMs <= 0) return '';
+        const diffSeg = Math.floor(diffMs / 1000);
+        const horas = Math.floor(diffSeg / 3600);
+        const minutos = Math.floor((diffSeg % 3600) / 60);
+        const segundos = diffSeg % 60;
+        if (horas > 0) {
+            return `${horas}h ${minutos.toString().padStart(2, '0')}m`;
+        } else if (minutos > 0) {
+            return `${minutos}m ${segundos.toString().padStart(2, '0')}s`;
+        } else {
+            return `${segundos}s`;
+        }
+    } catch (e) {
+        return '';
+    }
+}
+
+function tieneAlerta(registros) {
+    const sorted = [...registros].sort((a, b) => a.inicio.localeCompare(b.inicio));
+    for (let i = 0; i < sorted.length - 1; i++) {
+        const actual = sorted[i].descripcion.toLowerCase().trim();
+        const siguiente = sorted[i + 1].descripcion.toLowerCase().trim();
+        if ((actual === 'casos fin de turno' || actual === 'fin de turno') &&
+            (siguiente === 'línea' || siguiente === 'linea')) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function generarLineaTiempo(usuario, registros) {
+    const sorted = [...registros].sort((a, b) => a.inicio.localeCompare(b.inicio));
+    const hasAlert = tieneAlerta(registros);
+    const alertClass = hasAlert ? 'has-alert' : '';
+
+    let html = `<div class="timeline-user ${alertClass}">`;
+    html += `<div class="timeline-user-header">`;
+    html += `<span class="timeline-user-name">👤 ${usuario}`;
+   
+    if (hasAlert) {
+        html += `<span class="alert-icon" title="⚠️ Transición no permitida: Casos fin de turno → Línea">⚠️</span>`;
+    }
+    html += `</span>`;
+   
+    html += `<div class="timeline-user-stats">`;
+    html += `<span>📋 ${sorted.length} registros</span>`;
+    if (sorted.length > 0) {
+        html += `<span>▶️ ${sorted[0].descripcion || 'N/A'}</span>`;
+        html += `<span>◀️ ${sorted[sorted.length-1].descripcion || 'N/A'}</span>`;
+    }
+    html += `</div>`;
+    html += `</div>`;
+   
+    html += `<div class="timeline-track">`;
+   
+    sorted.forEach((reg, idx) => {
+        const clase = getEstadoClase(reg.descripcion);
+        const nombreEstado = reg.descripcion || 'Desconocido';
+        const duracion = calcularDuracion(reg.inicio, reg.fin);
+       
+        let esAlerta = false;
+        if (idx > 0) {
+            const anterior = sorted[idx - 1].descripcion.toLowerCase().trim();
+            const actual = reg.descripcion.toLowerCase().trim();
+            if ((anterior === 'casos fin de turno' || anterior === 'fin de turno') &&
+                (actual === 'línea' || actual === 'linea')) {
+                esAlerta = true;
+            }
+        }
+       
+        const alertaClass = esAlerta ? 'alerta' : '';
+        html += `<span class="timeline-item ${clase} ${alertaClass}" title="${nombreEstado} - ${duracion}">`;
+        html += `<span class="estado-nombre">${nombreEstado}</span>`;
+        if (duracion) {
+            html += `<span class="estado-duracion">⏱ ${duracion}</span>`;
+        }
+        html += `</span>`;
+    });
+   
+    html += `</div>`;
+    html += `</div>`;
+   
+    return html;
+}
+
+function generarResumenDinamico() {
+    const descripcionesSet = new Set();
+    const resumen = {};
+    let totalAlertas = 0;
+   
+    conexionesFiltradas.forEach(reg => {
+        const usuario = reg.usuario || 'Sin nombre';
+        const desc = reg.descripcion || 'Otros';
+        descripcionesSet.add(desc);
+        if (!resumen[usuario]) {
+            resumen[usuario] = {
+                estados: {},
+                tieneAlerta: false
+            };
+        }
+        resumen[usuario].estados[desc] = (resumen[usuario].estados[desc] || 0) + 1;
+    });
+   
+    for (const [usuario, data] of Object.entries(resumen)) {
+        const registrosUsuario = conexionesFiltradas.filter(r => r.usuario === usuario);
+        if (tieneAlerta(registrosUsuario)) {
+            data.tieneAlerta = true;
+            totalAlertas++;
+        }
+    }
+   
+    const descripciones = Array.from(descripcionesSet).sort();
+   
+    const headerRow = document.getElementById('resumenHeaderRow');
+    let headerHTML = '<th>Usuario</th>';
+    descripciones.forEach(desc => {
+        headerHTML += `<th>${desc}</th>`;
+    });
+    headerHTML += '<th>Alertas</th>';
+    headerRow.innerHTML = headerHTML;
+   
+    let html = '';
+    for (const [usuario, data] of Object.entries(resumen)) {
+        const estados = data.estados;
+        const alertaClass = data.tieneAlerta ? 'alert-row' : '';
+        html += `<tr class="${alertaClass}">`;
+        html += `<td><strong>${usuario}</strong></td>`;
+        descripciones.forEach(desc => {
+            html += `<td>${estados[desc] || 0}</td>`;
+        });
+        const alertCount = data.tieneAlerta ? '1' : '0';
+        html += `<td style="color: ${data.tieneAlerta ? '#dc3545' : '#28a745'}; font-weight: 600;">${data.tieneAlerta ? '⚠️ ' + alertCount : '✅'}</td>`;
+        html += `</tr>`;
+    }
+   
+    const badge = document.getElementById('alertCount');
+    if (!alertFilterActive) {
+        badge.textContent = `${totalAlertas} alertas`;
+    }
+   
+    return html;
+}
+
+function actualizarVistas() {
+    filtrarConexiones();
+}
+
+function filtrarConexiones() {
+    const searchTerm = document.getElementById("conexionesSearchInput").value.toLowerCase().trim();
+    const tbody = document.getElementById("conexionesTbody");
+    const filas = tbody.querySelectorAll("tr:not(.no-results-message)");
+    let visibleCount = 0;
+   
+    conexionesFiltradas = searchTerm ?
+        conexionesData.filter(row => (row.usuario || "").toLowerCase().includes(searchTerm)) :
+        [...conexionesData];
+   
+    filas.forEach(fila => {
+        const usuarioCell = fila.querySelector("td:first-child");
+        if (!usuarioCell) return;
+        const texto = usuarioCell.textContent.toLowerCase();
+        if (!searchTerm || texto.includes(searchTerm)) {
+            fila.style.display = "";
+            visibleCount++;
+        } else {
+            fila.style.display = "none";
+        }
+    });
+   
+    let mensajeFila = tbody.querySelector(".no-results-message");
+    if (visibleCount === 0 && conexionesData.length > 0) {
+        if (!mensajeFila) {
+            mensajeFila = document.createElement("tr");
+            mensajeFila.className = "no-results-message";
+            mensajeFila.innerHTML = `<td colspan="7" style="text-align:center; padding:30px; color:#6c757d;">No se encontraron resultados para la búsqueda.</td>`;
+            tbody.appendChild(mensajeFila);
+        }
+        mensajeFila.style.display = "";
+    } else if (mensajeFila) {
+        mensajeFila.style.display = "none";
+    }
+   
+    document.getElementById("conexionesTotalCount").textContent = visibleCount;
+   
+    if (showTimeline) {
+        document.getElementById('timelineView').style.display = 'block';
+        document.getElementById('resumenView').style.display = 'block';
+        renderTimeline();
+        renderResumen();
+    } else {
+        document.getElementById('timelineView').style.display = 'none';
+        document.getElementById('resumenView').style.display = 'none';
+    }
+}
+
+function renderTimeline() {
+    const container = document.getElementById('timelineContent');
+    container.innerHTML = '';
+    container.classList.remove('filtering-alerts');
+   
+    if (conexionesFiltradas.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color: #6c757d; padding: 20px;">No hay datos para mostrar en la línea de tiempo.</p>';
+        return;
+    }
+   
+    const grupos = {};
+    conexionesFiltradas.forEach(reg => {
+        const usuario = reg.usuario || 'Sin nombre';
+        if (!grupos[usuario]) grupos[usuario] = [];
+        grupos[usuario].push(reg);
+    });
+   
+    let totalAlertas = 0;
+    for (const [usuario, registros] of Object.entries(grupos)) {
+        container.innerHTML += generarLineaTiempo(usuario, registros);
+        if (tieneAlerta(registros)) totalAlertas++;
+    }
+   
+    const badge = document.getElementById('alertCount');
+    if (!alertFilterActive) {
+        badge.textContent = `${totalAlertas} alertas`;
+    }
+   
+    if (alertFilterActive) {
+        container.classList.add('filtering-alerts');
+        badge.textContent = '🔍 Solo alertas';
+    }
+}
+
+function renderResumen() {
+    const tbody = document.getElementById('resumenTbody');
+    tbody.innerHTML = generarResumenDinamico();
+}
+
+// ===== FUNCIONES DE PENDIENTES Y CASOS OM (sin cambios) =====
+// ... (las funciones de pendientes y casos OM se mantienen igual)
+
+// ===== EVENTO PARA CARGAR ARCHIVO DE CONEXIONES =====
+window.addEventListener("load", function () {
+    const input = document.getElementById("conexionesFileInput");
+    if (!input) return;
+
+    input.addEventListener("change", function (e) {
+        const archivo = e.target.files[0];
+        if (!archivo) return;
+
+        const lector = new FileReader();
+        lector.onload = function (ev) {
+            const lineas = ev.target.result.split(/\r?\n/).filter(x => x.trim() !== "");
+            const tbody = document.getElementById("conexionesTbody");
+            tbody.innerHTML = "";
+            conexionesData = [];
+
+            for (let i = 1; i < lineas.length; i++) {
+                const cols = lineas[i].split(";");
+                while (cols.length < 9) {
+                    cols.push("");
+                }
+
+                let estado = cols[6]?.trim() || "";
+                let descripcion = cols[7]?.trim() || "";
+
+                if (estado.toLowerCase() === "línea" || estado.toLowerCase() === "linea") {
+                    descripcion = "Línea";
+                }
+
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td>${cols[0]?.trim() || ""}</td>
+                    <td>${cols[1]?.trim() || ""}</td>
+                    <td>${cols[2]?.trim() || ""}</td>
+                    <td>${cols[3]?.trim() || ""}</td>
+                    <td>${estado}</td>
+                    <td>${descripcion}</td>
+                    <td>${cols[8]?.trim() || ""}</td>
+                `;
+                tbody.appendChild(fila);
+               
+                conexionesData.push({
+                    usuario: cols[0]?.trim() || "",
+                    inicio: cols[1]?.trim() || "",
+                    fin: cols[2]?.trim() || "",
+                    duracion: cols[3]?.trim() || "",
+                    estado: estado,
+                    descripcion: descripcion,
+                    casosAbiertos: cols[8]?.trim() || ""
+                });
+            }
+
+            const totalRegistros = conexionesData.length;
+            alert(`✅ Se cargaron ${totalRegistros} registros de conexiones.`);
+
+            document.getElementById("tablaConexiones").style.display = "table";
+            document.querySelector(".conexiones-search-wrapper").style.display = "flex";
+            document.getElementById("conexionesSinDatos").style.display = "none";
+            document.getElementById('timelineView').style.display = 'block';
+            document.getElementById('resumenView').style.display = 'block';
+           
+            actualizarVistas();
+            document.getElementById("conexionesSearchInput").value = "";
+        };
+        lector.readAsText(archivo, "ISO-8859-1");
+    });
+});
+
+// ===== FUNCIONES DE PENDIENTES Y CASOS OM (continuación) =====
 function goToPendientes() {
     if (Object.keys(mapaLicencias).length === 0) {
         cargarLicencias();
