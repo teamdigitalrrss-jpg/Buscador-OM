@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1748,6 +1749,7 @@
             <thead>
                 <tr>
                     <th>Usuario</th>
+                    <th>Supervisor</th>
                     <th>Inicio</th>
                     <th>Fin</th>
                     <th>Duración</th>
@@ -3507,7 +3509,7 @@ function filtrarConexiones() {
         if (!mensajeFila) {
             mensajeFila = document.createElement("tr");
             mensajeFila.className = "no-results-message";
-            mensajeFila.innerHTML = `<td colspan="7" style="text-align:center; padding:30px; color:#6c757d;">No se encontraron resultados para la búsqueda.</td>`;
+            mensajeFila.innerHTML = `<td colspan="8" style="text-align:center; padding:30px; color:#6c757d;">No se encontraron resultados para la búsqueda.</td>`;
             tbody.appendChild(mensajeFila);
         }
         mensajeFila.style.display = "";
@@ -4140,6 +4142,12 @@ window.addEventListener("load", function () {
                     cols.push("");
                 }
 
+                // Obtener usuario para buscar su supervisor en mapaLicencias
+                const usuario = cols[0]?.trim() || "";
+                const usuarioKey = usuario.toLowerCase().trim();
+                const licencia = mapaLicencias[usuarioKey] || {};
+                const supervisor = licencia.Supervisor || "";
+
                 let estado = cols[6]?.trim() || "";
                 let descripcion = cols[7]?.trim() || "";
 
@@ -4149,7 +4157,8 @@ window.addEventListener("load", function () {
 
                 const fila = document.createElement("tr");
                 fila.innerHTML = `
-                    <td>${cols[0]?.trim() || ""}</td>
+                    <td>${usuario}</td>
+                    <td>${supervisor}</td>
                     <td>${cols[1]?.trim() || ""}</td>
                     <td>${cols[2]?.trim() || ""}</td>
                     <td>${cols[3]?.trim() || ""}</td>
@@ -4160,7 +4169,8 @@ window.addEventListener("load", function () {
                 tbody.appendChild(fila);
                
                 conexionesData.push({
-                    usuario: cols[0]?.trim() || "",
+                    usuario: usuario,
+                    supervisor: supervisor,
                     inicio: cols[1]?.trim() || "",
                     fin: cols[2]?.trim() || "",
                     duracion: cols[3]?.trim() || "",
@@ -4191,4 +4201,3 @@ window.addEventListener("load", function () {
 </script>
 </body>
 </html>
-
