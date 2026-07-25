@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -743,7 +742,7 @@
             width: 100%;
         }
 
-        /* ===== ESTILOS PARA LA TABLA DE CONEXIONES CON FILTRO ===== */
+        /* ===== ESTILOS PARA LA TABLA DE CONEXIONES ===== */
         #tablaConexiones {
             width: 100%;
             border-collapse: collapse;
@@ -777,6 +776,108 @@
 
         #tablaConexiones tbody tr:nth-child(even) {
             background: #fcfcfd;
+        }
+
+        /* ===== ESTILOS PARA TABLA DE DURACIÓN POR ESTADO ===== */
+        .duracion-estados-container {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #f1f3f5;
+        }
+
+        .duracion-estados-container h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 12px;
+        }
+
+        #tablaDuracionEstados {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        #tablaDuracionEstados th {
+            background: #6f42c1;
+            color: #fff;
+            padding: 8px 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #5a32a3;
+            position: sticky;
+            top: 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        #tablaDuracionEstados th:hover {
+            background: #5a32a3;
+        }
+
+        #tablaDuracionEstados th .sort-icon {
+            font-size: 0.7rem;
+            margin-left: 4px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        #tablaDuracionEstados td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f3f5;
+        }
+
+        #tablaDuracionEstados tr:hover {
+            background: #f8f9fa;
+        }
+
+        .alert-row {
+            background: #fff5f5 !important;
+            border-left: 4px solid #dc3545;
+        }
+
+        /* ===== ESTILOS PARA TABLA DE RESUMEN (CONTEOS) ===== */
+        .resumen-tiempos-container {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #f1f3f5;
+        }
+
+        .resumen-tiempos-container h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 12px;
+        }
+
+        #tablaResumenTiempos {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        #tablaResumenTiempos th {
+            background: #f1f3f5;
+            padding: 8px 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #dee2e6;
+            position: sticky;
+            top: 0;
+        }
+
+        #tablaResumenTiempos td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f3f5;
+        }
+
+        #tablaResumenTiempos tr:hover {
+            background: #f8f9fa;
         }
 
         .conexiones-search-wrapper {
@@ -838,6 +939,11 @@
             font-weight: 700;
         }
 
+        .conexiones-table-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
         /* ===== ESTILOS PARA LÍNEA DE TIEMPO ===== */
         .timeline-container {
             background: var(--bg-card);
@@ -855,28 +961,35 @@
             margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
         .timeline-container h2 .badge-alert {
             background: #dc3545;
             color: #fff;
-            font-size: 0.7rem;
-            padding: 4px 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 8px 24px;
             border-radius: 50px;
             cursor: pointer;
             transition: var(--transition);
-            border: none;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 16px rgba(220, 53, 69, 0.4);
         }
 
         .timeline-container h2 .badge-alert:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-sm);
+            transform: scale(1.08);
+            box-shadow: 0 4px 24px rgba(220, 53, 69, 0.6);
         }
 
         .timeline-container h2 .badge-alert.active-filter {
             background: #28a745;
+            box-shadow: 0 4px 16px rgba(40, 167, 69, 0.4);
+        }
+
+        .timeline-container h2 .badge-alert.active-filter:hover {
+            box-shadow: 0 4px 24px rgba(40, 167, 69, 0.6);
         }
 
         .timeline-user {
@@ -970,23 +1083,55 @@
             margin-top: 1px;
         }
 
+        /* ===== ALERTA MÁS VISIBLE EN LÍNEA DE TIEMPO ===== */
         .timeline-item.alerta {
-            border-color: #dc3545;
-            animation: pulse-alert 1.5s ease-in-out infinite;
+            border: 3px solid #dc3545 !important;
+            animation: pulse-alert-strong 1.2s ease-in-out infinite;
             position: relative;
+            box-shadow: 0 0 20px rgba(220, 53, 69, 0.5);
+            transform: scale(1.05);
+            z-index: 5;
+        }
+
+        .timeline-item.alerta::before {
+            content: "⚠️";
+            position: absolute;
+            top: -18px;
+            right: -12px;
+            font-size: 1.2rem;
+            animation: bounce-icon 1s ease-in-out infinite;
         }
 
         .timeline-item.alerta::after {
-            content: "⚠️";
+            content: "🚨 ALERTA";
             position: absolute;
-            top: -10px;
-            right: -10px;
-            font-size: 0.9rem;
+            bottom: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: #dc3545;
+            background: #fff;
+            padding: 1px 8px;
+            border-radius: 4px;
+            border: 1px solid #dc3545;
+            white-space: nowrap;
         }
 
-        @keyframes pulse-alert {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
-            50% { box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.1); }
+        @keyframes pulse-alert-strong {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(220, 53, 69, 0.4);
+                border-color: #dc3545;
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(220, 53, 69, 0.8), 0 0 60px rgba(220, 53, 69, 0.2);
+                border-color: #ff6b6b;
+            }
+        }
+
+        @keyframes bounce-icon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         .timeline-item.estado-linea { background: #ffd700; color: #000; }
@@ -1003,76 +1148,6 @@
         .timeline-item.estado-en-break { background: #7d6608; color: #fff; }
         .timeline-item.estado-default { background: #e9ecef; color: #000; }
 
-        /* Tabla de resumen de tiempos */
-        .resumen-tiempos-container {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            padding: 20px;
-            margin-top: 20px;
-            border: 1px solid #f1f3f5;
-        }
-
-        .resumen-tiempos-container h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--secondary);
-            margin-bottom: 12px;
-        }
-
-        #tablaResumenTiempos {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.8rem;
-        }
-
-        #tablaResumenTiempos th {
-            background: #f1f3f5;
-            padding: 8px 12px;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 2px solid #dee2e6;
-            position: sticky;
-            top: 0;
-        }
-
-        #tablaResumenTiempos td {
-            padding: 8px 12px;
-            border-bottom: 1px solid #f1f3f5;
-        }
-
-        #tablaResumenTiempos tr:hover {
-            background: #f8f9fa;
-        }
-
-        #tablaResumenTiempos .total-row {
-            background: #f1f3f5;
-            font-weight: 600;
-        }
-
-        .alert-row {
-            background: #fff5f5 !important;
-            border-left: 4px solid #dc3545;
-        }
-
-        .alert-row td:first-child::before {
-            content: "⚠️ ";
-        }
-
-        .conexiones-table-container {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .badge-alerta {
-            background: #dc3545;
-            color: #fff;
-            font-size: 0.65rem;
-            padding: 2px 8px;
-            border-radius: 50px;
-            margin-left: 6px;
-        }
-
         /* Filtro de alertas activo */
         .filtering-alerts .timeline-user:not(.has-alert) {
             display: none;
@@ -1080,6 +1155,110 @@
 
         .filtering-alerts .timeline-user.has-alert {
             display: block;
+        }
+
+        .btn-timeline {
+            background: #6f42c1;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+        }
+
+        .btn-timeline:hover {
+            background: #5a32a3;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-timeline.active {
+            background: #dc3545;
+        }
+
+        .btn-timeline.active:hover {
+            background: #c1121f;
+        }
+
+        .btn-back-timeline {
+            background: #6c757d;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        .btn-back-timeline:hover {
+            background: #495057;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ===== PÁGINA DE LÍNEA DE TIEMPO ===== */
+        #timelinePage {
+            display: none;
+            padding: 24px;
+            background: var(--bg-light);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin-top: 8px;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .timeline-header h1 {
+            color: #6f42c1;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .timeline-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .badge-alert-large {
+            background: #dc3545;
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 8px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+        }
+
+        .badge-alert-large:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 16px rgba(220, 53, 69, 0.4);
+        }
+
+        .badge-alert-large.active-filter {
+            background: #28a745;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+        }
+
+        .badge-alert-large.active-filter:hover {
+            box-shadow: 0 4px 16px rgba(40, 167, 69, 0.4);
         }
 
         @media (max-width: 768px) {
@@ -1144,12 +1323,39 @@
             .timeline-user-stats {
                 font-size: 0.7rem;
             }
+            #tablaDuracionEstados {
+                font-size: 0.65rem;
+            }
+            #tablaDuracionEstados th,
+            #tablaDuracionEstados td {
+                padding: 3px 5px;
+            }
             #tablaResumenTiempos {
                 font-size: 0.65rem;
             }
             #tablaResumenTiempos th,
             #tablaResumenTiempos td {
                 padding: 3px 5px;
+            }
+            .timeline-header h1 {
+                font-size: 1.3rem;
+            }
+            .timeline-controls {
+                gap: 6px;
+            }
+            .badge-alert-large {
+                font-size: 0.75rem;
+                padding: 6px 14px;
+            }
+            .timeline-item.alerta::after {
+                font-size: 0.5rem;
+                padding: 1px 4px;
+                bottom: -18px;
+            }
+            .timeline-item.alerta::before {
+                font-size: 1rem;
+                top: -14px;
+                right: -8px;
             }
         }
 
@@ -1214,30 +1420,10 @@
             border-top: 1px solid #dee2e6;
         }
 
-        .btn-timeline {
-            background: #6f42c1;
-            color: #fff;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.85rem;
-        }
-
-        .btn-timeline:hover {
-            background: #5a32a3;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-timeline.active {
-            background: #dc3545;
-        }
-
-        .btn-timeline.active:hover {
-            background: #c1121f;
+        .duracion-sort-icon {
+            font-size: 0.65rem;
+            margin-left: 4px;
+            color: rgba(255,255,255,0.7);
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1524,31 +1710,29 @@
     </div>
 </div>
 
-<!-- ===== PÁGINA DE CONEXIONES CON LÍNEA DE TIEMPO ===== -->
-<div id="conexionesPage" style="display:none; text-align:center;">
+<!-- ===== PÁGINA DE CONEXIONES ===== -->
+<div id="conexionesPage" style="display:none;">
 
-    <h1 style="color:#6f42c1;font-weight:700;">
-        🔌 Conexiones - Línea de Tiempo
-    </h1>
+    <div style="text-align:center; margin-bottom:16px;">
+        <h1 style="color:#6f42c1;font-weight:700;">🔌 Conexiones</h1>
+        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:12px 0;">
+            <button onclick="backFromConexiones()"
+                style="background:#6c757d;color:white;border:none;padding:10px 24px;border-radius:50px;font-weight:600;cursor:pointer;">
+                ⬅ Volver
+            </button>
 
-    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:12px 0;">
-        <button onclick="backFromConexiones()"
-            style="background:#6c757d;color:white;border:none;padding:10px 24px;border-radius:50px;font-weight:600;cursor:pointer;">
-            ⬅ Volver
-        </button>
+            <label for="conexionesFileInput" class="custom-file-btn">
+                📁 Cargar archivo
+            </label>
 
-        <label for="conexionesFileInput" class="custom-file-btn">
-            📁 Cargar archivo
-        </label>
+            <input type="file" id="conexionesFileInput" accept=".csv" hidden>
 
-        <input type="file" id="conexionesFileInput" accept=".csv" hidden>
-
-        <button id="toggleTimelineBtn" class="btn-timeline active" onclick="toggleTimelineView()">
-            📊 Ver Línea de Tiempo
-        </button>
+            <button onclick="goToTimelinePage()" class="btn-timeline">
+                📊 Ver Línea de Tiempo
+            </button>
+        </div>
     </div>
 
-    <!-- Buscador y contador de resultados -->
     <div class="conexiones-search-wrapper">
         <label>
             🔍 Buscar usuario:
@@ -1559,8 +1743,7 @@
         </div>
     </div>
 
-    <!-- Tabla de datos original -->
-    <div class="conexiones-table-container" id="tablaOriginalContainer">
+    <div class="conexiones-table-container">
         <table id="tablaConexiones" style="display:none; width:100%;">
             <thead>
                 <tr>
@@ -1577,18 +1760,63 @@
         </table>
     </div>
 
+    <div id="conexionesSinDatos" style="padding: 30px; color: #6c757d; font-size: 1.1rem; display: none; text-align:center;">
+        No hay datos de conexiones cargados. Por favor, carga un archivo CSV.
+    </div>
+
+    <!-- ===== TABLA DE DURACIÓN POR ESTADO ===== -->
+    <div class="duracion-estados-container" id="duracionEstadosContainer" style="display:none;">
+        <h3>⏱️ Duración por Estado (en segundos)</h3>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;">Suma de duración en segundos que cada usuario estuvo en cada estado. Haz clic en los encabezados para ordenar.</p>
+        <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+            <table id="tablaDuracionEstados">
+                <thead id="duracionThead">
+                    <tr id="duracionHeaderRow">
+                        <!-- Los encabezados se generan dinámicamente desde JavaScript -->
+                        <th data-col="usuario" onclick="ordenarDuracion('usuario')">Usuario <span class="duracion-sort-icon">↕</span></th>
+                        <th data-col="alertas" onclick="ordenarDuracion('alertas')">Alertas <span class="duracion-sort-icon">↕</span></th>
+                    </tr>
+                </thead>
+                <tbody id="duracionTbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- ===== PÁGINA DE LÍNEA DE TIEMPO ===== -->
+<div id="timelinePage">
+    <div class="timeline-header">
+        <h1>📊 Línea de Tiempo - Conexiones</h1>
+        <div class="timeline-controls">
+            <button onclick="backFromTimeline()" class="btn-back-timeline">⬅ Volver a Conexiones</button>
+            <span class="badge-alert-large" id="alertCountTimeline" onclick="toggleAlertFilterTimeline()">0 alertas</span>
+        </div>
+    </div>
+
+    <!-- Buscador -->
+    <div class="conexiones-search-wrapper">
+        <label>
+            🔍 Buscar usuario:
+            <input type="text" id="timelineSearchInput" placeholder="Escribe el nombre del usuario..." oninput="filtrarTimeline()">
+        </label>
+        <div class="conexiones-total">
+            Usuarios: <span id="timelineUserCount">0</span>
+        </div>
+    </div>
+
     <!-- Línea de Tiempo -->
-    <div id="timelineView" class="timeline-container">
-        <h2>
-            ⏳ Línea de Tiempo por Usuario
-            <span class="badge-alert" id="alertCount" onclick="toggleAlertFilter()">0 alertas</span>
+    <div class="timeline-container">
+        <h2>⏳ Línea de Tiempo por Usuario
+            <span class="badge-alert" id="alertCountTimelineBadge" onclick="toggleAlertFilterTimeline()">0 alertas</span>
         </h2>
         <div id="timelineContent"></div>
     </div>
 
-    <!-- Tabla de resumen de tiempos -->
-    <div id="resumenView" class="resumen-tiempos-container">
-        <h3>📊 Resumen de Tiempos por Usuario</h3>
+    <!-- ===== TABLA DE RESUMEN (CONTEOS) ===== -->
+    <div class="resumen-tiempos-container">
+        <h3>📊 Conteo de veces por Estado</h3>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;">Cantidad de veces que cada usuario estuvo en cada estado.</p>
         <div class="table-container" style="max-height: 400px; overflow-y: auto;">
             <table id="tablaResumenTiempos">
                 <thead id="resumenThead">
@@ -1601,12 +1829,6 @@
             </table>
         </div>
     </div>
-
-    <!-- Mensaje cuando no hay datos -->
-    <div id="conexionesSinDatos" style="padding: 30px; color: #6c757d; font-size: 1.1rem; display: none;">
-        No hay datos de conexiones cargados. Por favor, carga un archivo CSV.
-    </div>
-
 </div>
 
 <div id="modalReporteAgentes">
@@ -1666,8 +1888,11 @@ let graficoCasosOMInstance = null;
 // Variables para conexiones
 let conexionesData = [];
 let conexionesFiltradas = [];
-let showTimeline = true;
-let alertFilterActive = false;
+let alertFilterActiveTimeline = false;
+
+// Variables para ordenamiento de duración
+let duracionSortColumn = 'usuario';
+let duracionSortDirection = 1;
 
 // Mapeo de colores para estados
 const estadoColores = {
@@ -2475,6 +2700,7 @@ function backToMain() {
     document.getElementById("casosOMPage").style.display = "none";
     document.getElementById("pendientesPage").style.display = "none";
     document.getElementById("conexionesPage").style.display = "none";
+    document.getElementById("timelinePage").style.display = "none";
 }
 
 const urlLicencias = "https://raw.githubusercontent.com/teamdigitalrrss-jpg/tNPS-diario/main/Licencias.xlsx";
@@ -2829,7 +3055,7 @@ document.addEventListener("input", function(e) {
     }
 });
 
-// ===== FUNCIONES DE CONEXIONES CON LÍNEA DE TIEMPO =====
+// ===== FUNCIONES DE CONEXIONES =====
 
 function goToConexiones() {
     document.getElementById("mainContent").style.display = "none";
@@ -2838,18 +3064,19 @@ function goToConexiones() {
     document.getElementById("casosOMPage").style.display = "none";
     document.getElementById("pendientesPage").style.display = "none";
     document.getElementById("conexionesPage").style.display = "block";
+    document.getElementById("timelinePage").style.display = "none";
    
     if (conexionesData.length === 0) {
         document.getElementById("conexionesSinDatos").style.display = "block";
         document.getElementById("tablaConexiones").style.display = "none";
         document.querySelector(".conexiones-search-wrapper").style.display = "none";
-        document.getElementById("timelineView").style.display = "none";
-        document.getElementById("resumenView").style.display = "none";
+        document.getElementById("duracionEstadosContainer").style.display = "none";
     } else {
         document.getElementById("conexionesSinDatos").style.display = "none";
         document.getElementById("tablaConexiones").style.display = "table";
         document.querySelector(".conexiones-search-wrapper").style.display = "flex";
-        actualizarVistas();
+        document.getElementById("duracionEstadosContainer").style.display = "block";
+        filtrarConexiones();
     }
 }
 
@@ -2858,41 +3085,20 @@ function backFromConexiones() {
     document.getElementById("mainContent").style.display = "block";
 }
 
-function toggleTimelineView() {
-    showTimeline = !showTimeline;
-    const btn = document.getElementById('toggleTimelineBtn');
-    if (showTimeline) {
-        btn.textContent = '📊 Ver Línea de Tiempo';
-        btn.classList.add('active');
-        document.getElementById('timelineView').style.display = 'block';
-        document.getElementById('resumenView').style.display = 'block';
-        document.getElementById('tablaOriginalContainer').style.display = 'block';
-    } else {
-        btn.textContent = '📊 Ver Tabla';
-        btn.classList.remove('active');
-        document.getElementById('timelineView').style.display = 'none';
-        document.getElementById('resumenView').style.display = 'none';
-        document.getElementById('tablaOriginalContainer').style.display = 'block';
+function goToTimelinePage() {
+    if (conexionesData.length === 0) {
+        alert("Primero debe cargar un archivo de conexiones.");
+        return;
     }
-    filtrarConexiones();
+    document.getElementById("conexionesPage").style.display = "none";
+    document.getElementById("timelinePage").style.display = "block";
+    actualizarTimeline();
 }
 
-function toggleAlertFilter() {
-    alertFilterActive = !alertFilterActive;
-    const badge = document.getElementById('alertCount');
-    const container = document.getElementById('timelineContent');
-   
-    if (alertFilterActive) {
-        badge.classList.add('active-filter');
-        badge.textContent = '🔍 Solo alertas';
-        container.classList.add('filtering-alerts');
-    } else {
-        badge.classList.remove('active-filter');
-        const totalAlertas = document.querySelectorAll('.timeline-user.has-alert').length;
-        badge.textContent = `${totalAlertas} alertas`;
-        container.classList.remove('filtering-alerts');
-    }
-    renderTimeline();
+function backFromTimeline() {
+    document.getElementById("timelinePage").style.display = "none";
+    document.getElementById("conexionesPage").style.display = "block";
+    filtrarConexiones();
 }
 
 function actualizarContadorConexiones() {
@@ -2913,8 +3119,8 @@ function getEstadoClase(descripcion) {
     return estadoColores[key] || 'estado-default';
 }
 
-function calcularDuracion(inicio, fin) {
-    if (!inicio || !fin) return '';
+function calcularDuracionSegundos(inicio, fin) {
+    if (!inicio || !fin) return 0;
     try {
         const parseFecha = (str) => {
             const partes = str.trim().split(' ');
@@ -2933,28 +3139,50 @@ function calcularDuracion(inicio, fin) {
         };
         const fechaInicio = parseFecha(inicio);
         const fechaFin = parseFecha(fin);
-        if (!fechaInicio || !fechaFin) return '';
+        if (!fechaInicio || !fechaFin) return 0;
         const diffMs = fechaFin - fechaInicio;
-        if (diffMs <= 0) return '';
-        const diffSeg = Math.floor(diffMs / 1000);
-        const horas = Math.floor(diffSeg / 3600);
-        const minutos = Math.floor((diffSeg % 3600) / 60);
-        const segundos = diffSeg % 60;
-        if (horas > 0) {
-            return `${horas}h ${minutos.toString().padStart(2, '0')}m`;
-        } else if (minutos > 0) {
-            return `${minutos}m ${segundos.toString().padStart(2, '0')}s`;
-        } else {
-            return `${segundos}s`;
-        }
+        if (diffMs <= 0) return 0;
+        return Math.floor(diffMs / 1000);
     } catch (e) {
-        return '';
+        return 0;
     }
 }
 
+function calcularDuracionFormateada(inicio, fin) {
+    const segundos = calcularDuracionSegundos(inicio, fin);
+    if (segundos === 0) return '';
+    const horas = Math.floor(segundos / 3600);
+    const minutos = Math.floor((segundos % 3600) / 60);
+    const segs = segundos % 60;
+    if (horas > 0) {
+        return `${horas}h ${minutos.toString().padStart(2, '0')}m`;
+    } else if (minutos > 0) {
+        return `${minutos}m ${segs.toString().padStart(2, '0')}s`;
+    } else {
+        return `${segs}s`;
+    }
+}
+
+// ===== FUNCIONES MODIFICADAS PARA OMITIR ALERTAS INICIALES =====
+
 function tieneAlerta(registros) {
     const sorted = [...registros].sort((a, b) => a.inicio.localeCompare(b.inicio));
-    for (let i = 0; i < sorted.length - 1; i++) {
+   
+    // Buscar el primer índice donde aparece "Casos fin de turno" o "Fin de turno"
+    let primerIndiceFinTurno = -1;
+    for (let i = 0; i < sorted.length; i++) {
+        const desc = sorted[i].descripcion.toLowerCase().trim();
+        if (desc === 'casos fin de turno' || desc === 'fin de turno') {
+            primerIndiceFinTurno = i;
+            break;
+        }
+    }
+   
+    // Si no hay "Casos fin de turno", no hay alerta
+    if (primerIndiceFinTurno === -1) return false;
+   
+    // Buscar transiciones "Casos fin de turno → Línea" SOLO después del primer índice
+    for (let i = Math.max(0, primerIndiceFinTurno + 1); i < sorted.length - 1; i++) {
         const actual = sorted[i].descripcion.toLowerCase().trim();
         const siguiente = sorted[i + 1].descripcion.toLowerCase().trim();
         if ((actual === 'casos fin de turno' || actual === 'fin de turno') &&
@@ -2965,10 +3193,49 @@ function tieneAlerta(registros) {
     return false;
 }
 
+function contarAlertas(registros) {
+    const sorted = [...registros].sort((a, b) => a.inicio.localeCompare(b.inicio));
+    let count = 0;
+   
+    // Buscar el primer índice donde aparece "Casos fin de turno" o "Fin de turno"
+    let primerIndiceFinTurno = -1;
+    for (let i = 0; i < sorted.length; i++) {
+        const desc = sorted[i].descripcion.toLowerCase().trim();
+        if (desc === 'casos fin de turno' || desc === 'fin de turno') {
+            primerIndiceFinTurno = i;
+            break;
+        }
+    }
+   
+    // Si no hay "Casos fin de turno", no hay alertas
+    if (primerIndiceFinTurno === -1) return 0;
+   
+    // Contar transiciones "Casos fin de turno → Línea" SOLO después del primer índice
+    for (let i = Math.max(0, primerIndiceFinTurno + 1); i < sorted.length - 1; i++) {
+        const actual = sorted[i].descripcion.toLowerCase().trim();
+        const siguiente = sorted[i + 1].descripcion.toLowerCase().trim();
+        if ((actual === 'casos fin de turno' || actual === 'fin de turno') &&
+            (siguiente === 'línea' || siguiente === 'linea')) {
+            count++;
+        }
+    }
+    return count;
+}
+
 function generarLineaTiempo(usuario, registros) {
     const sorted = [...registros].sort((a, b) => a.inicio.localeCompare(b.inicio));
     const hasAlert = tieneAlerta(registros);
     const alertClass = hasAlert ? 'has-alert' : '';
+
+    // Buscar el primer índice de "Casos fin de turno" para omitir alertas iniciales
+    let primerIndiceFinTurno = -1;
+    for (let i = 0; i < sorted.length; i++) {
+        const desc = sorted[i].descripcion.toLowerCase().trim();
+        if (desc === 'casos fin de turno' || desc === 'fin de turno') {
+            primerIndiceFinTurno = i;
+            break;
+        }
+    }
 
     let html = `<div class="timeline-user ${alertClass}">`;
     html += `<div class="timeline-user-header">`;
@@ -2993,10 +3260,12 @@ function generarLineaTiempo(usuario, registros) {
     sorted.forEach((reg, idx) => {
         const clase = getEstadoClase(reg.descripcion);
         const nombreEstado = reg.descripcion || 'Desconocido';
-        const duracion = calcularDuracion(reg.inicio, reg.fin);
+        const duracion = calcularDuracionFormateada(reg.inicio, reg.fin);
        
+        // Verificar si este es el inicio de una alerta (Casos fin de turno -> Línea)
+        // SOLO si el índice es mayor al primer índice de "Casos fin de turno"
         let esAlerta = false;
-        if (idx > 0) {
+        if (idx > 0 && idx > primerIndiceFinTurno) {
             const anterior = sorted[idx - 1].descripcion.toLowerCase().trim();
             const actual = reg.descripcion.toLowerCase().trim();
             if ((anterior === 'casos fin de turno' || anterior === 'fin de turno') &&
@@ -3020,34 +3289,147 @@ function generarLineaTiempo(usuario, registros) {
     return html;
 }
 
-function generarResumenDinamico() {
+// ===== FIN DE FUNCIONES MODIFICADAS =====
+
+function generarDuracionEstados(datos) {
+    const descripcionesSet = new Set();
+    const duracionPorUsuario = {};
+    let totalAlertas = 0;
+   
+    const datosUsar = datos || (conexionesFiltradas.length > 0 ? conexionesFiltradas : conexionesData);
+   
+    datosUsar.forEach(reg => {
+        const usuario = reg.usuario || 'Sin nombre';
+        const desc = reg.descripcion || 'Otros';
+        descripcionesSet.add(desc);
+        if (!duracionPorUsuario[usuario]) {
+            duracionPorUsuario[usuario] = {
+                tiempos: {},
+                alertas: 0
+            };
+        }
+        const segundos = calcularDuracionSegundos(reg.inicio, reg.fin);
+        duracionPorUsuario[usuario].tiempos[desc] = (duracionPorUsuario[usuario].tiempos[desc] || 0) + segundos;
+    });
+   
+    for (const [usuario, data] of Object.entries(duracionPorUsuario)) {
+        const registrosUsuario = datosUsar.filter(r => r.usuario === usuario);
+        data.alertas = contarAlertas(registrosUsuario);
+        totalAlertas += data.alertas;
+    }
+   
+    const descripciones = Array.from(descripcionesSet).sort();
+   
+    // Construir header dinámicamente
+    const headerRow = document.getElementById('duracionHeaderRow');
+    let headerHTML = '<th data-col="usuario" onclick="ordenarDuracion(\'usuario\')">Usuario <span class="duracion-sort-icon">↕</span></th>';
+    descripciones.forEach(desc => {
+        const colName = 'col_' + desc.replace(/[^a-zA-Z0-9]/g, '_');
+        headerHTML += `<th data-col="${colName}" onclick="ordenarDuracion('${colName}')">${desc} <span class="duracion-sort-icon">↕</span></th>`;
+    });
+    headerHTML += '<th data-col="alertas" onclick="ordenarDuracion(\'alertas\')">Alertas <span class="duracion-sort-icon">↕</span></th>';
+    headerRow.innerHTML = headerHTML;
+   
+    // Construir datos para ordenar
+    let datosTabla = [];
+    for (const [usuario, data] of Object.entries(duracionPorUsuario)) {
+        const row = {
+            usuario: usuario,
+            alertas: data.alertas,
+            _raw: data
+        };
+        descripciones.forEach(desc => {
+            const colName = 'col_' + desc.replace(/[^a-zA-Z0-9]/g, '_');
+            row[colName] = data.tiempos[desc] || 0;
+        });
+        datosTabla.push(row);
+    }
+   
+    // Ordenar
+    datosTabla.sort((a, b) => {
+        let valA, valB;
+        if (duracionSortColumn === 'usuario') {
+            valA = a.usuario.toLowerCase();
+            valB = b.usuario.toLowerCase();
+            return valA.localeCompare(valB) * duracionSortDirection;
+        } else if (duracionSortColumn === 'alertas') {
+            valA = a.alertas;
+            valB = b.alertas;
+            return (valA - valB) * duracionSortDirection;
+        } else {
+            valA = a[duracionSortColumn] || 0;
+            valB = b[duracionSortColumn] || 0;
+            return (valA - valB) * duracionSortDirection;
+        }
+    });
+   
+    let html = '';
+    datosTabla.forEach(row => {
+        const alertaClass = row.alertas > 0 ? 'alert-row' : '';
+        html += `<tr class="${alertaClass}">`;
+        html += `<td><strong>${row.usuario}</strong></td>`;
+        descripciones.forEach(desc => {
+            const colName = 'col_' + desc.replace(/[^a-zA-Z0-9]/g, '_');
+            const segundos = row[colName] || 0;
+            const horas = Math.floor(segundos / 3600);
+            const minutos = Math.floor((segundos % 3600) / 60);
+            const segs = segundos % 60;
+            let display = '0s';
+            if (horas > 0) {
+                display = `${horas}h ${minutos}m ${segs}s`;
+            } else if (minutos > 0) {
+                display = `${minutos}m ${segs}s`;
+            } else if (segs > 0) {
+                display = `${segs}s`;
+            }
+            html += `<td>${display}</td>`;
+        });
+        html += `<td style="color: ${row.alertas > 0 ? '#dc3545' : '#28a745'}; font-weight: 600;">${row.alertas > 0 ? '⚠️ ' + row.alertas : '✅'}</td>`;
+        html += `</tr>`;
+    });
+   
+    // Actualizar badge de alertas
+    const badge = document.getElementById('alertCountTimeline');
+    if (!alertFilterActiveTimeline) {
+        badge.textContent = `${totalAlertas} alertas`;
+    }
+    const badge2 = document.getElementById('alertCountTimelineBadge');
+    if (badge2 && !alertFilterActiveTimeline) {
+        badge2.textContent = `${totalAlertas} alertas`;
+    }
+   
+    return html;
+}
+
+function generarResumenConteos(datos) {
     const descripcionesSet = new Set();
     const resumen = {};
     let totalAlertas = 0;
    
-    conexionesFiltradas.forEach(reg => {
+    const datosUsar = datos || (conexionesFiltradas.length > 0 ? conexionesFiltradas : conexionesData);
+   
+    datosUsar.forEach(reg => {
         const usuario = reg.usuario || 'Sin nombre';
         const desc = reg.descripcion || 'Otros';
         descripcionesSet.add(desc);
         if (!resumen[usuario]) {
             resumen[usuario] = {
                 estados: {},
-                tieneAlerta: false
+                alertas: 0
             };
         }
         resumen[usuario].estados[desc] = (resumen[usuario].estados[desc] || 0) + 1;
     });
    
     for (const [usuario, data] of Object.entries(resumen)) {
-        const registrosUsuario = conexionesFiltradas.filter(r => r.usuario === usuario);
-        if (tieneAlerta(registrosUsuario)) {
-            data.tieneAlerta = true;
-            totalAlertas++;
-        }
+        const registrosUsuario = datosUsar.filter(r => r.usuario === usuario);
+        data.alertas = contarAlertas(registrosUsuario);
+        totalAlertas += data.alertas;
     }
    
     const descripciones = Array.from(descripcionesSet).sort();
    
+    // Construir header
     const headerRow = document.getElementById('resumenHeaderRow');
     let headerHTML = '<th>Usuario</th>';
     descripciones.forEach(desc => {
@@ -3059,27 +3441,43 @@ function generarResumenDinamico() {
     let html = '';
     for (const [usuario, data] of Object.entries(resumen)) {
         const estados = data.estados;
-        const alertaClass = data.tieneAlerta ? 'alert-row' : '';
+        const alertaClass = data.alertas > 0 ? 'alert-row' : '';
         html += `<tr class="${alertaClass}">`;
         html += `<td><strong>${usuario}</strong></td>`;
         descripciones.forEach(desc => {
             html += `<td>${estados[desc] || 0}</td>`;
         });
-        const alertCount = data.tieneAlerta ? '1' : '0';
-        html += `<td style="color: ${data.tieneAlerta ? '#dc3545' : '#28a745'}; font-weight: 600;">${data.tieneAlerta ? '⚠️ ' + alertCount : '✅'}</td>`;
+        html += `<td style="color: ${data.alertas > 0 ? '#dc3545' : '#28a745'}; font-weight: 600;">${data.alertas > 0 ? '⚠️ ' + data.alertas : '✅'}</td>`;
         html += `</tr>`;
-    }
-   
-    const badge = document.getElementById('alertCount');
-    if (!alertFilterActive) {
-        badge.textContent = `${totalAlertas} alertas`;
     }
    
     return html;
 }
 
-function actualizarVistas() {
-    filtrarConexiones();
+function ordenarDuracion(columna) {
+    if (duracionSortColumn === columna) {
+        duracionSortDirection *= -1;
+    } else {
+        duracionSortColumn = columna;
+        duracionSortDirection = 1;
+    }
+   
+    // Actualizar íconos en la tabla de duración de conexiones
+    document.querySelectorAll('#duracionHeaderRow th .duracion-sort-icon').forEach(el => {
+        el.textContent = '↕';
+    });
+    const ths = document.querySelectorAll('#duracionHeaderRow th');
+    ths.forEach(th => {
+        if (th.getAttribute('data-col') === columna) {
+            const icon = th.querySelector('.duracion-sort-icon');
+            if (icon) {
+                icon.textContent = duracionSortDirection === 1 ? '↑' : '↓';
+            }
+        }
+    });
+   
+    const tbody = document.getElementById('duracionTbody');
+    tbody.innerHTML = generarDuracionEstados(conexionesFiltradas);
 }
 
 function filtrarConexiones() {
@@ -3119,24 +3517,31 @@ function filtrarConexiones() {
    
     document.getElementById("conexionesTotalCount").textContent = visibleCount;
    
-    if (showTimeline) {
-        document.getElementById('timelineView').style.display = 'block';
-        document.getElementById('resumenView').style.display = 'block';
-        renderTimeline();
-        renderResumen();
-    } else {
-        document.getElementById('timelineView').style.display = 'none';
-        document.getElementById('resumenView').style.display = 'none';
+    // Actualizar tabla de duración en conexiones
+    const tbodyDuracion = document.getElementById('duracionTbody');
+    if (tbodyDuracion) {
+        tbodyDuracion.innerHTML = generarDuracionEstados(conexionesFiltradas);
     }
 }
 
-function renderTimeline() {
+function filtrarTimeline() {
+    const searchTerm = document.getElementById("timelineSearchInput").value.toLowerCase().trim();
+   
+    conexionesFiltradas = searchTerm ?
+        conexionesData.filter(row => (row.usuario || "").toLowerCase().includes(searchTerm)) :
+        [...conexionesData];
+   
+    actualizarTimeline();
+}
+
+function actualizarTimeline() {
     const container = document.getElementById('timelineContent');
     container.innerHTML = '';
     container.classList.remove('filtering-alerts');
    
     if (conexionesFiltradas.length === 0) {
         container.innerHTML = '<p style="text-align:center; color: #6c757d; padding: 20px;">No hay datos para mostrar en la línea de tiempo.</p>';
+        document.getElementById('timelineUserCount').textContent = '0';
         return;
     }
    
@@ -3148,99 +3553,56 @@ function renderTimeline() {
     });
    
     let totalAlertas = 0;
+    let totalUsuarios = 0;
     for (const [usuario, registros] of Object.entries(grupos)) {
         container.innerHTML += generarLineaTiempo(usuario, registros);
-        if (tieneAlerta(registros)) totalAlertas++;
+        totalUsuarios++;
+        totalAlertas += contarAlertas(registros);
     }
    
-    const badge = document.getElementById('alertCount');
-    if (!alertFilterActive) {
-        badge.textContent = `${totalAlertas} alertas`;
-    }
+    document.getElementById('timelineUserCount').textContent = totalUsuarios;
    
-    if (alertFilterActive) {
+    const badge = document.getElementById('alertCountTimeline');
+    const badge2 = document.getElementById('alertCountTimelineBadge');
+   
+    if (!alertFilterActiveTimeline) {
+        if (badge) {
+            badge.textContent = `${totalAlertas} alertas`;
+            badge.style.background = '#dc3545';
+            badge.style.boxShadow = '0 2px 8px rgba(220, 53, 69, 0.3)';
+        }
+        if (badge2) {
+            badge2.textContent = `${totalAlertas} alertas`;
+            badge2.style.background = '#dc3545';
+            badge2.style.boxShadow = '0 4px 16px rgba(220, 53, 69, 0.4)';
+        }
+    } else {
+        if (badge) {
+            badge.textContent = '🔍 Solo alertas';
+            badge.style.background = '#28a745';
+            badge.style.boxShadow = '0 2px 8px rgba(40, 167, 69, 0.3)';
+        }
+        if (badge2) {
+            badge2.textContent = '🔍 Solo alertas';
+            badge2.style.background = '#28a745';
+            badge2.style.boxShadow = '0 4px 16px rgba(40, 167, 69, 0.4)';
+        }
         container.classList.add('filtering-alerts');
-        badge.textContent = '🔍 Solo alertas';
+    }
+   
+    // Actualizar tabla de resumen (conteos) en timeline
+    const tbodyResumen = document.getElementById('resumenTbody');
+    if (tbodyResumen) {
+        tbodyResumen.innerHTML = generarResumenConteos(conexionesFiltradas);
     }
 }
 
-function renderResumen() {
-    const tbody = document.getElementById('resumenTbody');
-    tbody.innerHTML = generarResumenDinamico();
+function toggleAlertFilterTimeline() {
+    alertFilterActiveTimeline = !alertFilterActiveTimeline;
+    actualizarTimeline();
 }
 
-// ===== FUNCIONES DE PENDIENTES Y CASOS OM (sin cambios) =====
-// ... (las funciones de pendientes y casos OM se mantienen igual)
-
-// ===== EVENTO PARA CARGAR ARCHIVO DE CONEXIONES =====
-window.addEventListener("load", function () {
-    const input = document.getElementById("conexionesFileInput");
-    if (!input) return;
-
-    input.addEventListener("change", function (e) {
-        const archivo = e.target.files[0];
-        if (!archivo) return;
-
-        const lector = new FileReader();
-        lector.onload = function (ev) {
-            const lineas = ev.target.result.split(/\r?\n/).filter(x => x.trim() !== "");
-            const tbody = document.getElementById("conexionesTbody");
-            tbody.innerHTML = "";
-            conexionesData = [];
-
-            for (let i = 1; i < lineas.length; i++) {
-                const cols = lineas[i].split(";");
-                while (cols.length < 9) {
-                    cols.push("");
-                }
-
-                let estado = cols[6]?.trim() || "";
-                let descripcion = cols[7]?.trim() || "";
-
-                if (estado.toLowerCase() === "línea" || estado.toLowerCase() === "linea") {
-                    descripcion = "Línea";
-                }
-
-                const fila = document.createElement("tr");
-                fila.innerHTML = `
-                    <td>${cols[0]?.trim() || ""}</td>
-                    <td>${cols[1]?.trim() || ""}</td>
-                    <td>${cols[2]?.trim() || ""}</td>
-                    <td>${cols[3]?.trim() || ""}</td>
-                    <td>${estado}</td>
-                    <td>${descripcion}</td>
-                    <td>${cols[8]?.trim() || ""}</td>
-                `;
-                tbody.appendChild(fila);
-               
-                conexionesData.push({
-                    usuario: cols[0]?.trim() || "",
-                    inicio: cols[1]?.trim() || "",
-                    fin: cols[2]?.trim() || "",
-                    duracion: cols[3]?.trim() || "",
-                    estado: estado,
-                    descripcion: descripcion,
-                    casosAbiertos: cols[8]?.trim() || ""
-                });
-            }
-
-            const totalRegistros = conexionesData.length;
-            alert(`✅ Se cargaron ${totalRegistros} registros de conexiones.`);
-
-            document.getElementById("tablaConexiones").style.display = "table";
-            document.querySelector(".conexiones-search-wrapper").style.display = "flex";
-            document.getElementById("conexionesSinDatos").style.display = "none";
-            document.getElementById('timelineView').style.display = 'block';
-            document.getElementById('resumenView').style.display = 'block';
-           
-            actualizarVistas();
-            document.getElementById("conexionesSearchInput").value = "";
-        };
-        lector.readAsText(archivo, "ISO-8859-1");
-    });
-});
-
-// ===== FUNCIONES DE PENDIENTES Y CASOS OM (continuación) =====
+// ===== FUNCIONES DE PENDIENTES =====
 function goToPendientes() {
     if (Object.keys(mapaLicencias).length === 0) {
         cargarLicencias();
@@ -3755,6 +4117,78 @@ async function copiarGraficoComoImagen() {
         }
     });
 }
+
+// ===== EVENTO PARA CARGAR ARCHIVO DE CONEXIONES =====
+window.addEventListener("load", function () {
+    const input = document.getElementById("conexionesFileInput");
+    if (!input) return;
+
+    input.addEventListener("change", function (e) {
+        const archivo = e.target.files[0];
+        if (!archivo) return;
+
+        const lector = new FileReader();
+        lector.onload = function (ev) {
+            const lineas = ev.target.result.split(/\r?\n/).filter(x => x.trim() !== "");
+            const tbody = document.getElementById("conexionesTbody");
+            tbody.innerHTML = "";
+            conexionesData = [];
+
+            for (let i = 1; i < lineas.length; i++) {
+                const cols = lineas[i].split(";");
+                while (cols.length < 9) {
+                    cols.push("");
+                }
+
+                let estado = cols[6]?.trim() || "";
+                let descripcion = cols[7]?.trim() || "";
+
+                if (estado.toLowerCase() === "línea" || estado.toLowerCase() === "linea") {
+                    descripcion = "Línea";
+                }
+
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td>${cols[0]?.trim() || ""}</td>
+                    <td>${cols[1]?.trim() || ""}</td>
+                    <td>${cols[2]?.trim() || ""}</td>
+                    <td>${cols[3]?.trim() || ""}</td>
+                    <td>${estado}</td>
+                    <td>${descripcion}</td>
+                    <td>${cols[8]?.trim() || ""}</td>
+                `;
+                tbody.appendChild(fila);
+               
+                conexionesData.push({
+                    usuario: cols[0]?.trim() || "",
+                    inicio: cols[1]?.trim() || "",
+                    fin: cols[2]?.trim() || "",
+                    duracion: cols[3]?.trim() || "",
+                    estado: estado,
+                    descripcion: descripcion,
+                    casosAbiertos: cols[8]?.trim() || ""
+                });
+            }
+
+            const totalRegistros = conexionesData.length;
+            alert(`✅ Se cargaron ${totalRegistros} registros de conexiones.`);
+
+            document.getElementById("tablaConexiones").style.display = "table";
+            document.querySelector(".conexiones-search-wrapper").style.display = "flex";
+            document.getElementById("conexionesSinDatos").style.display = "none";
+            document.getElementById("duracionEstadosContainer").style.display = "block";
+           
+            // Resetear ordenamiento
+            duracionSortColumn = 'usuario';
+            duracionSortDirection = 1;
+           
+            filtrarConexiones();
+            document.getElementById("conexionesSearchInput").value = "";
+        };
+        lector.readAsText(archivo, "ISO-8859-1");
+    });
+});
 </script>
 </body>
 </html>
+
