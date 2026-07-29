@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -945,6 +944,81 @@
             overflow-y: auto;
         }
 
+        /* ===== ESTILOS PARA FILTRO DE ÁREA ===== */
+        .area-filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 12px;
+            border: 1px solid #f1f3f5;
+        }
+
+        .area-filter-container label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .area-filter-container select {
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid #e9ecef;
+            font-size: 0.85rem;
+            background: #f8f9fa;
+            font-family: inherit;
+            min-width: 150px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .area-filter-container select:focus {
+            outline: none;
+            border-color: #6f42c1;
+            box-shadow: 0 0 0 3px rgba(111, 66, 193, 0.15);
+        }
+
+        .area-filter-container select option {
+            padding: 4px 8px;
+        }
+
+        .area-filter-container select option:checked {
+            background: #6f42c1;
+            color: #fff;
+        }
+
+        .area-filter-container .area-filter-badge {
+            background: #6f42c1;
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 2px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .area-filter-container .btn-clear-area {
+            background: #e9ecef;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-dark);
+        }
+
+        .area-filter-container .btn-clear-area:hover {
+            background: #dee2e6;
+        }
+
         /* ===== ESTILOS PARA LÍNEA DE TIEMPO ===== */
         .timeline-container {
             background: var(--bg-card);
@@ -1262,6 +1336,27 @@
             box-shadow: 0 4px 16px rgba(40, 167, 69, 0.4);
         }
 
+        /* Estilo para supervisor en línea de tiempo */
+        .timeline-user-supervisor {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-left: 6px;
+        }
+        .timeline-user-supervisor::before {
+            content: "👤 ";
+        }
+
+        .timeline-user-area {
+            font-size: 0.7rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-left: 4px;
+            background: #eef2f7;
+            padding: 0 8px;
+            border-radius: 4px;
+        }
+
         @media (max-width: 768px) {
             body { padding: 12px; }
             .main-header h1 { font-size: 1.5rem; }
@@ -1306,6 +1401,13 @@
             .conexiones-search-wrapper {
                 flex-direction: column;
                 align-items: stretch;
+            }
+            .area-filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .area-filter-container select {
+                width: 100%;
             }
             .timeline-track {
                 gap: 4px;
@@ -1508,7 +1610,7 @@
             <div class="modal-body">
                 <label for="modalStartDate">Fecha desde:</label>
                 <input type="text" id="modalStartDate" class="flatpickr-input" placeholder="Seleccione fecha inicio">
-               
+              
                 <label for="modalEndDate">Fecha hasta:</label>
                 <input type="text" id="modalEndDate" class="flatpickr-input" placeholder="Seleccione fecha fin">
             </div>
@@ -1568,6 +1670,7 @@
         </table>
     </div>
 </div>
+
 
 <div id="pptPage" style="display:none; text-align:center;">
     <h1 class="titulo-ppt">📊 Reporte reunión semanal</h1>
@@ -1713,7 +1816,6 @@
 
 <!-- ===== PÁGINA DE CONEXIONES ===== -->
 <div id="conexionesPage" style="display:none;">
-
     <div style="text-align:center; margin-bottom:16px;">
         <h1 style="color:#6f42c1;font-weight:700;">🔌 Conexiones</h1>
         <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:12px 0;">
@@ -1734,6 +1836,18 @@
         </div>
     </div>
 
+    <!-- FILTRO DE ÁREA -->
+    <div class="area-filter-container" id="areaFilterContainer" style="display:none;">
+        <label>
+            📂 Filtrar por Área:
+            <select id="areaFilterSelect" multiple onchange="aplicarFiltroArea()">
+                <!-- Opciones se generan dinámicamente -->
+            </select>
+        </label>
+        <span class="area-filter-badge" id="areaFilterCount">0 seleccionadas</span>
+        <button class="btn-clear-area" onclick="limpiarFiltroArea()">✖ Limpiar</button>
+    </div>
+
     <div class="conexiones-search-wrapper">
         <label>
             🔍 Buscar usuario:
@@ -1749,6 +1863,7 @@
             <thead>
                 <tr>
                     <th>Usuario</th>
+                    <th>Área</th>
                     <th>Supervisor</th>
                     <th>Inicio</th>
                     <th>Fin</th>
@@ -1895,6 +2010,9 @@ let alertFilterActiveTimeline = false;
 // Variables para ordenamiento de duración
 let duracionSortColumn = 'usuario';
 let duracionSortDirection = 1;
+
+// Variables para filtro de área
+let areasSeleccionadas = [];
 
 // Mapeo de colores para estados
 const estadoColores = {
@@ -2080,11 +2198,13 @@ function processCSVFile(file) {
                         const usuarioOM = agente.toLowerCase().trim();
                         const licencia = mapaLicencias[usuarioOM] || {};
                         const supervisor = licencia.Supervisor || "";
-                       
+                        const area = licencia.Area || "";
+                      
                         fileData.push({
                             Fecha: fecha,
                             Agente: agente,
                             Supervisor: supervisor,
+                            Area: area,
                             Movil: cols[2] || "",
                             Remoto: cols[3] || "",
                             Event: cols[4] || "",
@@ -2140,7 +2260,7 @@ cargarLicenciasInicial();
 document.getElementById('fileInput').addEventListener('change', function(e) {
     const files = e.target.files;
     if (!files || files.length === 0) return;
-   
+  
     if (Object.keys(mapaLicencias).length === 0) {
         cargarLicenciasInicial();
         setTimeout(() => {
@@ -2319,7 +2439,7 @@ function filterTable() {
     const textKeywords = textInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
     const mobileKeywords = mobileInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
     const agentKeywords = agentInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
-   
+  
     requestAnimationFrame(() => {
         let tempFilteredData = data.filter(row => {
             const matchText = textKeywords.length === 0 || textKeywords.some(word =>
@@ -2763,6 +2883,89 @@ function buscarLicencias() {
     document.getElementById("tablaLicencias").style.display = resultados.length > 0 ? "table" : "none";
 }
 
+function actualizarFiltroArea() {
+    const select = document.getElementById('areaFilterSelect');
+    if (!select) return;
+   
+    // Obtener áreas únicas de los datos de conexiones (NO de todas las licencias)
+    const areasSet = new Set();
+    conexionesData.forEach(row => {
+        const usuarioKey = (row.usuario || "").toLowerCase().trim();
+        const licencia = mapaLicencias[usuarioKey] || {};
+        const area = licencia.Area || "";
+        if (area && area.trim()) {
+            areasSet.add(area.trim());
+        }
+    });
+   
+    // Si no hay áreas en conexionesData, usar áreas de licencias
+    if (areasSet.size === 0) {
+        Object.values(mapaLicencias).forEach(lic => {
+            if (lic.Area && lic.Area.trim()) {
+                areasSet.add(lic.Area.trim());
+            }
+        });
+    }
+   
+    const areas = Array.from(areasSet).sort();
+   
+    // Guardar selección actual
+    const selectedValues = Array.from(select.selectedOptions).map(opt => opt.value);
+   
+    // Limpiar y regenerar opciones
+    select.innerHTML = '';
+    areas.forEach(area => {
+        const option = document.createElement('option');
+        option.value = area;
+        option.textContent = area;
+        if (selectedValues.includes(area)) {
+            option.selected = true;
+        }
+        select.appendChild(option);
+    });
+   
+    // Actualizar contador
+    actualizarContadorArea();
+}
+
+function actualizarContadorArea() {
+    const select = document.getElementById('areaFilterSelect');
+    const count = select ? select.selectedOptions.length : 0;
+    const badge = document.getElementById('areaFilterCount');
+    if (badge) {
+        badge.textContent = `${count} seleccionada${count !== 1 ? 's' : ''}`;
+    }
+    // Actualizar áreas seleccionadas
+    areasSeleccionadas = select ? Array.from(select.selectedOptions).map(opt => opt.value) : [];
+}
+
+function aplicarFiltroArea() {
+    actualizarContadorArea();
+    // Aplicar filtro a todas las vistas
+    if (document.getElementById('conexionesPage').style.display !== 'none') {
+        filtrarConexiones();
+    }
+    if (document.getElementById('timelinePage').style.display !== 'none') {
+        filtrarTimeline();
+    }
+}
+
+function limpiarFiltroArea() {
+    const select = document.getElementById('areaFilterSelect');
+    if (select) {
+        Array.from(select.options).forEach(opt => opt.selected = false);
+    }
+    areasSeleccionadas = [];
+    actualizarContadorArea();
+    // Aplicar filtro a todas las vistas
+    if (document.getElementById('conexionesPage').style.display !== 'none') {
+        filtrarConexiones();
+    }
+    if (document.getElementById('timelinePage').style.display !== 'none') {
+        filtrarTimeline();
+    }
+}
+
 function goToPPT() {
     document.getElementById("mainContent").style.display = "none";
     document.getElementById("licenciasPage").style.display = "none";
@@ -3067,17 +3270,20 @@ function goToConexiones() {
     document.getElementById("pendientesPage").style.display = "none";
     document.getElementById("conexionesPage").style.display = "block";
     document.getElementById("timelinePage").style.display = "none";
-   
+  
     if (conexionesData.length === 0) {
         document.getElementById("conexionesSinDatos").style.display = "block";
         document.getElementById("tablaConexiones").style.display = "none";
         document.querySelector(".conexiones-search-wrapper").style.display = "none";
         document.getElementById("duracionEstadosContainer").style.display = "none";
+        document.getElementById("areaFilterContainer").style.display = "none";
     } else {
         document.getElementById("conexionesSinDatos").style.display = "none";
         document.getElementById("tablaConexiones").style.display = "table";
         document.querySelector(".conexiones-search-wrapper").style.display = "flex";
         document.getElementById("duracionEstadosContainer").style.display = "block";
+        document.getElementById("areaFilterContainer").style.display = "flex";
+        actualizarFiltroArea();
         filtrarConexiones();
     }
 }
@@ -3169,7 +3375,7 @@ function calcularDuracionFormateada(inicio, fin) {
 
 function tieneAlerta(registros) {
     const sorted = [...registros].sort((a, b) => a.inicio.localeCompare(b.inicio));
-   
+  
     // Buscar el primer índice donde aparece "Casos fin de turno" o "Fin de turno"
     let primerIndiceFinTurno = -1;
     for (let i = 0; i < sorted.length; i++) {
@@ -3179,10 +3385,10 @@ function tieneAlerta(registros) {
             break;
         }
     }
-   
+  
     // Si no hay "Casos fin de turno", no hay alerta
     if (primerIndiceFinTurno === -1) return false;
-   
+  
     // Buscar transiciones "Casos fin de turno → Línea" SOLO después del primer índice
     for (let i = Math.max(0, primerIndiceFinTurno + 1); i < sorted.length - 1; i++) {
         const actual = sorted[i].descripcion.toLowerCase().trim();
@@ -3198,7 +3404,7 @@ function tieneAlerta(registros) {
 function contarAlertas(registros) {
     const sorted = [...registros].sort((a, b) => a.inicio.localeCompare(b.inicio));
     let count = 0;
-   
+  
     // Buscar el primer índice donde aparece "Casos fin de turno" o "Fin de turno"
     let primerIndiceFinTurno = -1;
     for (let i = 0; i < sorted.length; i++) {
@@ -3208,10 +3414,10 @@ function contarAlertas(registros) {
             break;
         }
     }
-   
+  
     // Si no hay "Casos fin de turno", no hay alertas
     if (primerIndiceFinTurno === -1) return 0;
-   
+  
     // Contar transiciones "Casos fin de turno → Línea" SOLO después del primer índice
     for (let i = Math.max(0, primerIndiceFinTurno + 1); i < sorted.length - 1; i++) {
         const actual = sorted[i].descripcion.toLowerCase().trim();
@@ -3239,15 +3445,31 @@ function generarLineaTiempo(usuario, registros) {
         }
     }
 
+    // Obtener el supervisor y área del usuario desde mapaLicencias
+    const usuarioKey = usuario.toLowerCase().trim();
+    const licencia = mapaLicencias[usuarioKey] || {};
+    const supervisor = licencia.Supervisor || "";
+    const area = licencia.Area || "";
+
     let html = `<div class="timeline-user ${alertClass}">`;
     html += `<div class="timeline-user-header">`;
     html += `<span class="timeline-user-name">👤 ${usuario}`;
    
+    // Mostrar área si existe
+    if (area) {
+        html += `<span class="timeline-user-area">${area}</span>`;
+    }
+   
+    // Mostrar supervisor si existe
+    if (supervisor) {
+        html += `<span class="timeline-user-supervisor">${supervisor}</span>`;
+    }
+  
     if (hasAlert) {
         html += `<span class="alert-icon" title="⚠️ Transición no permitida: Casos fin de turno → Línea">⚠️</span>`;
     }
     html += `</span>`;
-   
+  
     html += `<div class="timeline-user-stats">`;
     html += `<span>📋 ${sorted.length} registros</span>`;
     if (sorted.length > 0) {
@@ -3256,14 +3478,14 @@ function generarLineaTiempo(usuario, registros) {
     }
     html += `</div>`;
     html += `</div>`;
-   
+  
     html += `<div class="timeline-track">`;
-   
+  
     sorted.forEach((reg, idx) => {
         const clase = getEstadoClase(reg.descripcion);
         const nombreEstado = reg.descripcion || 'Desconocido';
         const duracion = calcularDuracionFormateada(reg.inicio, reg.fin);
-       
+      
         // Verificar si este es el inicio de una alerta (Casos fin de turno -> Línea)
         // SOLO si el índice es mayor al primer índice de "Casos fin de turno"
         let esAlerta = false;
@@ -3275,7 +3497,7 @@ function generarLineaTiempo(usuario, registros) {
                 esAlerta = true;
             }
         }
-       
+      
         const alertaClass = esAlerta ? 'alerta' : '';
         html += `<span class="timeline-item ${clase} ${alertaClass}" title="${nombreEstado} - ${duracion}">`;
         html += `<span class="estado-nombre">${nombreEstado}</span>`;
@@ -3284,10 +3506,10 @@ function generarLineaTiempo(usuario, registros) {
         }
         html += `</span>`;
     });
-   
+  
     html += `</div>`;
     html += `</div>`;
-   
+  
     return html;
 }
 
@@ -3297,9 +3519,9 @@ function generarDuracionEstados(datos) {
     const descripcionesSet = new Set();
     const duracionPorUsuario = {};
     let totalAlertas = 0;
-   
+  
     const datosUsar = datos || (conexionesFiltradas.length > 0 ? conexionesFiltradas : conexionesData);
-   
+  
     datosUsar.forEach(reg => {
         const usuario = reg.usuario || 'Sin nombre';
         const desc = reg.descripcion || 'Otros';
@@ -3313,15 +3535,15 @@ function generarDuracionEstados(datos) {
         const segundos = calcularDuracionSegundos(reg.inicio, reg.fin);
         duracionPorUsuario[usuario].tiempos[desc] = (duracionPorUsuario[usuario].tiempos[desc] || 0) + segundos;
     });
-   
+  
     for (const [usuario, data] of Object.entries(duracionPorUsuario)) {
         const registrosUsuario = datosUsar.filter(r => r.usuario === usuario);
         data.alertas = contarAlertas(registrosUsuario);
         totalAlertas += data.alertas;
     }
-   
+  
     const descripciones = Array.from(descripcionesSet).sort();
-   
+  
     // Construir header dinámicamente
     const headerRow = document.getElementById('duracionHeaderRow');
     let headerHTML = '<th data-col="usuario" onclick="ordenarDuracion(\'usuario\')">Usuario <span class="duracion-sort-icon">↕</span></th>';
@@ -3331,7 +3553,7 @@ function generarDuracionEstados(datos) {
     });
     headerHTML += '<th data-col="alertas" onclick="ordenarDuracion(\'alertas\')">Alertas <span class="duracion-sort-icon">↕</span></th>';
     headerRow.innerHTML = headerHTML;
-   
+  
     // Construir datos para ordenar
     let datosTabla = [];
     for (const [usuario, data] of Object.entries(duracionPorUsuario)) {
@@ -3346,7 +3568,7 @@ function generarDuracionEstados(datos) {
         });
         datosTabla.push(row);
     }
-   
+  
     // Ordenar
     datosTabla.sort((a, b) => {
         let valA, valB;
@@ -3364,7 +3586,7 @@ function generarDuracionEstados(datos) {
             return (valA - valB) * duracionSortDirection;
         }
     });
-   
+  
     let html = '';
     datosTabla.forEach(row => {
         const alertaClass = row.alertas > 0 ? 'alert-row' : '';
@@ -3389,7 +3611,7 @@ function generarDuracionEstados(datos) {
         html += `<td style="color: ${row.alertas > 0 ? '#dc3545' : '#28a745'}; font-weight: 600;">${row.alertas > 0 ? '⚠️ ' + row.alertas : '✅'}</td>`;
         html += `</tr>`;
     });
-   
+  
     // Actualizar badge de alertas
     const badge = document.getElementById('alertCountTimeline');
     if (!alertFilterActiveTimeline) {
@@ -3399,7 +3621,7 @@ function generarDuracionEstados(datos) {
     if (badge2 && !alertFilterActiveTimeline) {
         badge2.textContent = `${totalAlertas} alertas`;
     }
-   
+  
     return html;
 }
 
@@ -3407,9 +3629,9 @@ function generarResumenConteos(datos) {
     const descripcionesSet = new Set();
     const resumen = {};
     let totalAlertas = 0;
-   
+  
     const datosUsar = datos || (conexionesFiltradas.length > 0 ? conexionesFiltradas : conexionesData);
-   
+  
     datosUsar.forEach(reg => {
         const usuario = reg.usuario || 'Sin nombre';
         const desc = reg.descripcion || 'Otros';
@@ -3422,15 +3644,15 @@ function generarResumenConteos(datos) {
         }
         resumen[usuario].estados[desc] = (resumen[usuario].estados[desc] || 0) + 1;
     });
-   
+  
     for (const [usuario, data] of Object.entries(resumen)) {
         const registrosUsuario = datosUsar.filter(r => r.usuario === usuario);
         data.alertas = contarAlertas(registrosUsuario);
         totalAlertas += data.alertas;
     }
-   
+  
     const descripciones = Array.from(descripcionesSet).sort();
-   
+  
     // Construir header
     const headerRow = document.getElementById('resumenHeaderRow');
     let headerHTML = '<th>Usuario</th>';
@@ -3439,7 +3661,7 @@ function generarResumenConteos(datos) {
     });
     headerHTML += '<th>Alertas</th>';
     headerRow.innerHTML = headerHTML;
-   
+  
     let html = '';
     for (const [usuario, data] of Object.entries(resumen)) {
         const estados = data.estados;
@@ -3452,7 +3674,7 @@ function generarResumenConteos(datos) {
         html += `<td style="color: ${data.alertas > 0 ? '#dc3545' : '#28a745'}; font-weight: 600;">${data.alertas > 0 ? '⚠️ ' + data.alertas : '✅'}</td>`;
         html += `</tr>`;
     }
-   
+  
     return html;
 }
 
@@ -3463,7 +3685,7 @@ function ordenarDuracion(columna) {
         duracionSortColumn = columna;
         duracionSortDirection = 1;
     }
-   
+  
     // Actualizar íconos en la tabla de duración de conexiones
     document.querySelectorAll('#duracionHeaderRow th .duracion-sort-icon').forEach(el => {
         el.textContent = '↕';
@@ -3477,7 +3699,7 @@ function ordenarDuracion(columna) {
             }
         }
     });
-   
+  
     const tbody = document.getElementById('duracionTbody');
     tbody.innerHTML = generarDuracionEstados(conexionesFiltradas);
 }
@@ -3487,38 +3709,64 @@ function filtrarConexiones() {
     const tbody = document.getElementById("conexionesTbody");
     const filas = tbody.querySelectorAll("tr:not(.no-results-message)");
     let visibleCount = 0;
-   
-    conexionesFiltradas = searchTerm ?
-        conexionesData.filter(row => (row.usuario || "").toLowerCase().includes(searchTerm)) :
-        [...conexionesData];
-   
+  
+    // Aplicar filtros: búsqueda por usuario + filtro de área
+    let datosFiltrados = conexionesData;
+  
+    // Filtro por búsqueda de usuario
+    if (searchTerm) {
+        datosFiltrados = datosFiltrados.filter(row => (row.usuario || "").toLowerCase().includes(searchTerm));
+    }
+  
+    // Filtro por área (desde mapaLicencias)
+    if (areasSeleccionadas.length > 0) {
+        datosFiltrados = datosFiltrados.filter(row => {
+            const usuarioKey = (row.usuario || "").toLowerCase().trim();
+            const licencia = mapaLicencias[usuarioKey] || {};
+            const area = licencia.Area || "";
+            return areasSeleccionadas.includes(area);
+        });
+    }
+  
+    conexionesFiltradas = datosFiltrados;
+  
+    // Mostrar/Ocultar filas en la tabla
     filas.forEach(fila => {
         const usuarioCell = fila.querySelector("td:first-child");
         if (!usuarioCell) return;
         const texto = usuarioCell.textContent.toLowerCase();
-        if (!searchTerm || texto.includes(searchTerm)) {
-            fila.style.display = "";
-            visibleCount++;
-        } else {
-            fila.style.display = "none";
+        // Verificar si esta fila debe ser visible
+        let visible = true;
+        if (searchTerm && !texto.includes(searchTerm)) {
+            visible = false;
         }
+        if (visible && areasSeleccionadas.length > 0) {
+            // Obtener área de la fila (segunda columna)
+            const areaCell = fila.querySelector("td:nth-child(2)");
+            const area = areaCell ? areaCell.textContent : "";
+            if (!areasSeleccionadas.includes(area)) {
+                visible = false;
+            }
+        }
+        fila.style.display = visible ? "" : "none";
+        if (visible) visibleCount++;
     });
-   
+  
     let mensajeFila = tbody.querySelector(".no-results-message");
     if (visibleCount === 0 && conexionesData.length > 0) {
         if (!mensajeFila) {
             mensajeFila = document.createElement("tr");
             mensajeFila.className = "no-results-message";
-            mensajeFila.innerHTML = `<td colspan="8" style="text-align:center; padding:30px; color:#6c757d;">No se encontraron resultados para la búsqueda.</td>`;
+            mensajeFila.innerHTML = `<td colspan="9" style="text-align:center; padding:30px; color:#6c757d;">No se encontraron resultados para la búsqueda.</td>`;
             tbody.appendChild(mensajeFila);
         }
         mensajeFila.style.display = "";
     } else if (mensajeFila) {
         mensajeFila.style.display = "none";
     }
-   
+  
     document.getElementById("conexionesTotalCount").textContent = visibleCount;
-   
+  
     // Actualizar tabla de duración en conexiones
     const tbodyDuracion = document.getElementById('duracionTbody');
     if (tbodyDuracion) {
@@ -3528,11 +3776,26 @@ function filtrarConexiones() {
 
 function filtrarTimeline() {
     const searchTerm = document.getElementById("timelineSearchInput").value.toLowerCase().trim();
-   
-    conexionesFiltradas = searchTerm ?
-        conexionesData.filter(row => (row.usuario || "").toLowerCase().includes(searchTerm)) :
-        [...conexionesData];
-   
+  
+    // Aplicar filtros: búsqueda por usuario + filtro de área
+    let datosFiltrados = conexionesData;
+  
+    // Filtro por búsqueda de usuario
+    if (searchTerm) {
+        datosFiltrados = datosFiltrados.filter(row => (row.usuario || "").toLowerCase().includes(searchTerm));
+    }
+  
+    // Filtro por área (desde mapaLicencias)
+    if (areasSeleccionadas.length > 0) {
+        datosFiltrados = datosFiltrados.filter(row => {
+            const usuarioKey = (row.usuario || "").toLowerCase().trim();
+            const licencia = mapaLicencias[usuarioKey] || {};
+            const area = licencia.Area || "";
+            return areasSeleccionadas.includes(area);
+        });
+    }
+  
+    conexionesFiltradas = datosFiltrados;
     actualizarTimeline();
 }
 
@@ -3540,20 +3803,20 @@ function actualizarTimeline() {
     const container = document.getElementById('timelineContent');
     container.innerHTML = '';
     container.classList.remove('filtering-alerts');
-   
+  
     if (conexionesFiltradas.length === 0) {
         container.innerHTML = '<p style="text-align:center; color: #6c757d; padding: 20px;">No hay datos para mostrar en la línea de tiempo.</p>';
         document.getElementById('timelineUserCount').textContent = '0';
         return;
     }
-   
+  
     const grupos = {};
     conexionesFiltradas.forEach(reg => {
         const usuario = reg.usuario || 'Sin nombre';
         if (!grupos[usuario]) grupos[usuario] = [];
         grupos[usuario].push(reg);
     });
-   
+  
     let totalAlertas = 0;
     let totalUsuarios = 0;
     for (const [usuario, registros] of Object.entries(grupos)) {
@@ -3561,12 +3824,12 @@ function actualizarTimeline() {
         totalUsuarios++;
         totalAlertas += contarAlertas(registros);
     }
-   
+  
     document.getElementById('timelineUserCount').textContent = totalUsuarios;
-   
+  
     const badge = document.getElementById('alertCountTimeline');
     const badge2 = document.getElementById('alertCountTimelineBadge');
-   
+  
     if (!alertFilterActiveTimeline) {
         if (badge) {
             badge.textContent = `${totalAlertas} alertas`;
@@ -3591,7 +3854,7 @@ function actualizarTimeline() {
         }
         container.classList.add('filtering-alerts');
     }
-   
+  
     // Actualizar tabla de resumen (conteos) en timeline
     const tbodyResumen = document.getElementById('resumenTbody');
     if (tbodyResumen) {
@@ -4142,11 +4405,12 @@ window.addEventListener("load", function () {
                     cols.push("");
                 }
 
-                // Obtener usuario para buscar su supervisor en mapaLicencias
+                // Obtener usuario para buscar su supervisor y área en mapaLicencias
                 const usuario = cols[0]?.trim() || "";
                 const usuarioKey = usuario.toLowerCase().trim();
                 const licencia = mapaLicencias[usuarioKey] || {};
                 const supervisor = licencia.Supervisor || "";
+                const area = licencia.Area || "";
 
                 let estado = cols[6]?.trim() || "";
                 let descripcion = cols[7]?.trim() || "";
@@ -4158,6 +4422,7 @@ window.addEventListener("load", function () {
                 const fila = document.createElement("tr");
                 fila.innerHTML = `
                     <td>${usuario}</td>
+                    <td>${area}</td>
                     <td>${supervisor}</td>
                     <td>${cols[1]?.trim() || ""}</td>
                     <td>${cols[2]?.trim() || ""}</td>
@@ -4167,9 +4432,10 @@ window.addEventListener("load", function () {
                     <td>${cols[8]?.trim() || ""}</td>
                 `;
                 tbody.appendChild(fila);
-               
+              
                 conexionesData.push({
                     usuario: usuario,
+                    area: area,
                     supervisor: supervisor,
                     inicio: cols[1]?.trim() || "",
                     fin: cols[2]?.trim() || "",
@@ -4187,11 +4453,15 @@ window.addEventListener("load", function () {
             document.querySelector(".conexiones-search-wrapper").style.display = "flex";
             document.getElementById("conexionesSinDatos").style.display = "none";
             document.getElementById("duracionEstadosContainer").style.display = "block";
-           
+            document.getElementById("areaFilterContainer").style.display = "flex";
+          
             // Resetear ordenamiento
             duracionSortColumn = 'usuario';
             duracionSortDirection = 1;
-           
+          
+            // Actualizar filtro de área
+            actualizarFiltroArea();
+          
             filtrarConexiones();
             document.getElementById("conexionesSearchInput").value = "";
         };
