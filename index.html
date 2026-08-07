@@ -1528,6 +1528,29 @@
             margin-left: 4px;
             color: rgba(255,255,255,0.7);
         }
+
+        /* Personalizar el tooltip nativo */
+[title] {
+    position: relative;
+}
+
+[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a2e;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 1000;
+    border: 1px solid #4a4a6a;
+}
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
@@ -1549,10 +1572,10 @@
         <button onclick="goToLicencias()" id="buscarLicenciasBtn">🔎 Buscar licencias</button>
         <button onclick="goToPPT()" id="pptBtn">📊 PPT semanal</button>
         <button onclick="goToCasosOM()" id="casosOMBtn">📁 Casos OM</button>
-        <button onclick="goToPendientes()" id="pendientesBtn">📌 Pendientes</button>
-        <button onclick="goToConexiones()" id="conexionesBtn">🔌 Conexiones</button>
+        <button onclick="goToPendientes()" id="pendientesBtn" title="Cargas sábana de DESCARGA CHATS">📌 Pendientes</button>
+        <button onclick="goToConexiones()" id="conexionesBtn" title="Cargar reporte de OPERATORS SESSIONS">🔌 Conexiones</button>
 
-        <label for="fileInput" class="custom-file-btn">
+        <label for="fileInput" class="custom-file-btn" title="Cargas sábana de DESCARGA CHATS">
             📁 Cargar documentos
         </label>
         <input type="file" id="fileInput" accept=".csv" multiple hidden />
@@ -1574,7 +1597,7 @@
         </label>
         <label>
             Búsqueda por Agente
-            <input type="text" id="agentSearch" placeholder="Ej: Juan Pérez" />
+            <input type="text" id="agentSearch" placeholder="Ej: Juan Figueroa" />
         </label>
         <div class="search-actions">
             <button id="searchBtn" onclick="openDateModal()">🔍 Buscar</button>
