@@ -1904,23 +1904,28 @@
         No hay datos de conexiones cargados. Por favor, carga un archivo CSV.
     </div>
 
-    <!-- ===== TABLA DE DURACIÓN POR ESTADO ===== -->
-    <div class="duracion-estados-container" id="duracionEstadosContainer" style="display:none;">
-        <h3>⏱️ Duración por Estado (en segundos)</h3>
-        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;">Suma de duración en segundos que cada usuario estuvo en cada estado. Haz clic en los encabezados para ordenar.</p>
-        <div class="table-container" style="max-height: 400px; overflow-y: auto;">
-            <table id="tablaDuracionEstados">
-                <thead id="duracionThead">
-                    <tr id="duracionHeaderRow">
-                        <!-- Los encabezados se generan dinámicamente desde JavaScript -->
-                        <th data-col="usuario" onclick="ordenarDuracion('usuario')">Usuario <span class="duracion-sort-icon">↕</span></th>
-                        <th data-col="alertas" onclick="ordenarDuracion('alertas')">Alertas <span class="duracion-sort-icon">↕</span></th>
-                    </tr>
-                </thead>
-                <tbody id="duracionTbody"></tbody>
-            </table>
-        </div>
+<!-- ===== TABLA DE DURACIÓN POR ESTADO ===== -->
+<div class="duracion-estados-container" id="duracionEstadosContainer" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+        <h3 style="margin:0;">⏱️ Duración por Estado (en segundos)</h3>
+        <button onclick="descargarDuracionExcel()" style="background:#2d6a4f; color:#fff; border:none; padding:8px 18px; border-radius:50px; font-weight:600; cursor:pointer; transition:var(--transition); font-size:0.85rem;">
+            📥 Descargar Excel
+        </button>
     </div>
+    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;">Suma de duración en segundos que cada usuario estuvo en cada estado. Haz clic en los encabezados para ordenar.</p>
+    <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+        <table id="tablaDuracionEstados">
+            <thead id="duracionThead">
+                <tr id="duracionHeaderRow">
+                    <!-- Los encabezados se generan dinámicamente desde JavaScript -->
+                    <th data-col="usuario" onclick="ordenarDuracion('usuario')">Usuario <span class="duracion-sort-icon">↕</span></th>
+                    <th data-col="alertas" onclick="ordenarDuracion('alertas')">Alertas <span class="duracion-sort-icon">↕</span></th>
+                </tr>
+            </thead>
+            <tbody id="duracionTbody"></tbody>
+        </table>
+    </div>
+</div>
 
 </div>
 
@@ -4491,6 +4496,52 @@ window.addEventListener("load", function () {
         lector.readAsText(archivo, "ISO-8859-1");
     });
 });
+
+// ===== FUNCIÓN PARA DESCARGAR TABLA DE DURACIÓN =====
+function descargarDuracionExcel() {
+    const tbody = document.getElementById('duracionTbody');
+    const thead = document.getElementById('duracionHeaderRow');
+    
+    if (!tbody || tbody.children.length === 0) {
+        alert('No hay datos para exportar.');
+        return;
+    }
+    
+    // Obtener encabezados
+    const headers = [];
+    const ths = thead.querySelectorAll('th');
+    ths.forEach(th => {
+        headers.push(th.textContent.replace('↕', '').trim());
+    });
+    
+    // Obtener datos de las filas
+    const data = [];
+    const rows = tbody.querySelectorAll('tr');
+    rows.forEach(row => {
+        const rowData = [];
+        const cells = row.querySelectorAll('td');
+        cells.forEach(cell => {
+            rowData.push(cell.textContent.trim());
+        });
+        if (rowData.length > 0) {
+            data.push(rowData);
+        }
+    });
+    
+    if (data.length === 0) {
+        alert('No hay datos para exportar.');
+        return;
+    }
+    
+    // Crear workbook
+    const wb = XLSX.utils.book_new();
+    const wsData = [headers, ...data];
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(wb, ws, 'Duracion_por_Estado');
+    
+    // Descargar
+    XLSX.writeFile(wb, 'Duracion_por_Estado.xlsx');
+}
 </script>
 </body>
 </html>
