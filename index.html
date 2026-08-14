@@ -2287,8 +2287,21 @@ cargarLicenciasInicial();
 
 document.getElementById('fileInput').addEventListener('change', function(e) {
     const files = e.target.files;
-    if (!files || files.length === 0) return;
-  
+    const fileNameSpan = document.getElementById('fileName');
+    
+    if (!files || files.length === 0) {
+        fileNameSpan.textContent = 'Sin archivos seleccionados';
+        return;
+    }
+   
+    // Actualizar el texto con la cantidad de archivos
+    if (files.length === 1) {
+        fileNameSpan.textContent = `📄 1 archivo cargado: ${files[0].name}`;
+    } else {
+        const nombres = Array.from(files).map(f => f.name).join(', ');
+        fileNameSpan.textContent = `📄 ${files.length} archivos cargados: ${nombres}`;
+    }
+   
     if (Object.keys(mapaLicencias).length === 0) {
         cargarLicenciasInicial();
         setTimeout(() => {
@@ -2430,6 +2443,15 @@ function renderTable(dataArray) {
     const displayData = dataArray.length > 1000 ? dataArray.slice(0, 1000) : dataArray;
     displayData.forEach((row, index) => {
         const tr = document.createElement("tr");
+// --- NUEVA LÓGICA DE COLORES ---
+        const remoto = parseInt(row.Remoto); // Convertir a número
+        if (remoto === 1) {
+            tr.style.backgroundColor = "#d4edda"; // verde claro
+        } else if (remoto === 0) {
+            tr.style.backgroundColor = "#d6eaf8"; // celeste claro
+        }
+        // ---------------------------------
+
         tr.innerHTML = `
             <td>${index + 1}</td>
             <td>${row.Fecha || ""}</td>
