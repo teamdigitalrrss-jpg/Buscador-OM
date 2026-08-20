@@ -1574,6 +1574,9 @@
         <button onclick="goToCasosOM()" id="casosOMBtn">📁 Casos OM</button>
         <button onclick="goToPendientes()" id="pendientesBtn" title="Cargas sábana de DESCARGA CHATS">📌 Pendientes</button>
         <button onclick="goToConexiones()" id="conexionesBtn" title="Cargar reporte de OPERATORS SESSIONS">🔌 Conexiones</button>
+        <a href="https://teamdigitalrrss-jpg.github.io/Tracking/" target="_blank" class="custom-file-btn" style="background:#ee2323; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+    📊 Tracking
+</a>
 
         <label for="fileInput" class="custom-file-btn" title="Cargas sábana de DESCARGA CHATS">
             📁 Cargar documentos
@@ -1600,14 +1603,11 @@
             <input type="text" id="agentSearch" placeholder="Ej: Juan Figueroa" />
         </label>
         <div class="search-actions">
-            <button id="searchBtn" onclick="openDateModal()">🔍 Buscar</button>
-            <button id="resetBtn" onclick="resetSearch()">🔄 Nueva búsqueda</button>
-            <button id="chartBtn" onclick="showChart()">📊 Gráfico errores BOT</button>
-            <button id="textChartBtn" onclick="showTextChart()">📝 Gráfico de texto</button>
-            <button id="copyBtn" onclick="copyResults()">📋 Copiar resultados</button>
-            <button id="downloadBtn" onclick="downloadExcel()">📥 Descargar Excel</button>
-            <button id="backBtn" onclick="goBack()">⬅ Inicio</button>
-        </div>
+    <button id="searchBtn" onclick="openDateModal()">🔍 Buscar</button>
+    <button id="resetBtn" onclick="resetSearch()">🔄 Nueva búsqueda</button>
+    <button id="downloadBtn" onclick="downloadExcel()">📥 Descargar Excel</button>
+    <button id="backBtn" onclick="goBack()">⬅ Inicio</button>
+     </div>
     </div>
 
     <div id="resultCounter"></div>
@@ -1662,9 +1662,6 @@
             <tbody></tbody>
         </table>
     </div>
-
-    <div class="chart-container"><canvas id="eventChart"></canvas></div>
-    <div class="chart-container"><canvas id="textByHourChart"></canvas></div>
 
     <div class="overlay" id="loadingOverlay"></div>
     <div class="spinner" id="loadingSpinner"></div>
@@ -2190,9 +2187,6 @@ function resetSearch() {
     modalStartDate = null;
     modalEndDate = null;
     document.getElementById("dataTable").style.display = "table";
-    document.querySelectorAll('.chart-container').forEach(el => {
-        el.style.display = 'none';
-    });
     document.getElementById("backBtn").style.display = "none";
     document.getElementById("dateFilterContainer").style.display = "none";
     currentSortColumn = -1;
@@ -2416,11 +2410,7 @@ function applyDateFilter() {
     currentStartDate = startDate;
     currentEndDate = endDate;
     dateFilterActive = true;
-    if (window.currentChartType === 'event') {
-        showChart(filteredByDate);
-    } else if (window.currentChartType === 'text') {
-        showTextChart(filteredByDate);
-    }
+   
 }
 
 function resetDateFilter() {
@@ -2429,11 +2419,7 @@ function resetDateFilter() {
     dateFilterActive = false;
     currentStartDate = null;
     currentEndDate = null;
-    if (window.currentChartType === 'event') {
-        showChart();
-    } else if (window.currentChartType === 'text') {
-        showTextChart();
-    }
+    
 }
 
 function renderTable(dataArray) {
@@ -2549,9 +2535,6 @@ function copyResults() {
 }
 
 function goBack() {
-    document.querySelectorAll('.chart-container').forEach(el => {
-        el.style.display = 'none';
-    });
     document.getElementById("dataTable").style.display = "table";
     document.getElementById("backBtn").style.display = "none";
     document.getElementById("dateFilterContainer").style.display = "none";
@@ -2561,8 +2544,7 @@ function showChart(dataToUse) {
     document.getElementById('loadingSpinner').style.display = 'block';
     document.getElementById('loadingOverlay').style.display = 'block';
     const chartData = dataToUse || filteredData;
-    window.currentChartType = 'event';
-    if (chartData.length === 0) {
+        if (chartData.length === 0) {
         alert("No hay datos filtrados para mostrar en el gráfico.");
         document.getElementById('loadingSpinner').style.display = 'none';
         document.getElementById('loadingOverlay').style.display = 'none';
@@ -2675,8 +2657,7 @@ function showTextChart(dataToUse) {
     document.getElementById('loadingSpinner').style.display = 'block';
     document.getElementById('loadingOverlay').style.display = 'block';
     const chartData = dataToUse || filteredData;
-    window.currentChartType = 'text';
-    if (chartData.length === 0) {
+        if (chartData.length === 0) {
         alert("No hay datos filtrados para mostrar en el gráfico.");
         document.getElementById('loadingSpinner').style.display = 'none';
         document.getElementById('loadingOverlay').style.display = 'none';
