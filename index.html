@@ -1551,6 +1551,20 @@
     border: 1px solid #4a4a6a;
 }
 
+#pptBtn {
+    background: #e63946;
+    color: #fff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    
+}
+
+#pptBtn:hover {
+    background: #c1121f;
+}
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
@@ -1574,8 +1588,11 @@
         <button onclick="goToCasosOM()" id="casosOMBtn">📁 Casos OM</button>
         <button onclick="goToPendientes()" id="pendientesBtn" title="Cargas sábana de DESCARGA CHATS">📌 Pendientes</button>
         <button onclick="goToConexiones()" id="conexionesBtn" title="Cargar reporte de OPERATORS SESSIONS">🔌 Conexiones</button>
-        <a href="https://teamdigitalrrss-jpg.github.io/Tracking/" target="_blank" class="custom-file-btn" style="background:#ee2323; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-    📊 Tracking
+        <a href="https://teamdigitalrrss-jpg.github.io/Tracking/"
+   target="_blank"
+   id="pptBtn"
+   class="custom-file-btn">
+   ⌛ Tracking
 </a>
 
         <label for="fileInput" class="custom-file-btn" title="Cargas sábana de DESCARGA CHATS">
@@ -1845,7 +1862,7 @@
             </button>
 
             <label for="conexionesFileInput" class="custom-file-btn">
-                📁 Cargar archivo
+                📁 Cargar archivo OPERATOR SESSIONS
             </label>
 
             <input type="file" id="conexionesFileInput" accept=".csv" hidden>
@@ -1868,15 +1885,18 @@
         <button class="btn-clear-area" onclick="limpiarFiltroArea()">✖ Limpiar</button>
     </div>
 
-    <div class="conexiones-search-wrapper">
-        <label>
-            🔍 Buscar usuario:
-            <input type="text" id="conexionesSearchInput" placeholder="Escribe el nombre del usuario..." oninput="filtrarConexiones()">
-        </label>
-        <div class="conexiones-total">
-            Total de resultados: <span id="conexionesTotalCount">0</span>
-        </div>
+<div class="conexiones-search-wrapper">
+    <label>
+        🔍 Buscar usuario:
+        <input type="text" id="conexionesSearchInput" placeholder="Escribe el nombre del usuario..." oninput="filtrarConexiones()">
+        <button onclick="limpiarBusquedaConexiones()" style="background:#6c757d; color:#fff; border:none; padding:8px 16px; border-radius:50px; font-weight:600; cursor:pointer; margin-left:8px;">
+            Limpiar
+        </button>
+    </label>
+    <div class="conexiones-total">
+        Total de resultados: <span id="conexionesTotalCount">0</span>
     </div>
+</div>
 
     <div class="conexiones-table-container">
         <table id="tablaConexiones" style="display:none; width:100%;">
@@ -3739,17 +3759,14 @@ function filtrarConexiones() {
     const searchTerm = document.getElementById("conexionesSearchInput").value.toLowerCase().trim();
     const tbody = document.getElementById("conexionesTbody");
     const filas = tbody.querySelectorAll("tr:not(.no-results-message)");
-    let visibleCount = 0;
-  
+    
     // Aplicar filtros: búsqueda por usuario + filtro de área
     let datosFiltrados = conexionesData;
-  
-    // Filtro por búsqueda de usuario
+    
     if (searchTerm) {
         datosFiltrados = datosFiltrados.filter(row => (row.usuario || "").toLowerCase().includes(searchTerm));
     }
-  
-    // Filtro por área (desde mapaLicencias)
+    
     if (areasSeleccionadas.length > 0) {
         datosFiltrados = datosFiltrados.filter(row => {
             const usuarioKey = (row.usuario || "").toLowerCase().trim();
@@ -3758,33 +3775,46 @@ function filtrarConexiones() {
             return areasSeleccionadas.includes(area);
         });
     }
-  
+    
     conexionesFiltradas = datosFiltrados;
-  
-    // Mostrar/Ocultar filas en la tabla
+    
+    // Mostrar solo las primeras 4 filas que cumplan el filtro
+    const maxMostrar = 4;
+    let contador = 0;
+    
     filas.forEach(fila => {
         const usuarioCell = fila.querySelector("td:first-child");
-        if (!usuarioCell) return;
+        if (!usuarioCell) {
+            fila.style.display = "none";
+            return;
+        }
         const texto = usuarioCell.textContent.toLowerCase();
-        // Verificar si esta fila debe ser visible
         let visible = true;
         if (searchTerm && !texto.includes(searchTerm)) {
             visible = false;
         }
         if (visible && areasSeleccionadas.length > 0) {
-            // Obtener área de la fila (segunda columna)
             const areaCell = fila.querySelector("td:nth-child(2)");
             const area = areaCell ? areaCell.textContent : "";
             if (!areasSeleccionadas.includes(area)) {
                 visible = false;
             }
         }
-        fila.style.display = visible ? "" : "none";
-        if (visible) visibleCount++;
+        if (visible) {
+            contador++;
+            if (contador <= maxMostrar) {
+                fila.style.display = "";
+            } else {
+                fila.style.display = "none";
+            }
+        } else {
+            fila.style.display = "none";
+        }
     });
-  
+    
+    // Mostrar mensaje de "no hay resultados" si no hay filas visibles
     let mensajeFila = tbody.querySelector(".no-results-message");
-    if (visibleCount === 0 && conexionesData.length > 0) {
+    if (contador === 0 && conexionesData.length > 0) {
         if (!mensajeFila) {
             mensajeFila = document.createElement("tr");
             mensajeFila.className = "no-results-message";
@@ -3795,10 +3825,10 @@ function filtrarConexiones() {
     } else if (mensajeFila) {
         mensajeFila.style.display = "none";
     }
-  
-    document.getElementById("conexionesTotalCount").textContent = visibleCount;
-  
-    // Actualizar tabla de duración en conexiones
+    
+    document.getElementById("conexionesTotalCount").textContent = conexionesFiltradas.length;
+    
+    // ===== NUEVO: ACTUALIZAR TABLA DE DURACIÓN POR ESTADO =====
     const tbodyDuracion = document.getElementById('duracionTbody');
     if (tbodyDuracion) {
         tbodyDuracion.innerHTML = generarDuracionEstados(conexionesFiltradas);
@@ -4544,6 +4574,11 @@ function descargarDuracionExcel() {
     
     // Descargar
     XLSX.writeFile(wb, 'Duracion_por_Estado.xlsx');
+}
+
+function limpiarBusquedaConexiones() {
+    document.getElementById("conexionesSearchInput").value = "";
+    filtrarConexiones();
 }
 </script>
 </body>
