@@ -74,54 +74,85 @@
             margin-bottom: 24px;
         }
 
+        /* ===== ESTILOS DE BOTONES GLOBALES ===== */
         .top-buttons button,
-        .custom-file-btn {
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            border: none;
-            background: var(--bg-card);
-            color: var(--text-dark);
-            box-shadow: var(--shadow-sm);
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+        .top-buttons .custom-file-btn,
+        .search-actions button,
+        .modal-footer button,
+        #licenciasPage button:not(.close-btn),
+        #casosOMPage button:not(.close-btn),
+        #pendientesPage button:not(.close-btn),
+        #modalReporteAgentes button,
+        .btn-captura,
+        .btn-timeline,
+        .badge-alert,
+        .badge-alert-large,
+        .btn-back-timeline,
+        .area-filter-container .btn-clear-area,
+        .btn-volver {
+            background-color: #f4f4f5 !important;
+            color: #000000 !important;
+            border: none !important;
+            padding: 10px 20px !important;
+            border-radius: 50px !important;
+            font-weight: 600 !important;
+            font-size: 0.875rem !important;
+            box-shadow: var(--shadow-sm) !important;
+            transition: var(--transition) !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            text-decoration: none !important;
         }
 
         .top-buttons button:hover,
-        .custom-file-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+        .top-buttons .custom-file-btn:hover,
+        .search-actions button:hover,
+        .modal-footer button:hover,
+        #licenciasPage button:not(.close-btn):hover,
+        #casosOMPage button:not(.close-btn):hover,
+        #pendientesPage button:not(.close-btn):hover,
+        #modalReporteAgentes button:hover,
+        .btn-captura:hover,
+        .btn-timeline:hover,
+        .badge-alert:hover,
+        .badge-alert-large:hover,
+        .btn-back-timeline:hover,
+        .area-filter-container .btn-clear-area:hover,
+        .btn-volver:hover {
+            background-color: #6422bb !important;
+            color: #ffffff !important;
+            transform: translateY(-2px) !important;
+            box-shadow: var(--shadow-md) !important;
         }
 
-        #buscarLicenciasBtn { background: var(--accent); color: #fff; }
-        #buscarLicenciasBtn:hover { background: var(--accent-dark); }
-
-        #pptBtn { background: #e63946; color: #fff; }
-        #pptBtn:hover { background: #c1121f; }
-
-        #casosOMBtn { background: #e63946; color: #fff; }
-        #casosOMBtn:hover { background: #c1121f; }
-
-        #pendientesBtn { background: var(--accent); color: #fff; }
-        #pendientesBtn:hover { background: var(--accent-dark); }
-
-        #conexionesBtn {
-            background: #6f42c1;
-            color: #fff;
-        }
-        #conexionesBtn:hover {
-            background: #5a32a3;
+        /* Enlaces que se comportan como botones */
+        .top-buttons a.custom-file-btn {
+            text-decoration: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
         }
 
-        .custom-file-btn {
-            background: #2d6a4f;
-            color: #fff;
+        /* Botón de cerrar modal (X) no se modifica */
+        .close {
+            background: transparent !important;
+            color: #6c757d !important;
+            box-shadow: none !important;
+            border: none !important;
+            padding: 0 !important;
+            font-size: 28px !important;
+            font-weight: 300 !important;
         }
-        .custom-file-btn:hover { background: #1b4332; }
+        .close:hover {
+            background: transparent !important;
+            color: var(--text-dark) !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        /* ===== FIN ESTILOS DE BOTONES ===== */
 
         #fileName {
             font-size: 0.85rem;
@@ -181,41 +212,6 @@
             margin-top: 4px;
         }
 
-        .search-actions button {
-            padding: 10px 20px;
-            border-radius: 50px;
-            border: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        #searchBtn { background: var(--primary); color: #fff; }
-        #searchBtn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-
-        #resetBtn { background: #6c757d; color: #fff; }
-        #resetBtn:hover { background: #495057; transform: translateY(-2px); }
-
-        #chartBtn, #textChartBtn, #copyBtn, #downloadBtn, #backBtn {
-            background: #e9ecef;
-            color: var(--text-dark);
-        }
-        #chartBtn:hover, #textChartBtn:hover,
-        #copyBtn:hover, #downloadBtn:hover, #backBtn:hover {
-            background: #dee2e6;
-            transform: translateY(-2px);
-        }
-
-        #downloadBtn { background: #2d6a4f; color: #fff; }
-        #downloadBtn:hover { background: #1b4332; }
-
-        #backBtn { background: #6c757d; color: #fff; display: none; }
-        #backBtn:hover { background: #495057; }
-
         #resultCounter {
             margin: 8px 0 16px 0;
             padding: 8px 18px;
@@ -264,8 +260,7 @@
         #dataTable th:hover {
             background: #e9ecef;
         }
-
-        #dataTable th .sort-icon {
+       #dataTable th .sort-icon {
             font-size: 0.7rem;
             margin-left: 4px;
             color: #6c757d;
@@ -395,27 +390,6 @@
             margin-top: 20px;
         }
 
-        .modal-footer button {
-            padding: 10px 24px;
-            border-radius: 50px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .modal-footer button:first-child {
-            background: #e9ecef;
-            color: var(--text-dark);
-        }
-        .modal-footer button:first-child:hover { background: #dee2e6; }
-
-        .modal-footer button:last-child {
-            background: var(--primary);
-            color: #fff;
-        }
-        .modal-footer button:last-child:hover { background: var(--primary-dark); }
-
         .spinner {
             display: none;
             width: 48px;
@@ -522,13 +496,7 @@
             transition: var(--transition);
         }
 
-        #applyDateFilter { background: var(--accent); color: #fff; }
-        #applyDateFilter:hover { background: var(--accent-dark); }
-
-        #resetDateFilter { background: #e9ecef; color: var(--text-dark); }
-        #resetDateFilter:hover { background: #dee2e6; }
-
-        #licenciasPage, #pptPage, #casosOMPage, #pendientesPage {
+        #licenciasPage, #casosOMPage, #pendientesPage {
             background: var(--bg-light);
             padding: 24px;
             border-radius: var(--radius);
@@ -536,14 +504,14 @@
             margin-top: 8px;
         }
 
-        .titulo-licencias, .titulo-ppt {
+        .titulo-licencias, .titulo-casos {
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 16px;
         }
 
         .titulo-licencias { color: var(--accent); }
-        .titulo-ppt { color: var(--primary); }
+        .titulo-casos { color: var(--primary); }
 
         .input-licencias {
             padding: 10px 16px;
@@ -563,151 +531,7 @@
             background: #fff;
         }
 
-        .ppt-content-wrapper {
-            display: flex;
-            gap: 32px;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .ppt-left-column {
-            flex: 1.2;
-            min-width: 320px;
-            max-width: 700px;
-        }
-
-        .ppt-right-column {
-            flex: 1;
-            min-width: 320px;
-            max-width: 600px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            position: sticky;
-            top: 20px;
-        }
-
-        .ppt-chart-box {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 16px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid #f1f3f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .ppt-chart-box canvas {
-            width: 100% !important;
-            height: auto !important;
-            max-height: 360px;
-        }
-
-        #graficoPastel {
-            max-height: 480px !important;
-            min-height: 400px !important;
-            width: 100% !important;
-        }
-
-        .cards-vertical {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-top: 16px;
-        }
-
-        .card-wrapper {
-            position: relative;
-            display: inline-block;
-        }
-
-        .btn-captura {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            transition: var(--transition);
-            padding: 0;
-        }
-
-        .btn-captura:hover {
-            background: rgba(0, 0, 0, 0.9);
-            transform: scale(1.05);
-        }
-
-        .card-tnps-site {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            padding: 16px 20px;
-            width: 240px;
-            height: 160px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #f1f3f5;
-        }
-
-        .card-tnps-titulo {
-            font-weight: 700;
-            color: var(--accent);
-            font-size: 0.95rem;
-            margin-bottom: 8px;
-        }
-
-        .card-analisis {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            padding: 16px 20px;
-            width: 300px;
-            min-height: 160px;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            border: 1px solid #f1f3f5;
-            text-align: left;
-            align-self: flex-start;
-        }
-
-        .card-analisis-casos {
-            max-width: 600px;
-            margin-top: 16px;
-            padding: 20px 24px;
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            text-align: left;
-            border: 1px solid #f1f3f5;
-            font-size: 0.9rem;
-            line-height: 1.7;
-            white-space: pre-wrap;
-        }
-
-        .card-grafico-om {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 16px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid #f1f3f5;
-            flex: 1;
-            min-width: 400px;
-        }
-
-        #tablaLicencias, #tablaPPT, #tablaCasosOM, #tablaPendientes, #tablaReporteAgentes {
+        #tablaLicencias, #tablaCasosOM, #tablaPendientes {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.875rem;
@@ -717,8 +541,7 @@
             box-shadow: var(--shadow-sm);
         }
 
-        #tablaLicencias th, #tablaPPT th, #tablaCasosOM th,
-        #tablaPendientes th, #tablaReporteAgentes th {
+        #tablaLicencias th, #tablaCasosOM th, #tablaPendientes th {
             background: #f1f3f5;
             padding: 12px 14px;
             font-weight: 600;
@@ -726,8 +549,7 @@
             border-bottom: 2px solid #dee2e6;
         }
 
-        #tablaLicencias td, #tablaPPT td, #tablaCasosOM td,
-        #tablaPendientes td, #tablaReporteAgentes td {
+        #tablaLicencias td, #tablaCasosOM td, #tablaPendientes td {
             padding: 10px 14px;
             border-bottom: 1px solid #f1f3f5;
         }
@@ -742,273 +564,42 @@
             width: 100%;
         }
 
-        @keyframes pulse-alert-strong {
-            0%, 100% {
-                box-shadow: 0 0 10px rgba(220, 53, 69, 0.4);
-                border-color: #dc3545;
-            }
-            50% {
-                box-shadow: 0 0 30px rgba(220, 53, 69, 0.8), 0 0 60px rgba(220, 53, 69, 0.2);
-                border-color: #ff6b6b;
-            }
-        }
-
-        @keyframes bounce-icon {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .timeline-item.estado-linea { background: #ffd700; color: #000; }
-        .timeline-item.estado-fin-turno { background: #6c757d; color: #fff; }
-        .timeline-item.estado-conectado { background: #28a745; color: #fff; }
-        .timeline-item.estado-desconectado { background: #dc3545; color: #fff; }
-        .timeline-item.estado-pausa { background: #ffc107; color: #000; }
-        .timeline-item.estado-almuerzo { background: #fd7e14; color: #fff; }
-        .timeline-item.estado-ocupado { background: #007bff; color: #fff; }
-        .timeline-item.estado-disponible { background: #17a2b8; color: #fff; }
-        .timeline-item.estado-casos-fin-turno { background: #8b0000; color: #fff; }
-        .timeline-item.estado-gestion-bo { background: #6c3483; color: #fff; }
-        .timeline-item.estado-en-bano { background: #1a5276; color: #fff; }
-        .timeline-item.estado-en-break { background: #7d6608; color: #fff; }
-        .timeline-item.estado-default { background: #e9ecef; color: #000; }
-
-        /* Filtro de alertas activo */
-        .filtering-alerts .timeline-user:not(.has-alert) {
-            display: none;
-        }
-
-        .filtering-alerts .timeline-user.has-alert {
-            display: block;
-        }
-
-        .btn-timeline {
-            background: #6f42c1;
-            color: #fff;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.85rem;
-        }
-
-        .btn-timeline:hover {
-            background: #5a32a3;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-timeline.active {
-            background: #dc3545;
-        }
-
-        .btn-timeline.active:hover {
-            background: #c1121f;
-        }
-
-        .btn-back-timeline {
-            background: #6c757d;
-            color: #fff;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.85rem;
-            margin-bottom: 16px;
-        }
-
-        .btn-back-timeline:hover {
-            background: #495057;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* ===== PÁGINA DE LÍNEA DE TIEMPO ===== */
-        #timelinePage {
-            display: none;
-            padding: 24px;
-            background: var(--bg-light);
-            border-radius: var(--radius);
+        /* ===== ESTILOS PARA REPORTE POR AGENTES ===== */
+        #tablaReporteAgentes {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
             box-shadow: var(--shadow-sm);
-            margin-top: 8px;
         }
 
-        .timeline-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .timeline-header h1 {
-            color: #6f42c1;
-            font-weight: 700;
-            font-size: 1.8rem;
-        }
-
-        .timeline-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .badge-alert-large {
-            background: #dc3545;
-            color: #fff;
-            font-size: 0.9rem;
-            font-weight: 700;
-            padding: 8px 20px;
-            border-radius: 50px;
+        #tablaReporteAgentes th {
+            background: #f1f3f5;
+            padding: 12px 14px;
+            font-weight: 600;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
             cursor: pointer;
             transition: var(--transition);
-            border: none;
-            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
         }
 
-        .badge-alert-large:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 16px rgba(220, 53, 69, 0.4);
+        #tablaReporteAgentes th:hover {
+            background: #e9ecef;
         }
 
-        .badge-alert-large.active-filter {
-            background: #28a745;
-            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+        #tablaReporteAgentes td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #f1f3f5;
         }
 
-        .badge-alert-large.active-filter:hover {
-            box-shadow: 0 4px 16px rgba(40, 167, 69, 0.4);
+        #tablaReporteAgentes tbody tr:nth-child(even) {
+            background: #fcfcfd;
         }
 
-        /* Estilo para supervisor en línea de tiempo */
-        .timeline-user-supervisor {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-weight: 400;
-            margin-left: 6px;
-        }
-        .timeline-user-supervisor::before {
-            content: "👤 ";
-        }
-
-        .timeline-user-area {
-            font-size: 0.7rem;
-            color: var(--accent);
-            font-weight: 500;
-            margin-left: 4px;
-            background: #eef2f7;
-            padding: 0 8px;
-            border-radius: 4px;
-        }
-
-        @media (max-width: 768px) {
-            body { padding: 12px; }
-            .main-header h1 { font-size: 1.5rem; }
-            .search-grid {
-                flex-direction: column;
-                align-items: stretch;
-                padding: 16px;
-            }
-            .search-grid label { width: 100%; }
-            .search-grid input { width: 100%; }
-            .search-actions {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            .top-buttons { gap: 6px; }
-            .top-buttons button, .custom-file-btn {
-                padding: 8px 14px;
-                font-size: 0.75rem;
-            }
-            .modal-content {
-                margin: 20% auto;
-                padding: 20px;
-                width: 95%;
-            }
-            .card-analisis { width: 100%; }
-            .card-tnps-site { width: 100%; }
-            .card-grafico-om { min-width: auto; }
-            .ppt-right-column {
-                position: static;
-            }
-            .ppt-content-wrapper {
-                flex-direction: column;
-                align-items: center;
-            }
-            #graficoPastel {
-                max-height: 320px !important;
-                min-height: 280px !important;
-            }
-            .conexiones-search-wrapper input {
-                width: 100%;
-            }
-            .conexiones-search-wrapper {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .area-filter-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .area-filter-container select {
-                width: 100%;
-            }
-            .timeline-track {
-                gap: 4px;
-            }
-            .timeline-item {
-                font-size: 0.65rem;
-                padding: 4px 8px;
-                min-width: 40px;
-            }
-            .timeline-item .estado-nombre {
-                font-size: 0.6rem;
-            }
-            .timeline-item .estado-duracion {
-                font-size: 0.5rem;
-            }
-            .timeline-user-stats {
-                font-size: 0.7rem;
-            }
-            #tablaDuracionEstados {
-                font-size: 0.65rem;
-            }
-            #tablaDuracionEstados th,
-            #tablaDuracionEstados td {
-                padding: 3px 5px;
-            }
-            #tablaResumenTiempos {
-                font-size: 0.65rem;
-            }
-            #tablaResumenTiempos th,
-            #tablaResumenTiempos td {
-                padding: 3px 5px;
-            }
-            .timeline-header h1 {
-                font-size: 1.3rem;
-            }
-            .timeline-controls {
-                gap: 6px;
-            }
-            .badge-alert-large {
-                font-size: 0.75rem;
-                padding: 6px 14px;
-            }
-            .timeline-item.alerta::after {
-                font-size: 0.5rem;
-                padding: 1px 4px;
-                bottom: -18px;
-            }
-            .timeline-item.alerta::before {
-                font-size: 1rem;
-                top: -14px;
-                right: -8px;
-            }
+        #tablaReporteAgentes tbody tr:hover {
+            background: #f8f9fa;
         }
 
         #pendientesPage .input-licencias {
@@ -1057,12 +648,6 @@
 
         #modalReporteAgentes h2 { color: var(--accent); }
 
-        #tablaReporteAgentes th {
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        #tablaReporteAgentes th:hover { background: #e9ecef; }
-
         .registros-adicionales {
             padding: 12px;
             text-align: center;
@@ -1072,48 +657,87 @@
             border-top: 1px solid #dee2e6;
         }
 
-        .duracion-sort-icon {
-            font-size: 0.65rem;
-            margin-left: 4px;
-            color: rgba(255,255,255,0.7);
+        /* ===== MEJORAS EN CASOS OM ===== */
+        .casos-om-wrapper {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
         }
 
-        /* Personalizar el tooltip nativo */
-[title] {
-    position: relative;
-}
+        .casos-om-tabla-container {
+            flex: 1.2;
+            min-width: 320px;
+            max-width: 700px;
+        }
 
-[title]:hover::after {
-    content: attr(title);
-    position: absolute;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #1a1a2e;
-    color: #fff;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    z-index: 1000;
-    border: 1px solid #4a4a6a;
-}
+        .casos-om-grafico-container {
+            flex: 1;
+            min-width: 320px;
+            max-width: 600px;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #f1f3f5;
+        }
 
-#pptBtn {
-    background: #e63946;
-    color: #fff;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
-    
-}
+        .casos-om-grafico-container canvas {
+            width: 100% !important;
+            height: auto !important;
+            min-height: 300px;
+            max-height: 500px;
+        }
 
-#pptBtn:hover {
-    background: #c1121f;
-}
+        .card-analisis-casos {
+            max-width: 700px;
+            margin-top: 16px;
+            padding: 20px 24px;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            text-align: left;
+            border: 1px solid #f1f3f5;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .main-header h1 { font-size: 1.5rem; }
+            .search-grid {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 16px;
+            }
+            .search-grid label { width: 100%; }
+            .search-grid input { width: 100%; }
+            .search-actions {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .top-buttons { gap: 6px; }
+            .top-buttons button, .custom-file-btn {
+                padding: 8px 14px;
+                font-size: 0.75rem;
+            }
+            .modal-content {
+                margin: 20% auto;
+                padding: 20px;
+                width: 95%;
+            }
+            .casos-om-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            .casos-om-tabla-container, .casos-om-grafico-container {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
@@ -1133,18 +757,13 @@
 
     <div class="top-buttons">
         <button onclick="goToLicencias()" id="buscarLicenciasBtn">🔎 Buscar licencias</button>
-        <button onclick="goToPPT()" id="pptBtn">📊 PPT semanal</button>
         <button onclick="goToCasosOM()" id="casosOMBtn">📁 Casos OM</button>
         <button onclick="goToPendientes()" id="pendientesBtn" title="Cargas sábana de DESCARGA CHATS">📌 Pendientes</button>
-        <a href="https://teamdigitalrrss-jpg.github.io/ConexionesOM/" target="_blank" class="custom-file-btn" style="background:#6f42c1; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-    🔌 Conexiones
-</a>
-        <a href="https://teamdigitalrrss-jpg.github.io/Tracking/"
-   target="_blank"
-   id="pptBtn"
-   class="custom-file-btn">
-   ⌛ Tracking
-</a>
+        
+        <!-- Enlace externo a Conexiones -->
+        <a href="https://teamdigitalrrss-jpg.github.io/ConexionesOM/" target="_blank" class="custom-file-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+            🔌 Conexiones
+        </a>
 
         <label for="fileInput" class="custom-file-btn" title="Cargas sábana de DESCARGA CHATS">
             📁 Cargar documentos
@@ -1171,11 +790,11 @@
             <input type="text" id="agentSearch" placeholder="Ej: Juan Figueroa" />
         </label>
         <div class="search-actions">
-    <button id="searchBtn" onclick="openDateModal()">🔍 Buscar</button>
-    <button id="resetBtn" onclick="resetSearch()">🔄 Nueva búsqueda</button>
-    <button id="downloadBtn" onclick="downloadExcel()">📥 Descargar Excel</button>
-    <button id="backBtn" onclick="goBack()">⬅ Inicio</button>
-     </div>
+            <button id="searchBtn" onclick="openDateModal()">🔍 Buscar</button>
+            <button id="resetBtn" onclick="resetSearch()">🔄 Nueva búsqueda</button>
+            <button id="downloadBtn" onclick="downloadExcel()">📥 Descargar Excel</button>
+            <button id="backBtn" onclick="goBack()">⬅ Inicio</button>
+        </div>
     </div>
 
     <div id="resultCounter"></div>
@@ -1231,13 +850,16 @@
         </table>
     </div>
 
+    <div class="chart-container"><canvas id="eventChart"></canvas></div>
+    <div class="chart-container"><canvas id="textByHourChart"></canvas></div>
+
     <div class="overlay" id="loadingOverlay"></div>
     <div class="spinner" id="loadingSpinner"></div>
 </div>
 
 <div id="licenciasPage" style="display:none; text-align:center;">
     <h1 class="titulo-licencias">🔎 Buscar licencias</h1>
-    <button onclick="backToMain()" style="background:#6c757d; color:#fff; border:none; padding:10px 24px; border-radius:50px; font-weight:600; cursor:pointer;">⬅ Volver</button>
+    <button onclick="backToMain()" class="btn-volver">⬅ Volver</button>
     <br><br>
     <label><b>Nombre o licencia:</b></label>
     <input type="text" id="licenciaInput" placeholder="Ingresa nombre de asesor o licencia OM" onkeyup="buscarLicencias()" class="input-licencias">
@@ -1259,111 +881,72 @@
     </div>
 </div>
 
+<!-- ===== SECCIÓN CASOS OM ===== -->
+<div id="casosOMPage" style="display:none;">
+    <div style="text-align:center; margin-bottom:20px;">
+        <h1 class="titulo-casos">📁 Casos OM</h1>
+        <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+            <button onclick="backFromCasosOM()" class="btn-volver">⬅ Volver</button>
+            <button onclick="copiarGraficoComoImagen()">📊 Copiar gráfico</button>
+        </div>
+    </div>
 
-<div id="pptPage" style="display:none; text-align:center;">
-    <h1 class="titulo-ppt">📊 Reporte reunión semanal</h1>
-    <button onclick="backFromPPT()" style="background:#6c757d; color:#fff; border:none; padding:10px 24px; border-radius:50px; font-weight:600; cursor:pointer;">⬅ Volver</button>
-    <button onclick="goToBI()" id="btnBI" style="background:var(--accent); color:#fff; border:none; padding:10px 24px; border-radius:50px; font-weight:600; cursor:pointer; margin-left:8px;">📊 Reporte BI</button>
-
-    <div class="ppt-content-wrapper">
-
-        <div class="ppt-left-column">
-            <div class="table-container">
-                <table id="tablaPPT">
+    <div class="casos-om-wrapper">
+        <!-- Tabla -->
+        <div class="casos-om-tabla-container">
+            <div class="table-container" style="max-height:500px; overflow-y:auto;">
+                <table id="tablaCasosOM">
                     <thead>
                         <tr>
-                            <th>Supervisor</th>
-                            <th>Encuestas</th>
-                            <th>tNPS semana anterior</th>
-                            <th>tNPS actual</th>
-                            <th>Detractores</th>
-                            <th>Mayor nota en el mes</th>
+                            <th>Canal</th>
+                            <th>Servicio</th>
+                            <th>Reclamo</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td contenteditable="true">Jaime Flores</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                        <tr><td contenteditable="true">Erika Martínez</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                        <tr><td contenteditable="true">Gerardo Leiva</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                        <tr><td contenteditable="true">Erick Carpio</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                        <tr><td contenteditable="true">Rodrigo Coreas</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                        <script>
+                            for (let i = 0; i < 25; i++) {
+                                document.write(`
+                                    <tr>
+                                        <td>
+                                            <select>
+                                                <option>WhatsApp</option>
+                                                <option>Messenger</option>
+                                                <option>Instagram</option>
+                                                <option>X</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select>
+                                                <option>Fijo</option>
+                                                <option>Móvil</option>
+                                            </select>
+                                        </td>
+                                        <td contenteditable="true"></td>
+                                    </tr>
+                                `);
+                            }
+                        </script>
                     </tbody>
                 </table>
             </div>
-
-            <div id="cardsContainer" class="cards-vertical"></div>
         </div>
 
-        <div class="ppt-right-column">
-            <div class="ppt-chart-box">
-                <canvas id="graficoEncuestas" width="500" height="300"></canvas>
-            </div>
-            <div class="ppt-chart-box">
-                <canvas id="graficoPastel" width="500" height="500"></canvas>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<div id="casosOMPage" style="display:none; text-align:center;">
-    <h1 class="titulo-ppt">📁 Casos OM</h1>
-    <div style="margin-bottom:12px;">
-        <button onclick="copiarGraficoComoImagen()" style="background:#6c757d; color:#fff; border:none; padding:8px 18px; border-radius:50px; font-weight:600; cursor:pointer;">📊 Copiar gráfico</button>
-    </div>
-    <button onclick="backFromCasosOM()" style="background:#6c757d; color:#fff; border:none; padding:10px 24px; border-radius:50px; font-weight:600; cursor:pointer;">⬅ Volver</button>
-
-    <div style="display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap; justify-content:center; margin-top:20px;">
-        <div class="table-container" style="width:600px; max-width:100%;">
-            <table id="tablaCasosOM">
-                <thead>
-                    <tr>
-                        <th>Canal</th>
-                        <th>Servicio</th>
-                        <th>Reclamo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <script>
-                        for (let i = 0; i < 25; i++) {
-                            document.write(`
-                                <tr>
-                                    <td>
-                                        <select>
-                                            <option>WhatsApp</option>
-                                            <option>Messenger</option>
-                                            <option>Instagram</option>
-                                            <option>X</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select>
-                                            <option>Fijo</option>
-                                            <option>Móvil</option>
-                                            <option>Consulta</option>
-                                        </select>
-                                    </td>
-                                    <td contenteditable="true"></td>
-                                </tr>
-                            `);
-                        }
-                    </script>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="card-grafico-om" style="flex:1; min-width:320px;">
+        <!-- Gráfico -->
+        <div class="casos-om-grafico-container">
             <canvas id="graficoCasosOM" height="400"></canvas>
         </div>
     </div>
 
-    <div id="cardAnalisisCasos" class="card-analisis-casos" style="margin:16px auto; max-width:700px;">
+    <!-- Análisis -->
+    <div id="cardAnalisisCasos" class="card-analisis-casos" style="margin:20px auto;">
         <div id="textoAnalisisCasos">Ingresa datos en la tabla para ver el análisis...</div>
     </div>
 </div>
 
 <div id="pendientesPage" style="display:none; text-align:center;">
     <h1 style="color:var(--accent); font-weight:700;">📌 Pendientes</h1>
-    <button onclick="backFromPendientes()" style="background:#6c757d; color:#fff; border:none; padding:10px 24px; border-radius:50px; font-weight:600; cursor:pointer;">⬅ Volver</button>
+    <button onclick="backFromPendientes()" class="btn-volver">⬅ Volver</button>
 
     <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:16px 0;">
         <input type="text" id="pendienteAgente" placeholder="Buscar agente" class="input-licencias">
@@ -1371,9 +954,9 @@
         <input type="text" id="pendienteTexto" placeholder="Buscar texto" class="input-licencias">
         <input type="text" id="fechaInicioPendienteFiltro" placeholder="Fecha inicio" class="input-licencias">
         <input type="text" id="fechaFinPendienteFiltro" placeholder="Fecha fin" class="input-licencias">
-        <button onclick="buscarPendientes()" style="background:var(--accent); color:#fff; border:none; padding:10px 20px; border-radius:50px; font-weight:600; cursor:pointer;">🔍 Buscar</button>
-        <button onclick="limpiarPendientes()" style="background:#6c757d; color:#fff; border:none; padding:10px 20px; border-radius:50px; font-weight:600; cursor:pointer;">🔄 Limpiar</button>
-        <button onclick="mostrarReporteAgentes()" style="background:#f77f00; color:#fff; border:none; padding:10px 20px; border-radius:50px; font-weight:600; cursor:pointer;">📊 Reporte por agentes</button>
+        <button onclick="buscarPendientes()">🔍 Buscar</button>
+        <button onclick="limpiarPendientes()">🔄 Limpiar</button>
+        <button onclick="mostrarReporteAgentes()">📊 Reporte por agentes</button>
     </div>
 
     <div id="contadorPendientes" style="font-weight:600; color:var(--secondary);"></div>
@@ -1402,61 +985,16 @@
     </div>
 </div>
 
-<!-- ===== PÁGINA DE LÍNEA DE TIEMPO ===== -->
-<div id="timelinePage">
-    <div class="timeline-header">
-        <h1>📊 Línea de Tiempo - Conexiones</h1>
-        <div class="timeline-controls">
-            <button onclick="backFromTimeline()" class="btn-back-timeline">⬅ Volver a Conexiones</button>
-            <span class="badge-alert-large" id="alertCountTimeline" onclick="toggleAlertFilterTimeline()">0 alertas</span>
-        </div>
-    </div>
-
-    <!-- Buscador -->
-    <div class="conexiones-search-wrapper">
-        <label>
-            🔍 Buscar usuario:
-            <input type="text" id="timelineSearchInput" placeholder="Escribe el nombre del usuario..." oninput="filtrarTimeline()">
-        </label>
-        <div class="conexiones-total">
-            Usuarios: <span id="timelineUserCount">0</span>
-        </div>
-    </div>
-
-    <!-- Línea de Tiempo -->
-    <div class="timeline-container">
-        <h2>⏳ Línea de Tiempo por Usuario
-            <span class="badge-alert" id="alertCountTimelineBadge" onclick="toggleAlertFilterTimeline()">0 alertas</span>
-        </h2>
-        <div id="timelineContent"></div>
-    </div>
-
-    <!-- ===== TABLA DE RESUMEN (CONTEOS) ===== -->
-    <div class="resumen-tiempos-container">
-        <h3>📊 Conteo de veces por Estado</h3>
-        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;">Cantidad de veces que cada usuario estuvo en cada estado.</p>
-        <div class="table-container" style="max-height: 400px; overflow-y: auto;">
-            <table id="tablaResumenTiempos">
-                <thead id="resumenThead">
-                    <tr id="resumenHeaderRow">
-                        <th>Usuario</th>
-                        <th>Alertas</th>
-                    </tr>
-                </thead>
-                <tbody id="resumenTbody"></tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
 <div id="modalReporteAgentes">
     <div>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <h2 style="color:var(--accent);">📊 Reporte por Agentes</h2>
-            <button onclick="cerrarReporteAgentes()" style="background:#e9ecef; border:none; padding:8px 18px; border-radius:50px; font-weight:600; cursor:pointer;">✖ Cerrar</button>
+            <button onclick="cerrarReporteAgentes()">✖ Cerrar</button>
         </div>
-        <button onclick="descargarReporteAgentes()" style="background:#2d6a4f; color:#fff; border:none; padding:8px 20px; border-radius:50px; font-weight:600; cursor:pointer; margin:12px 0;">📥 Descargar Excel</button>
-        <div class="table-container">
+        <div style="display:flex; gap:12px; margin:12px 0;">
+            <button onclick="descargarReporteAgentes()">📥 Descargar Excel</button>
+        </div>
+        <div class="table-container" style="max-height:500px; overflow-y:auto;">
             <table id="tablaReporteAgentes">
                 <thead>
                     <tr>
@@ -1488,8 +1026,6 @@ let currentEndDate = null;
 let pendientesData = [];
 let pendientesResultados = [];
 let reporteAgentesData = [];
-let fechaInicioPendientes = null;
-let fechaFinPendientes = null;
 let fechasDisponiblesPendientes = [];
 let reporteSortColumn = "";
 let reporteSortDirection = 1;
@@ -1500,48 +1036,7 @@ let currentSortColumn = -1;
 let sortDirection = 1;
 let mapaLicencias = {};
 let dataLicencias = [];
-let posicionesLabels = {};
 let graficoCasosOMInstance = null;
-
-// Variables para conexiones
-let conexionesData = [];
-let conexionesFiltradas = [];
-let alertFilterActiveTimeline = false;
-
-// Variables para ordenamiento de duración
-let duracionSortColumn = 'usuario';
-let duracionSortDirection = 1;
-
-// Variables para filtro de área
-let areasSeleccionadas = [];
-
-// Mapeo de colores para estados
-const estadoColores = {
-    'línea': 'estado-linea',
-    'linea': 'estado-linea',
-    'fin de turno': 'estado-fin-turno',
-    'casos fin de turno': 'estado-casos-fin-turno',
-    'conectado': 'estado-conectado',
-    'desconectado': 'estado-desconectado',
-    'pausa': 'estado-pausa',
-    'almuerzo': 'estado-almuerzo',
-    'ocupado': 'estado-ocupado',
-    'disponible': 'estado-disponible',
-    'gestión bo': 'estado-gestion-bo',
-    'en baño': 'estado-en-bano',
-    'en break': 'estado-en-break'
-};
-
-const textosPendientes = [
-    "caso marcado pendiente",
-    "quedo al pendiente",
-    "quedo a la espera",
-    "quedamos a la espera",
-    "quedo pendiente",
-    "quedamos a la orden",
-    "quedamos a tus órdenes",
-    "quedamos a tus ordenes"
-];
 
 // ===== FUNCIONES =====
 
@@ -1663,6 +1158,9 @@ function resetSearch() {
     modalStartDate = null;
     modalEndDate = null;
     document.getElementById("dataTable").style.display = "table";
+    document.querySelectorAll('.chart-container').forEach(el => {
+        el.style.display = 'none';
+    });
     document.getElementById("backBtn").style.display = "none";
     document.getElementById("dateFilterContainer").style.display = "none";
     currentSortColumn = -1;
@@ -1764,7 +1262,6 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
         return;
     }
    
-    // Actualizar el texto con la cantidad de archivos
     if (files.length === 1) {
         fileNameSpan.textContent = `📄 1 archivo cargado: ${files[0].name}`;
     } else {
@@ -1886,7 +1383,7 @@ function applyDateFilter() {
     currentStartDate = startDate;
     currentEndDate = endDate;
     dateFilterActive = true;
-   
+    // Nota: ya no hay gráficos de eventos, se mantiene solo para compatibilidad con filtros de fecha
 }
 
 function resetDateFilter() {
@@ -1895,7 +1392,6 @@ function resetDateFilter() {
     dateFilterActive = false;
     currentStartDate = null;
     currentEndDate = null;
-    
 }
 
 function renderTable(dataArray) {
@@ -1905,15 +1401,13 @@ function renderTable(dataArray) {
     const displayData = dataArray.length > 1000 ? dataArray.slice(0, 1000) : dataArray;
     displayData.forEach((row, index) => {
         const tr = document.createElement("tr");
-// --- NUEVA LÓGICA DE COLORES ---
-        const remoto = parseInt(row.Remoto); // Convertir a número
+        // COLOR DE FILA SEGÚN REMOTO
+        const remoto = parseInt(row.Remoto);
         if (remoto === 1) {
             tr.style.backgroundColor = "#d4edda"; // verde claro
         } else if (remoto === 0) {
             tr.style.backgroundColor = "#d6eaf8"; // celeste claro
         }
-        // ---------------------------------
-
         tr.innerHTML = `
             <td>${index + 1}</td>
             <td>${row.Fecha || ""}</td>
@@ -1989,116 +1483,6 @@ function columnFilter(columnIndex, searchValue) {
     updateResultCounter(visibleCount);
 }
 
-function copyResults() {
-    const rows = document.querySelectorAll("#dataTable tbody tr");
-    let text = "";
-    rows.forEach(row => {
-        if (row.style.display !== "none" && row.cells.length > 1) {
-            const cells = row.querySelectorAll("td");
-            const line = Array.from(cells).map(cell => cell.textContent).join("\t");
-            text += line + "\n";
-        }
-    });
-    if (!text) {
-        alert("No hay resultados visibles para copiar.");
-        return;
-    }
-    navigator.clipboard.writeText(text).then(() => {
-        alert("Resultados visibles copiados al portapapeles.");
-    }).catch(err => {
-        alert("Error al copiar: " + err);
-    });
-}
-
-function goBack() {
-    document.getElementById("dataTable").style.display = "table";
-    document.getElementById("backBtn").style.display = "none";
-    document.getElementById("dateFilterContainer").style.display = "none";
-}
-
-function showChart(dataToUse) {
-    document.getElementById('loadingSpinner').style.display = 'block';
-    document.getElementById('loadingOverlay').style.display = 'block';
-    const chartData = dataToUse || filteredData;
-        if (chartData.length === 0) {
-        alert("No hay datos filtrados para mostrar en el gráfico.");
-        document.getElementById('loadingSpinner').style.display = 'none';
-        document.getElementById('loadingOverlay').style.display = 'none';
-        return;
-    }
-    document.getElementById("dateFilterContainer").style.display = "block";
-    requestAnimationFrame(() => {
-        const countMap = {};
-        chartData.forEach(row => {
-            const key = `${row.Hora} - ${row.Event}`;
-            countMap[key] = (countMap[key] || 0) + 1;
-        });
-        const entries = Object.entries(countMap);
-        entries.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
-        const labels = entries.map(entry => entry[0]);
-        const counts = entries.map(entry => entry[1]);
-        const ctx = document.getElementById("eventChart").getContext("2d");
-        if (window.eventChartInstance) window.eventChartInstance.destroy();
-        let chartTitle = "Cantidad de eventos por hora";
-        if (dateFilterActive) {
-            const startStr = currentStartDate.toLocaleDateString('es-ES');
-            const endStr = currentEndDate.toLocaleDateString('es-ES');
-            chartTitle += ` (${startStr} - ${endStr})`;
-        }
-        window.eventChartInstance = new Chart(ctx, {
-            type: "bar",
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: chartTitle,
-                    data: counts,
-                    backgroundColor: "#FFD700",
-                    borderColor: "#FFD700",
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    datalabels: {
-                        color: '#000',
-                        anchor: 'center',
-                        align: 'center',
-                        font: { weight: 'bold' },
-                        formatter: Math.round,
-                        clip: false
-                    },
-                    legend: { display: false },
-                    tooltip: { enabled: true }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: "Total por Hora" },
-                        ticks: {
-                            autoSkip: false,
-                            maxRotation: 45,
-                            minRotation: 45
-                        }
-                    },
-                    y: {
-                        title: { display: true, text: "Cantidad" },
-                        beginAtZero: true,
-                        ticks: { precision: 0 }
-                    }
-                }
-            },
-            plugins: [ChartDataLabels]
-        });
-        document.getElementById("eventChart").parentElement.style.display = "block";
-        document.getElementById("textByHourChart").parentElement.style.display = "none";
-        document.getElementById("dataTable").style.display = "none";
-        document.getElementById("backBtn").style.display = "inline-block";
-        document.getElementById('loadingSpinner').style.display = 'none';
-        document.getElementById('loadingOverlay').style.display = 'none';
-    });
-}
-
 function downloadExcel() {
     if (filteredData.length === 0) {
         alert("No hay datos filtrados para exportar.");
@@ -2129,191 +1513,16 @@ function downloadExcel() {
     XLSX.writeFile(workbook, 'resultado_busqueda.xlsx');
 }
 
-function showTextChart(dataToUse) {
-    document.getElementById('loadingSpinner').style.display = 'block';
-    document.getElementById('loadingOverlay').style.display = 'block';
-    const chartData = dataToUse || filteredData;
-        if (chartData.length === 0) {
-        alert("No hay datos filtrados para mostrar en el gráfico.");
-        document.getElementById('loadingSpinner').style.display = 'none';
-        document.getElementById('loadingOverlay').style.display = 'none';
-        return;
-    }
-    document.getElementById("dateFilterContainer").style.display = "block";
-    requestAnimationFrame(() => {
-        let chartTitle1 = "Distribución de textos por tipo";
-        let chartTitle2 = "Detalles de texto por hora";
-        if (dateFilterActive) {
-            const startStr = currentStartDate.toLocaleDateString('es-ES');
-            const endStr = currentEndDate.toLocaleDateString('es-ES');
-            const dateRange = ` (${startStr} - ${endStr})`;
-            chartTitle1 += dateRange;
-            chartTitle2 += dateRange;
-        }
-        const textCountMap = {};
-        chartData.forEach(row => {
-            const text = row.Texto || "";
-            textCountMap[text] = (textCountMap[text] || 0) + 1;
-        });
-        const sortedTexts = Object.entries(textCountMap)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 10);
-        const labels1 = sortedTexts.map(entry => {
-            const text = entry[0];
-            return text.length > 50 ? text.substring(0, 50) + "..." : text;
-        });
-        const counts1 = sortedTexts.map(entry => entry[1]);
-        const ctx1 = document.getElementById("eventChart").getContext("2d");
-        if (window.eventChartInstance) window.eventChartInstance.destroy();
-        window.eventChartInstance = new Chart(ctx1, {
-            type: "bar",
-            data: {
-                labels: labels1,
-                datasets: [{
-                    label: chartTitle1,
-                    data: counts1,
-                    backgroundColor: "rgb(255, 159, 64)"
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    datalabels: {
-                        color: '#000',
-                        anchor: 'center',
-                        align: 'center',
-                        font: { weight: 'bold' },
-                        formatter: Math.round,
-                        clip: false
-                    },
-                    legend: { display: false },
-                    tooltip: {
-                        enabled: true,
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const index = tooltipItems[0].dataIndex;
-                                return sortedTexts[index][0];
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: "Tipo de Texto" },
-                        ticks: {
-                            autoSkip: false,
-                            maxRotation: 90,
-                            minRotation: 45,
-                            font: { size: 10 }
-                        }
-                    },
-                    y: {
-                        title: { display: true, text: "Cantidad" },
-                        beginAtZero: true,
-                        ticks: { precision: 0 }
-                    }
-                }
-            },
-            plugins: [ChartDataLabels]
-        });
-        const textByHourMap = {};
-        const topTexts = sortedTexts.map(entry => entry[0]);
-        chartData.forEach(row => {
-            const hour = row.Hora;
-            const text = row.Texto || "";
-            if (topTexts.includes(text)) {
-                const key = `${hour} - ${text}`;
-                textByHourMap[key] = (textByHourMap[key] || 0) + 1;
-            }
-        });
-        const entries2 = Object.entries(textByHourMap);
-        entries2.sort((a, b) => {
-            const [hourA, textA] = a[0].split(' - ');
-            const [hourB, textB] = b[0].split(' - ');
-            if (parseInt(hourA) !== parseInt(hourB)) {
-                return parseInt(hourA) - parseInt(hourB);
-            }
-            return textA.localeCompare(textB);
-        });
-        const labels2 = entries2.map(entry => {
-            const [hour, text] = entry[0].split(' - ');
-            const displayText = text.length > 30 ? text.substring(0, 30) + "..." : text;
-            return `${hour} - ${displayText}`;
-        });
-        const counts2 = entries2.map(entry => entry[1]);
-        const ctx2 = document.getElementById("textByHourChart").getContext("2d");
-        if (window.textByHourChartInstance) window.textByHourChartInstance.destroy();
-        window.textByHourChartInstance = new Chart(ctx2, {
-            type: "bar",
-            data: {
-                labels: labels2,
-                datasets: [{
-                    label: chartTitle2,
-                    data: counts2,
-                    backgroundColor: "rgb(75, 192, 192)"
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    datalabels: {
-                        color: '#000',
-                        anchor: 'center',
-                        align: 'center',
-                        font: { weight: 'bold' },
-                        formatter: Math.round,
-                        clip: false
-                    },
-                    legend: { display: false },
-                    tooltip: {
-                        enabled: true,
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const index = tooltipItems[0].dataIndex;
-                                const fullKey = entries2[index][0];
-                                const [hour, fullText] = fullKey.split(' - ');
-                                return `${hour} - ${fullText}`;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: { display: true, text: "Hora - Tipo de Texto" },
-                        ticks: {
-                            autoSkip: false,
-                            maxRotation: 90,
-                            minRotation: 45,
-                            font: { size: 9 }
-                        }
-                    },
-                    y: {
-                        title: { display: true, text: "Cantidad" },
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0,
-                            stepSize: 50
-                        }
-                    }
-                }
-            },
-            plugins: [ChartDataLabels]
-        });
-        document.getElementById("eventChart").parentElement.style.display = "block";
-        document.getElementById("textByHourChart").parentElement.style.display = "block";
-        document.getElementById("dataTable").style.display = "none";
-        document.getElementById("backBtn").style.display = "inline-block";
-        document.getElementById('loadingSpinner').style.display = 'none';
-        document.getElementById('loadingOverlay').style.display = 'none';
+function goBack() {
+    document.querySelectorAll('.chart-container').forEach(el => {
+        el.style.display = 'none';
     });
+    document.getElementById("dataTable").style.display = "table";
+    document.getElementById("backBtn").style.display = "none";
+    document.getElementById("dateFilterContainer").style.display = "none";
 }
 
-window.onload = function() {
-    setupEnterKey();
-};
-
+// ===== NAVEGACIÓN PRINCIPAL =====
 function goToLicencias() {
     document.getElementById("mainContent").style.display = "none";
     document.getElementById("licenciasPage").style.display = "block";
@@ -2325,13 +1534,52 @@ function goToLicencias() {
 function backToMain() {
     document.getElementById("mainContent").style.display = "block";
     document.getElementById("licenciasPage").style.display = "none";
-    document.getElementById("pptPage").style.display = "none";
     document.getElementById("casosOMPage").style.display = "none";
     document.getElementById("pendientesPage").style.display = "none";
-    document.getElementById("conexionesPage").style.display = "none";
-    document.getElementById("timelinePage").style.display = "none";
 }
 
+function goToCasosOM() {
+    document.getElementById("mainContent").style.display = "none";
+    document.getElementById("licenciasPage").style.display = "none";
+    document.getElementById("casosOMPage").style.display = "block";
+    generarFilasCasosOM();
+    setTimeout(() => {
+        generarGraficoCasosOM();
+        analizarCasosOM();
+    }, 150);
+}
+
+function backFromCasosOM() {
+    document.getElementById("casosOMPage").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+}
+
+function goToPendientes() {
+    if (Object.keys(mapaLicencias).length === 0) {
+        cargarLicencias();
+    }
+    document.getElementById("mainContent").style.display = "none";
+    document.getElementById("licenciasPage").style.display = "none";
+    document.getElementById("casosOMPage").style.display = "none";
+    document.getElementById("pendientesPage").style.display = "block";
+    flatpickr("#fechaInicioPendienteFiltro", {
+        locale: "es",
+        dateFormat: "d/m/Y",
+        enable: fechasDisponiblesPendientes
+    });
+    flatpickr("#fechaFinPendienteFiltro", {
+        locale: "es",
+        dateFormat: "d/m/Y",
+        enable: fechasDisponiblesPendientes
+    });
+}
+
+function backFromPendientes() {
+    document.getElementById("pendientesPage").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+}
+
+// ===== LICENCIAS =====
 const urlLicencias = "https://raw.githubusercontent.com/teamdigitalrrss-jpg/tNPS-diario/main/Licencias.xlsx";
 
 function cargarLicencias() {
@@ -2390,410 +1638,255 @@ function buscarLicencias() {
     document.getElementById("tablaLicencias").style.display = resultados.length > 0 ? "table" : "none";
 }
 
-function actualizarFiltroArea() {
-    const select = document.getElementById('areaFilterSelect');
-    if (!select) return;
-   
-    // Obtener áreas únicas de los datos de conexiones (NO de todas las licencias)
-    const areasSet = new Set();
-    conexionesData.forEach(row => {
-        const usuarioKey = (row.usuario || "").toLowerCase().trim();
-        const licencia = mapaLicencias[usuarioKey] || {};
-        const area = licencia.Area || "";
-        if (area && area.trim()) {
-            areasSet.add(area.trim());
+// ===== CASOS OM =====
+function generarFilasCasosOM() {
+    const tbody = document.querySelector("#tablaCasosOM tbody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+    for (let i = 0; i < 25; i++) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>
+                <select>
+                    <option>WhatsApp</option>
+                    <option>Messenger</option>
+                    <option>Instagram</option>
+                    <option>X</option>
+                </select>
+            </td>
+            <td>
+                <select>
+                    <option>Fijo</option>
+                    <option>Móvil</option>
+                </select>
+            </td>
+            <td contenteditable="true"></td>
+        `;
+        tbody.appendChild(tr);
+    }
+}
+
+function analizarCasosOM() {
+    const filas = document.querySelectorAll("#tablaCasosOM tbody tr");
+    let total = 0;
+    let fijos = {};
+    let moviles = {};
+    let canales = {
+        WhatsApp: 0,
+        Messenger: 0,
+        Instagram: 0,
+        X: 0
+    };
+    let countFijo = 0;
+    let countMovil = 0;
+
+    filas.forEach(fila => {
+        const canal = fila.cells[0].querySelector("select").value;
+        const servicio = fila.cells[1].querySelector("select").value;
+        const reclamo = fila.cells[2].innerText.trim();
+        if (reclamo === "") return;
+        total++;
+        canales[canal] = (canales[canal] || 0) + 1;
+        if (servicio === "Fijo") {
+            countFijo++;
+            fijos[reclamo] = (fijos[reclamo] || 0) + 1;
+        }
+        if (servicio === "Móvil") {
+            countMovil++;
+            moviles[reclamo] = (moviles[reclamo] || 0) + 1;
         }
     });
-   
-    // Si no hay áreas en conexionesData, usar áreas de licencias
-    if (areasSet.size === 0) {
-        Object.values(mapaLicencias).forEach(lic => {
-            if (lic.Area && lic.Area.trim()) {
-                areasSet.add(lic.Area.trim());
-            }
-        });
+
+    if (total === 0) {
+        document.getElementById("textoAnalisisCasos").innerText = "Ingresa datos en la tabla para ver el análisis...";
+        return;
     }
-   
-    const areas = Array.from(areasSet).sort();
-   
-    // Guardar selección actual
-    const selectedValues = Array.from(select.selectedOptions).map(opt => opt.value);
-   
-    // Limpiar y regenerar opciones
-    select.innerHTML = '';
-    areas.forEach(area => {
-        const option = document.createElement('option');
-        option.value = area;
-        option.textContent = area;
-        if (selectedValues.includes(area)) {
-            option.selected = true;
-        }
-        select.appendChild(option);
-    });
-   
-    // Actualizar contador
-    actualizarContadorArea();
+
+    function top3(obj) {
+        return Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, 3).map(x => `${x[0]} (${x[1]})`).join(", ");
+    }
+
+    // Construir el desglose de canales
+    let canalTexto = "";
+    let partes = [];
+    if (canales.WhatsApp > 0) partes.push(`${canales.WhatsApp} WhatsApp`);
+    if (canales.Messenger > 0) partes.push(`${canales.Messenger} Messenger`);
+    if (canales.Instagram > 0) partes.push(`${canales.Instagram} Instagram`);
+    if (canales.X > 0) partes.push(`${canales.X} X`);
+    if (partes.length > 0) {
+        canalTexto = ` (${partes.join(" - ")})`;
+    }
+
+    const topFijos = top3(fijos) || "Sin datos";
+    const topMoviles = top3(moviles) || "Sin datos";
+    const porcentajeFijo = ((countFijo / total) * 100).toFixed(1);
+    const porcentajeMovil = ((countMovil / total) * 100).toFixed(1);
+    const saludo = obtenerSaludo();
+
+    const texto = `${saludo}
+
+Se validan interacciones en OM. De la muestra de ${total} interacciones${canalTexto}, se obtuvo el siguiente análisis:
+
+* Servicios fijos: ${porcentajeFijo}%
+* Servicios móviles: ${porcentajeMovil}%
+
+Top 3 reclamos en servicios fijos:
+${topFijos}
+
+Top 3 reclamos en servicios móviles:
+${topMoviles}`;
+
+    document.getElementById("textoAnalisisCasos").innerText = texto;
 }
 
-function actualizarContadorArea() {
-    const select = document.getElementById('areaFilterSelect');
-    const count = select ? select.selectedOptions.length : 0;
-    const badge = document.getElementById('areaFilterCount');
-    if (badge) {
-        badge.textContent = `${count} seleccionada${count !== 1 ? 's' : ''}`;
-    }
-    // Actualizar áreas seleccionadas
-    areasSeleccionadas = select ? Array.from(select.selectedOptions).map(opt => opt.value) : [];
+function obtenerSaludo() {
+    const hora = new Date().getHours();
+    if (hora >= 5 && hora < 12) return "Buenos días";
+    else if (hora >= 12 && hora < 18) return "Buenas tardes";
+    else return "Buenas noches";
 }
 
-function aplicarFiltroArea() {
-    actualizarContadorArea();
-    // Aplicar filtro a todas las vistas
-    if (document.getElementById('conexionesPage').style.display !== 'none') {
-        filtrarConexiones();
-    }
-    if (document.getElementById('timelinePage').style.display !== 'none') {
-        filtrarTimeline();
-    }
-}
-
-function limpiarFiltroArea() {
-    const select = document.getElementById('areaFilterSelect');
-    if (select) {
-        Array.from(select.options).forEach(opt => opt.selected = false);
-    }
-    areasSeleccionadas = [];
-    actualizarContadorArea();
-    // Aplicar filtro a todas las vistas
-    if (document.getElementById('conexionesPage').style.display !== 'none') {
-        filtrarConexiones();
-    }
-    if (document.getElementById('timelinePage').style.display !== 'none') {
-        filtrarTimeline();
-    }
-}
-
-function goToPPT() {
-    document.getElementById("mainContent").style.display = "none";
-    document.getElementById("licenciasPage").style.display = "none";
-    document.getElementById("pptPage").style.display = "block";
-    setTimeout(() => {
-        actualizarCards();
-        generarGraficoEncuestas();
-        generarGraficoPastel();
-    }, 200);
-}
-
-function backFromPPT() {
-    document.getElementById("pptPage").style.display = "none";
-    document.getElementById("mainContent").style.display = "block";
-}
-
-function goToBI() {
-    window.open("http://172.23.12.156/SAC/powerbi/Reportes%20SAC/Reporte%20General%20-%20Canales%20Digitales", "_blank");
-}
-
-function dibujarGauge(canvasId, valor) {
-    const canvas = document.getElementById(canvasId);
+function generarGraficoCasosOM() {
+    const canvas = document.getElementById("graficoCasosOM");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    const width = canvas.width = 260;
-    const height = canvas.height = 110;
-    ctx.clearRect(0, 0, width, height);
-    const centerX = width / 2;
-    const centerY = height - 1;
-    const radius = 80;
-    const startAngle = Math.PI;
-    const endAngle = 0;
-    ctx.beginPath();
-    ctx.lineWidth = 32;
-    ctx.strokeStyle = "#ccc";
-    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-    ctx.stroke();
-    const progressAngle = startAngle + (valor / 100) * Math.PI;
-    const color = valor >= 75 ? "#008000" : "#e60000";
-    ctx.beginPath();
-    ctx.lineWidth = 32;
-    ctx.strokeStyle = color;
-    ctx.arc(centerX, centerY, radius, startAngle, progressAngle);
-    ctx.stroke();
-    ctx.fillStyle = "#000";
-    ctx.font = "bold 22px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(valor.toFixed(2) + " %", centerX, centerY - 1);
-}
 
-function actualizarCards() {
-    const filas = document.querySelectorAll("#tablaPPT tbody tr");
-    const container = document.getElementById("cardsContainer");
-    container.innerHTML = "";
-    filas.forEach((fila, index) => {
-        const nombre = fila.cells[0].innerText.trim();
-        const tnpsAnterior = parseFloat(fila.cells[2].innerText) || 0;
-        const tnpsActual = parseFloat(fila.cells[3].innerText) || 0;
-        const mayorNota = parseFloat(fila.cells[5].innerText) || 0;
-        const idCanvas = "gauge-" + index;
-        let diferencia = tnpsActual - tnpsAnterior;
-        let tendencia = diferencia > 0 ? `un aumento de ${diferencia.toFixed(2)}` : diferencia < 0 ? `una disminución de ${Math.abs(diferencia).toFixed(2)}` : `sin variación`;
-        const frasesInicio = [
-            `El equipo de ${nombre} registra un tNPS actual de ${tnpsActual.toFixed(2)}.`,
-            `${nombre} presenta un tNPS de ${tnpsActual.toFixed(2)} en el periodo actual.`,
-            `Actualmente, el grupo de ${nombre} alcanza un tNPS de ${tnpsActual.toFixed(2)}.`
-        ];
-        const frasesTendencia = [
-            `En comparación con la semana anterior, se observa ${tendencia}.`,
-            `Respecto a la semana previa, el comportamiento refleja ${tendencia}.`,
-            `Frente a la semana pasada, el equipo muestra ${tendencia}.`
-        ];
-        const frasesMetaOK = [
-            `Actualmente el equipo se encuentra en meta.`,
-            `El equipo cumple con la meta establecida.`,
-            `Se ha alcanzado el objetivo esperado.`
-        ];
-        const frasesMetaFalta = [
-            `Aún existen brechas para alcanzar la meta, con una diferencia de ${(75 - tnpsActual).toFixed(2)} puntos.`,
-            `El equipo se mantiene por debajo de la meta, faltando ${(75 - tnpsActual).toFixed(2)} puntos.`,
-            `Se requiere una mejora de ${(75 - tnpsActual).toFixed(2)} puntos para cumplir la meta.`
-        ];
-        const frasesMes = [
-            `Durante el mes, la mayor nota alcanzada fue de ${mayorNota.toFixed(2)}.`,
-            `En el periodo mensual, el valor más alto registrado fue ${mayorNota.toFixed(2)}.`,
-            `El mejor resultado del mes se sitúa en ${mayorNota.toFixed(2)}.`
-        ];
-        function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-        const bloque1 = `${pick(frasesInicio)} ${pick(frasesTendencia)}`;
-        const bloque2 = `${tnpsActual >= 75 ? pick(frasesMetaOK) : pick(frasesMetaFalta)} ${pick(frasesMes)}`;
-        const texto = `${bloque1}\n\n${bloque2}`;
-        const wrapper = document.createElement("div");
-        wrapper.className = "card-wrapper";
-        const btn = document.createElement("button");
-        btn.className = "btn-captura";
-        btn.innerHTML = "📷";
-        btn.onclick = () => capturarCard(wrapper);
-        const row = document.createElement("div");
-        row.style.display = "flex";
-        row.style.alignItems = "center";
-        row.style.gap = "30px";
-        const gaugeCard = document.createElement("div");
-        gaugeCard.className = "card-tnps-site";
-        gaugeCard.innerHTML = `
-            <div class="card-tnps-titulo">${nombre}</div>
-            <canvas id="${idCanvas}" width="300" height="150"></canvas>
-        `;
-        const textCard = document.createElement("div");
-        textCard.className = "card-analisis";
-        textCard.contentEditable = true;
-        textCard.style.width = "280px";
-        textCard.style.textAlign = "left";
-        textCard.style.alignSelf = "flex-start";
-        textCard.innerText = texto;
-        row.appendChild(gaugeCard);
-        row.appendChild(textCard);
-        wrapper.appendChild(btn);
-        wrapper.appendChild(row);
-        container.appendChild(wrapper);
-        setTimeout(() => {
-            dibujarGauge(idCanvas, tnpsActual);
-        }, 50);
-    });
-}
-
-function generarGraficoEncuestas() {
-    const filas = document.querySelectorAll("#tablaPPT tbody tr");
-    let dataGrafico = [];
+    const filas = document.querySelectorAll("#tablaCasosOM tbody tr");
+    let fijo = {};
+    let movil = {};
     filas.forEach(fila => {
-        const nombre = fila.cells[0].innerText.trim();
-        const encuestas = parseInt(fila.cells[1].innerText) || 0;
-        if (nombre) {
-            dataGrafico.push({ nombre: nombre, valor: encuestas });
-        }
+        const servicio = fila.cells[1].querySelector("select").value;
+        const reclamo = fila.cells[2].innerText.trim();
+        if (reclamo === "") return;
+        if (servicio === "Fijo") fijo[reclamo] = (fijo[reclamo] || 0) + 1;
+        if (servicio === "Móvil") movil[reclamo] = (movil[reclamo] || 0) + 1;
     });
-    dataGrafico.sort((a, b) => a.valor - b.valor);
-    const labels = dataGrafico.map(d => d.nombre);
-    const valores = dataGrafico.map(d => d.valor);
-    const ctx = document.getElementById("graficoEncuestas");
-    if (!ctx) return;
-    if (window.graficoEncuestasInstance) {
-        window.graficoEncuestasInstance.destroy();
-    }
-    window.graficoEncuestasInstance = new Chart(ctx, {
+
+    const labelsFijo = Object.keys(fijo);
+    const valoresFijo = Object.values(fijo);
+    const labelsMovil = Object.keys(movil);
+    const valoresMovil = Object.values(movil);
+    const labels = [...labelsFijo, "", ...labelsMovil];
+    const valores = [...valoresFijo, 0, ...valoresMovil];
+
+    if (graficoCasosOMInstance) graficoCasosOMInstance.destroy();
+
+    graficoCasosOMInstance = new Chart(ctx, {
         type: "bar",
         data: {
             labels: labels,
             datasets: [{
-                label: "Total de encuestas",
                 data: valores,
-                backgroundColor: "#0396a6",
-                borderRadius: 6,
-                borderSkipped: false
+                backgroundColor: "#F2D049",
+                borderRadius: 6
             }]
         },
         options: {
-            responsive: false,
+            responsive: true,
             maintainAspectRatio: false,
-            indexAxis: 'y',
+            layout: { padding: { top: 10, bottom: 120 } },
             plugins: {
                 legend: { display: false },
                 datalabels: {
-                    color: "#ffffff",
+                    color: "#000",
                     anchor: "center",
                     align: "center",
-                    font: { weight: "bold", size: 12 },
-                    formatter: Math.round
+                    font: { weight: "bold" },
+                    formatter: value => value > 0 ? value : ""
                 }
             },
             scales: {
-                x: { beginAtZero: true, ticks: { precision: 0 } },
-                y: {
+                x: {
+                    grid: { display: false },
                     ticks: {
                         color: "#000",
-                        font: { size: 12, weight: "bold" }
+                        maxRotation: 45,
+                        minRotation: 45,
+                        callback: function(val, index) {
+                            const label = this.getLabelForValue(val);
+                            if (label === "FIJO" || label === "MÓVIL") return label;
+                            if (label === "") return "";
+                            return label;
+                        }
                     }
+                },
+                y: {
+                    grid: { display: false },
+                    beginAtZero: true,
+                    suggestedMax: Math.max(5, ...valores) + 2,
+                    ticks: { precision: 0, color: "#000" }
                 }
             }
         },
-        plugins: [ChartDataLabels]
-    });
-}
-
-function generarGraficoPastel() {
-    const filas = document.querySelectorAll("#tablaPPT tbody tr");
-    let labels = [];
-    let valores = [];
-    filas.forEach(fila => {
-        const nombre = fila.cells[0].innerText.trim();
-        const encuestas = parseInt(fila.cells[1].innerText) || 0;
-        if (nombre && encuestas > 0) {
-            labels.push(nombre);
-            valores.push(encuestas);
-        }
-    });
-    const canvas = document.getElementById("graficoPastel");
-    const ctx = canvas.getContext("2d");
-    if (window.graficoPastelInstance) {
-        window.graficoPastelInstance.destroy();
-    }
-    window.graficoPastelInstance = new Chart(ctx, {
-        type: "pie",
-        data: {
-            labels: labels,
-            datasets: [{
-                data: valores,
-                backgroundColor: ["#ee2323", "#f04444", "#f26666", "#f58888", "#f7aaaa", "#f9cccc"]
-            }]
-        },
-        options: {
-            responsive: false,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                datalabels: {
-                    clip: false,
-                    color: "#000",
-                    backgroundColor: "#fff",
-                    borderRadius: 6,
-                    padding: 4,
-                    font: { weight: "bold", size: 11 },
-                    align: 'center',
-                    anchor: 'center',
-                    x: function(context) { return posicionesLabels[context.dataIndex]?.x || 0; },
-                    y: function(context) { return posicionesLabels[context.dataIndex]?.y || 0; },
-                    formatter: (value, context) => {
-                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                        const porcentaje = (value / total * 100).toFixed(1) + "%";
-                        const nombre = context.chart.data.labels[context.dataIndex];
-                        return `${nombre}\n${porcentaje}`;
-                    }
-                }
+        plugins: [ChartDataLabels, {
+            id: 'secciones',
+            afterDraw(chart) {
+                const { ctx, chartArea, scales } = chart;
+                const xScale = scales.x;
+                const labels = chart.data.labels;
+                const separadorIndex = labels.indexOf("");
+                if (separadorIndex === -1) return;
+                const fijoMid = Math.floor(separadorIndex / 2);
+                const movilMid = separadorIndex + Math.floor((labels.length - separadorIndex) / 2);
+                const fijoX = xScale.getPixelForValue(fijoMid);
+                const movilX = xScale.getPixelForValue(movilMid);
+                const y = chartArea.bottom + 140;
+                ctx.save();
+                ctx.font = "bold 14px Arial";
+                ctx.fillStyle = "#000";
+                ctx.textAlign = "center";
+                ctx.fillText("FIJO", fijoX, y);
+                ctx.fillText("MÓVIL", movilX, y);
+                ctx.restore();
             }
-        },
-        plugins: [ChartDataLabels]
+        }]
     });
-    let isDragging = false;
-    let currentIndex = null;
-    canvas.onmousedown = function(e) {
-        const points = window.graficoPastelInstance.getElementsAtEventForMode(e, 'nearest', { intersect: false }, true);
-        if (points.length) {
-            currentIndex = points[0].index;
-            isDragging = true;
-        }
-    };
-    canvas.onmousemove = function(e) {
-        if (!isDragging || currentIndex === null) return;
-        if (!posicionesLabels[currentIndex]) {
-            posicionesLabels[currentIndex] = { x: 0, y: 0 };
-        }
-        posicionesLabels[currentIndex].x += e.movementX;
-        posicionesLabels[currentIndex].y += e.movementY;
-        window.graficoPastelInstance.update();
-    };
-    canvas.onmouseup = function() {
-        isDragging = false;
-        currentIndex = null;
-    };
 }
 
-async function capturarCard(element) {
-    const btn = element.querySelector(".btn-captura");
-    btn.style.display = "none";
-    try {
-        const canvas = await html2canvas(element, {
-            scale: 4,
-            useCORS: true,
-            backgroundColor: "#ffffff"
-        });
-        canvas.toBlob(async (blob) => {
-            try {
-                await navigator.clipboard.write([
-                    new ClipboardItem({ "image/png": blob })
-                ]);
-                alert("✅ Imagen copiada al portapapeles");
-            } catch (err) {
-                console.error(err);
-                alert("❌ No se pudo copiar automáticamente");
-            }
-        });
-    } catch (error) {
-        console.error(error);
+async function copiarGraficoComoImagen() {
+    const grafico = document.getElementById("graficoCasosOM");
+    if (!grafico) {
+        alert("No se encontró el gráfico");
+        return;
     }
-    btn.style.display = "block";
+    const canvas = await html2canvas(grafico, {
+        scale: 4,
+        useCORS: true,
+        backgroundColor: "#ffffff"
+    });
+    canvas.toBlob(async (blob) => {
+        try {
+            await navigator.clipboard.write([
+                new ClipboardItem({ "image/png": blob })
+            ]);
+            alert("✅ Gráfico copiado en alta calidad");
+        } catch (err) {
+            console.error(err);
+            alert("❌ Error al copiar gráfico");
+        }
+    });
 }
 
+// Detectar cambios en la tabla de casos OM y actualizar gráfico y análisis
 document.addEventListener("input", function(e) {
-    if (e.target.closest("#tablaPPT")) {
-        actualizarCards();
-        generarGraficoEncuestas();
-        generarGraficoPastel();
+    if (e.target.closest("#tablaCasosOM")) {
+        setTimeout(() => {
+            generarGraficoCasosOM();
+            analizarCasosOM();
+        }, 50);
     }
 });
 
-// ===== FUNCIONES DE PENDIENTES =====
-function goToPendientes() {
-    if (Object.keys(mapaLicencias).length === 0) {
-        cargarLicencias();
+document.addEventListener("change", function(e) {
+    if (e.target.closest("#tablaCasosOM")) {
+        setTimeout(() => {
+            generarGraficoCasosOM();
+            analizarCasosOM();
+        }, 50);
     }
-    document.getElementById("mainContent").style.display = "none";
-    document.getElementById("licenciasPage").style.display = "none";
-    document.getElementById("pptPage").style.display = "none";
-    document.getElementById("casosOMPage").style.display = "none";
-    document.getElementById("pendientesPage").style.display = "block";
-    flatpickr("#fechaInicioPendienteFiltro", {
-        locale: "es",
-        dateFormat: "d/m/Y",
-        enable: fechasDisponiblesPendientes
-    });
-    flatpickr("#fechaFinPendienteFiltro", {
-        locale: "es",
-        dateFormat: "d/m/Y",
-        enable: fechasDisponiblesPendientes
-    });
-}
+});
 
-function backFromPendientes() {
-    document.getElementById("pendientesPage").style.display = "none";
-    document.getElementById("mainContent").style.display = "block";
-}
-
+// ===== PENDIENTES =====
 function cerrarReporteAgentes() {
     document.getElementById("modalReporteAgentes").style.display = "none";
 }
@@ -2804,7 +1897,7 @@ function renderReporteAgentes() {
     reporteAgentesData.forEach(row => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td>${row.Agente}</td>
+            <td><strong>${row.Agente}</strong></td>
             <td>${row.Pendientes}</td>
             <td>${row.Auto}</td>
             <td>${row.Total}</td>
@@ -2892,20 +1985,7 @@ function descargarReporteAgentes() {
     XLSX.writeFile(wb, "Reporte_Agentes_Pendientes.xlsx");
 }
 
-function goToCasosOM() {
-    document.getElementById("mainContent").style.display = "none";
-    document.getElementById("licenciasPage").style.display = "none";
-    document.getElementById("pptPage").style.display = "none";
-    document.getElementById("casosOMPage").style.display = "block";
-    generarFilasCasosOM();
-    generarGraficoCasosOM();
-}
-
-function backFromCasosOM() {
-    document.getElementById("casosOMPage").style.display = "none";
-    document.getElementById("mainContent").style.display = "block";
-}
-
+// ===== EVENTO PARA CARGAR ARCHIVOS DE PENDIENTES =====
 window.addEventListener("load", function() {
     const inputPendientes = document.getElementById("pendientesFileInput");
     if (!inputPendientes) return;
@@ -2945,6 +2025,16 @@ window.addEventListener("load", function() {
         Promise.all(promises)
             .then(data => {
                 document.getElementById("estadoPendientes").innerHTML = "✅ Registros cargados";
+                const textosPendientes = [
+                    "caso marcado pendiente",
+                    "quedo al pendiente",
+                    "quedo a la espera",
+                    "quedamos a la espera",
+                    "quedo pendiente",
+                    "quedamos a la orden",
+                    "quedamos a tus órdenes",
+                    "quedamos a tus ordenes"
+                ];
                 pendientesData = data.flat()
                     .filter(row => {
                         const texto = (row.Texto || "").toLowerCase();
@@ -3073,348 +2163,10 @@ function renderPendientesTable() {
     document.getElementById("tablaPendientes").style.display = pendientesResultados.length > 0 ? "table" : "none";
 }
 
-function generarFilasCasosOM() {
-    const tbody = document.querySelector("#tablaCasosOM tbody");
-    if (!tbody) return;
-    tbody.innerHTML = "";
-    for (let i = 0; i < 25; i++) {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>
-                <select>
-                    <option>WhatsApp</option>
-                    <option>Messenger</option>
-                    <option>Instagram</option>
-                    <option>X</option>
-                </select>
-            </td>
-            <td>
-                <select>
-                    <option>Fijo</option>
-                    <option>Móvil</option>
-                    <option>Consulta</option>
-                </select>
-            </td>
-            <td contenteditable="true"></td>
-        `;
-        tbody.appendChild(tr);
-    }
-}
-
-function analizarCasosOM() {
-    const filas = document.querySelectorAll("#tablaCasosOM tbody tr");
-    let total = 0;
-    let fijos = {};
-    let moviles = {};
-    let countFijo = 0;
-    let countMovil = 0;
-    filas.forEach(fila => {
-        const servicio = fila.cells[1].querySelector("select").value;
-        const reclamo = fila.cells[2].innerText.trim();
-        if (reclamo === "") return;
-        total++;
-        if (servicio === "Fijo") {
-            countFijo++;
-            fijos[reclamo] = (fijos[reclamo] || 0) + 1;
-        }
-        if (servicio === "Móvil") {
-            countMovil++;
-            moviles[reclamo] = (moviles[reclamo] || 0) + 1;
-        }
-    });
-    if (total === 0) {
-        document.getElementById("textoAnalisisCasos").innerText = "Ingresa datos en la tabla para ver el análisis...";
-        return;
-    }
-    function top3(obj) {
-        return Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, 3).map(x => `${x[0]} (${x[1]})`).join(", ");
-    }
-    const topFijos = top3(fijos) || "Sin datos";
-    const topMoviles = top3(moviles) || "Sin datos";
-    const porcentajeFijo = ((countFijo / total) * 100).toFixed(1);
-    const porcentajeMovil = ((countMovil / total) * 100).toFixed(1);
-    const saludo = obtenerSaludo();
-    const texto = `${saludo}
-
-Se validan interacciones en OM. De la muestra de ${total} interacciones, se obtuvo el siguiente análisis:
-
-* Servicios fijos: ${porcentajeFijo}%
-* Servicios móviles: ${porcentajeMovil}%
-
-Top 3 reclamos en servicios fijos:
-${topFijos}
-
-Top 3 reclamos en servicios móviles:
-${topMoviles}`;
-    document.getElementById("textoAnalisisCasos").innerText = texto;
-}
-
-document.addEventListener("input", function(e) {
-    if (e.target.closest("#tablaCasosOM")) {
-        analizarCasosOM();
-        generarGraficoCasosOM();
-    }
-});
-
-document.addEventListener("change", function(e) {
-    if (e.target.closest("#tablaCasosOM")) {
-        analizarCasosOM();
-        generarGraficoCasosOM();
-    }
-});
-
-function obtenerSaludo() {
-    const hora = new Date().getHours();
-    if (hora >= 5 && hora < 12) return "Buenos días";
-    else if (hora >= 12 && hora < 18) return "Buenas tardes";
-    else return "Buenas noches";
-}
-
-function generarGraficoCasosOM() {
-    const filas = document.querySelectorAll("#tablaCasosOM tbody tr");
-    let fijo = {};
-    let movil = {};
-    filas.forEach(fila => {
-        const servicio = fila.cells[1].querySelector("select").value;
-        const reclamo = fila.cells[2].innerText.trim();
-        if (reclamo === "") return;
-        if (servicio === "Fijo") fijo[reclamo] = (fijo[reclamo] || 0) + 1;
-        if (servicio === "Móvil") movil[reclamo] = (movil[reclamo] || 0) + 1;
-    });
-    const labelsFijo = Object.keys(fijo);
-    const valoresFijo = Object.values(fijo);
-    const labelsMovil = Object.keys(movil);
-    const valoresMovil = Object.values(movil);
-    const labels = [...labelsFijo, "", ...labelsMovil];
-    const valores = [...valoresFijo, 0, ...valoresMovil];
-    const ctx = document.getElementById("graficoCasosOM").getContext("2d");
-    if (graficoCasosOMInstance) graficoCasosOMInstance.destroy();
-    graficoCasosOMInstance = new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: labels,
-            datasets: [{
-                data: valores,
-                backgroundColor: "#0396a6",
-                borderRadius: 6
-            }]
-        },
-        options: {
-            layout: { padding: { top: 10, bottom: 120 } },
-            plugins: {
-                legend: { display: false },
-                datalabels: {
-                    color: "#fff",
-                    anchor: "center",
-                    align: "center",
-                    font: { weight: "bold" },
-                    formatter: value => value > 0 ? value : ""
-                }
-            },
-            scales: {
-                x: {
-                    grid: { display: false },
-                    ticks: {
-                        color: "#000",
-                        maxRotation: 45,
-                        minRotation: 45,
-                        callback: function(val, index) {
-                            const label = this.getLabelForValue(val);
-                            if (label === "FIJO" || label === "MÓVIL") return label;
-                            if (label === "") return "";
-                            return label;
-                        }
-                    }
-                },
-                y: {
-                    grid: { display: false },
-                    beginAtZero: true,
-                    suggestedMax: 5,
-                    ticks: { precision: 0, color: "#000" }
-                }
-            }
-        },
-        plugins: [ChartDataLabels, {
-            id: 'secciones',
-            afterDraw(chart) {
-                const { ctx, chartArea, scales } = chart;
-                const xScale = scales.x;
-                const labels = chart.data.labels;
-                const separadorIndex = labels.indexOf("");
-                if (separadorIndex === -1) return;
-                const fijoMid = Math.floor(separadorIndex / 2);
-                const movilMid = separadorIndex + Math.floor((labels.length - separadorIndex) / 2);
-                const fijoX = xScale.getPixelForValue(fijoMid);
-                const movilX = xScale.getPixelForValue(movilMid);
-                const y = chartArea.bottom + 140;
-                ctx.save();
-                ctx.font = "bold 14px Arial";
-                ctx.fillStyle = "#000";
-                ctx.textAlign = "center";
-                ctx.fillText("FIJO", fijoX, y);
-                ctx.fillText("MÓVIL", movilX, y);
-                ctx.restore();
-            }
-        }]
-    });
-}
-
-async function copiarGraficoComoImagen() {
-    const grafico = document.getElementById("graficoCasosOM");
-    if (!grafico) {
-        alert("No se encontró el gráfico");
-        return;
-    }
-    const canvas = await html2canvas(grafico, {
-        scale: 4,
-        useCORS: true,
-        backgroundColor: "#ffffff"
-    });
-    canvas.toBlob(async (blob) => {
-        try {
-            await navigator.clipboard.write([
-                new ClipboardItem({ "image/png": blob })
-            ]);
-            alert("✅ Gráfico copiado en alta calidad");
-        } catch (err) {
-            console.error(err);
-            alert("❌ Error al copiar gráfico");
-        }
-    });
-}
-
-// ===== EVENTO PARA CARGAR ARCHIVO DE CONEXIONES =====
-window.addEventListener("load", function () {
-    const input = document.getElementById("conexionesFileInput");
-    if (!input) return;
-
-    input.addEventListener("change", function (e) {
-        const archivo = e.target.files[0];
-        if (!archivo) return;
-
-        const lector = new FileReader();
-        lector.onload = function (ev) {
-            const lineas = ev.target.result.split(/\r?\n/).filter(x => x.trim() !== "");
-            const tbody = document.getElementById("conexionesTbody");
-            tbody.innerHTML = "";
-            conexionesData = [];
-
-            for (let i = 1; i < lineas.length; i++) {
-                const cols = lineas[i].split(";");
-                while (cols.length < 9) {
-                    cols.push("");
-                }
-
-                // Obtener usuario para buscar su supervisor y área en mapaLicencias
-                const usuario = cols[0]?.trim() || "";
-                const usuarioKey = usuario.toLowerCase().trim();
-                const licencia = mapaLicencias[usuarioKey] || {};
-                const supervisor = licencia.Supervisor || "";
-                const area = licencia.Area || "";
-
-                let estado = cols[6]?.trim() || "";
-                let descripcion = cols[7]?.trim() || "";
-
-                if (estado.toLowerCase() === "línea" || estado.toLowerCase() === "linea") {
-                    descripcion = "Línea";
-                }
-
-                const fila = document.createElement("tr");
-                fila.innerHTML = `
-                    <td>${usuario}</td>
-                    <td>${area}</td>
-                    <td>${supervisor}</td>
-                    <td>${cols[1]?.trim() || ""}</td>
-                    <td>${cols[2]?.trim() || ""}</td>
-                    <td>${cols[3]?.trim() || ""}</td>
-                    <td>${estado}</td>
-                    <td>${descripcion}</td>
-                    <td>${cols[8]?.trim() || ""}</td>
-                `;
-                tbody.appendChild(fila);
-              
-                conexionesData.push({
-                    usuario: usuario,
-                    area: area,
-                    supervisor: supervisor,
-                    inicio: cols[1]?.trim() || "",
-                    fin: cols[2]?.trim() || "",
-                    duracion: cols[3]?.trim() || "",
-                    estado: estado,
-                    descripcion: descripcion,
-                    casosAbiertos: cols[8]?.trim() || ""
-                });
-            }
-
-            const totalRegistros = conexionesData.length;
-            alert(`✅ Se cargaron ${totalRegistros} registros de conexiones.`);
-
-            document.getElementById("tablaConexiones").style.display = "table";
-            document.querySelector(".conexiones-search-wrapper").style.display = "flex";
-            document.getElementById("conexionesSinDatos").style.display = "none";
-            document.getElementById("duracionEstadosContainer").style.display = "block";
-            document.getElementById("areaFilterContainer").style.display = "flex";
-          
-            // Resetear ordenamiento
-            duracionSortColumn = 'usuario';
-            duracionSortDirection = 1;
-          
-            // Actualizar filtro de área
-            actualizarFiltroArea();
-          
-            filtrarConexiones();
-            document.getElementById("conexionesSearchInput").value = "";
-        };
-        lector.readAsText(archivo, "ISO-8859-1");
-    });
-});
-
-// ===== FUNCIÓN PARA DESCARGAR TABLA DE DURACIÓN =====
-function descargarDuracionExcel() {
-    const tbody = document.getElementById('duracionTbody');
-    const thead = document.getElementById('duracionHeaderRow');
-    
-    if (!tbody || tbody.children.length === 0) {
-        alert('No hay datos para exportar.');
-        return;
-    }
-    
-    // Obtener encabezados
-    const headers = [];
-    const ths = thead.querySelectorAll('th');
-    ths.forEach(th => {
-        headers.push(th.textContent.replace('↕', '').trim());
-    });
-    
-    // Obtener datos de las filas
-    const data = [];
-    const rows = tbody.querySelectorAll('tr');
-    rows.forEach(row => {
-        const rowData = [];
-        const cells = row.querySelectorAll('td');
-        cells.forEach(cell => {
-            rowData.push(cell.textContent.trim());
-        });
-        if (rowData.length > 0) {
-            data.push(rowData);
-        }
-    });
-    
-    if (data.length === 0) {
-        alert('No hay datos para exportar.');
-        return;
-    }
-    
-    // Crear workbook
-    const wb = XLSX.utils.book_new();
-    const wsData = [headers, ...data];
-    const ws = XLSX.utils.aoa_to_sheet(wsData);
-    XLSX.utils.book_append_sheet(wb, ws, 'Duracion_por_Estado');
-    
-    // Descargar
-    XLSX.writeFile(wb, 'Duracion_por_Estado.xlsx');
-}
-
+// ===== INICIALIZACIÓN =====
+window.onload = function() {
+    setupEnterKey();
+};
 </script>
 </body>
 </html>
