@@ -1400,77 +1400,161 @@ function resetDateFilter() {
 
 function renderTable(dataArray) {
     const tbody = document.querySelector("#dataTable tbody");
-    tbody.innerHTML = "";
+    tbody.innerHTML = ""; // Limpiar
     updateResultCounter(dataArray.length);
+
     const displayData = dataArray.length > 1000 ? dataArray.slice(0, 1000) : dataArray;
+    if (displayData.length === 0) {
+        document.getElementById("dataTable").style.display = "none";
+        // Habilitar/deshabilitar filtros
+        for (let i = 1; i <= 8; i++) {
+            document.getElementById(`filter${i}`).disabled = true;
+        }
+        return;
+    }
+
+    // Usar DocumentFragment para mejorar rendimiento
+    const fragment = document.createDocumentFragment();
+
     displayData.forEach((row, index) => {
         const tr = document.createElement("tr");
-        // COLOR DE FILA SEGÚN REMOTO
+        // Color de fila según Remoto
         const remoto = parseInt(row.Remoto);
         if (remoto === 1) {
             tr.style.backgroundColor = "#d4edda"; // verde claro
         } else if (remoto === 0) {
             tr.style.backgroundColor = "#d6eaf8"; // celeste claro
         }
-        tr.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${row.Fecha || ""}</td>
-            <td>${row.Agente || ""}</td>
-            <td>${row.Supervisor || ""}</td>
-            <td>${row.Movil || ""}</td>
-            <td>${row.Remoto || ""}</td>
-            <td>${row.Event || ""}</td>
-            <td>${row.Texto || ""}</td>
-            <td>${row.Hora || ""}</td>
-        `;
-        tbody.appendChild(tr);
+
+        // Crear celdas con createElement (más rápido que innerHTML)
+        const cellIndex = document.createElement("td");
+        cellIndex.textContent = index + 1;
+        tr.appendChild(cellIndex);
+
+        const cellFecha = document.createElement("td");
+        cellFecha.textContent = row.Fecha || "";
+        tr.appendChild(cellFecha);
+
+        const cellAgente = document.createElement("td");
+        cellAgente.textContent = row.Agente || "";
+        tr.appendChild(cellAgente);
+
+        const cellSupervisor = document.createElement("td");
+        cellSupervisor.textContent = row.Supervisor || "";
+        tr.appendChild(cellSupervisor);
+
+        const cellMovil = document.createElement("td");
+        cellMovil.textContent = row.Movil || "";
+        tr.appendChild(cellMovil);
+
+        const cellRemoto = document.createElement("td");
+        cellRemoto.textContent = row.Remoto || "";
+        tr.appendChild(cellRemoto);
+
+        const cellEvent = document.createElement("td");
+        cellEvent.textContent = row.Event || "";
+        tr.appendChild(cellEvent);
+
+        const cellTexto = document.createElement("td");
+        cellTexto.textContent = row.Texto || "";
+        tr.appendChild(cellTexto);
+
+        const cellHora = document.createElement("td");
+        cellHora.textContent = row.Hora || "";
+        tr.appendChild(cellHora);
+
+        fragment.appendChild(tr);
     });
+
+    // Si hay más de 1000, agregar mensaje
     if (dataArray.length > 1000) {
         const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td colspan="9" style="text-align: center; background-color: #444; color: #ffcc00;">
-                Mostrando 1000 de ${dataArray.length} registros. Use los filtros para reducir los resultados.
-            </td>
-        `;
-        tbody.appendChild(tr);
+        const td = document.createElement("td");
+        td.colSpan = 9;
+        td.style.textAlign = "center";
+        td.style.backgroundColor = "#444";
+        td.style.color = "#ffcc00";
+        td.textContent = `Mostrando 1000 de ${dataArray.length} registros. Use los filtros para reducir los resultados.`;
+        tr.appendChild(td);
+        fragment.appendChild(tr);
     }
-    document.getElementById("dataTable").style.display = dataArray.length > 0 ? "table" : "none";
+
+    tbody.appendChild(fragment);
+    document.getElementById("dataTable").style.display = "table";
+
+    // Habilitar o deshabilitar filtros de columna
     for (let i = 1; i <= 8; i++) {
         document.getElementById(`filter${i}`).disabled = dataArray.length === 0;
     }
 }
 
 function filterTable() {
+    // Mostrar spinner y overlay
     document.getElementById('loadingSpinner').style.display = 'block';
     document.getElementById('loadingOverlay').style.display = 'block';
+
+    // Capturar valores de búsqueda actuales
     const textInput = document.getElementById("textSearch").value.toLowerCase().trim();
     const mobileInput = document.getElementById("mobileSearch").value.trim();
     const agentInput = document.getElementById("agentSearch").value.toLowerCase().trim();
     const textKeywords = textInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
     const mobileKeywords = mobileInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
     const agentKeywords = agentInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
-  
-    requestAnimationFrame(() => {
-        let tempFilteredData = data.filter(row => {
-            const matchText = textKeywords.length === 0 || textKeywords.some(word =>
-                row.Texto.toLowerCase().includes(word) || row.Event.toLowerCase().includes(word)
-            );
-            const matchMobile = mobileKeywords.length === 0 || mobileKeywords.some(word => row.Movil.includes(word));
-            const matchAgent = agentKeywords.length === 0 || agentKeywords.some(word => row.Agente.toLowerCase().includes(word));
-            return matchText && matchMobile && matchAgent;
-        });
-        if (modalDateFilterActive) {
-            tempFilteredData = tempFilteredData.filter(item => {
-                if (!item.FechaDate) return false;
-                const itemDate = new Date(item.FechaDate);
-                return itemDate >= modalStartDate && itemDate <= modalEndDate;
-            });
+
+    // Ejecutar el filtro en un setTimeout para no bloquear el UI
+    setTimeout(() => {
+        // Si no hay datos, salir
+        if (data.length === 0) {
+            filteredData = [];
+            renderTable(filteredData);
+            document.getElementById('loadingSpinner').style.display = 'none';
+            document.getElementById('loadingOverlay').style.display = 'none';
+            return;
         }
-        filteredData = tempFilteredData;
-        renderTable(filteredData);
-        document.getElementById('loadingSpinner').style.display = 'none';
-        document.getElementById('loadingOverlay').style.display = 'none';
-    });
+
+        // Usar chunking para procesar grandes volúmenes sin bloquear
+        const chunkSize = 5000; // Procesar de a 5000 registros por vez
+        let results = [];
+        let index = 0;
+        const total = data.length;
+
+        function processChunk() {
+            const end = Math.min(index + chunkSize, total);
+            for (let i = index; i < end; i++) {
+                const row = data[i];
+                // Filtrar por texto
+                const matchText = textKeywords.length === 0 || textKeywords.some(word =>
+                    row.Texto.toLowerCase().includes(word) || row.Event.toLowerCase().includes(word)
+                );
+                if (!matchText) continue;
+                const matchMobile = mobileKeywords.length === 0 || mobileKeywords.some(word => row.Movil.includes(word));
+                if (!matchMobile) continue;
+                const matchAgent = agentKeywords.length === 0 || agentKeywords.some(word => row.Agente.toLowerCase().includes(word));
+                if (!matchAgent) continue;
+                // Fecha (solo si está activo)
+                if (modalDateFilterActive) {
+                    if (!row.FechaDate) continue;
+                    const itemDate = new Date(row.FechaDate);
+                    if (!(itemDate >= modalStartDate && itemDate <= modalEndDate)) continue;
+                }
+                results.push(row);
+            }
+            index = end;
+            // Si aún no hemos terminado, continuar en el próximo ciclo
+            if (index < total) {
+                setTimeout(processChunk, 0);
+            } else {
+                // Terminado: asignar y renderizar
+                filteredData = results;
+                renderTable(filteredData);
+                document.getElementById('loadingSpinner').style.display = 'none';
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
+        }
+
+        // Iniciar el procesamiento por chunks
+        processChunk();
+    }, 50); // pequeño retraso para que el spinner se muestre
 }
 
 function columnFilter(columnIndex, searchValue) {
