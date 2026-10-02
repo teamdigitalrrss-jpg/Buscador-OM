@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
-        /* ===== ESTILOS MEJORADOS ===== */
         :root {
             --primary: #e63946;
             --primary-dark: #c1121f;
@@ -26,11 +25,7 @@
             --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background: var(--bg-light);
@@ -52,11 +47,7 @@
             margin-bottom: 28px;
         }
 
-        .main-header h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
+        .main-header h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.02em; }
 
         .main-header h1 .highlight {
             color: var(--primary);
@@ -74,7 +65,6 @@
             margin-bottom: 24px;
         }
 
-        /* ===== ESTILOS DE BOTONES GLOBALES (ROJO #DB1414) ===== */
         .top-buttons button,
         .top-buttons .custom-file-btn,
         .search-actions button,
@@ -92,7 +82,7 @@
         .btn-volver {
             background: #f3e9be !important;
             color: #2e2b2b !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
             padding: 10px 20px !important;
             border-radius: 50px !important;
             font-weight: 600 !important;
@@ -128,7 +118,6 @@
             box-shadow: var(--shadow-md) !important;
         }
 
-        /* Enlaces que se comportan como botones */
         .top-buttons a.custom-file-btn {
             text-decoration: none !important;
             display: inline-flex !important;
@@ -136,7 +125,6 @@
             gap: 6px !important;
         }
 
-        /* Botón de cerrar modal (X) no se modifica */
         .close {
             background: transparent !important;
             color: #6c757d !important;
@@ -153,13 +141,7 @@
             box-shadow: none !important;
         }
 
-        /* ===== FIN ESTILOS DE BOTONES ===== */
-
-        #fileName {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-left: 6px;
-        }
+        #fileName { font-size: 0.85rem; color: var(--text-muted); margin-left: 6px; }
 
         .search-grid {
             display: flex;
@@ -201,9 +183,7 @@
             background: #fff;
         }
 
-        .search-grid input::placeholder {
-            color: #adb5bd;
-        }
+        .search-grid input::placeholder { color: #adb5bd; }
 
         .search-actions {
             display: flex;
@@ -237,11 +217,7 @@
             border: 1px solid #f1f3f5;
         }
 
-        #dataTable {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.875rem;
-        }
+        #dataTable { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
 
         #dataTable th {
             background: #f1f3f5;
@@ -258,14 +234,8 @@
             white-space: nowrap;
         }
 
-        #dataTable th:hover {
-            background: #e9ecef;
-        }
-       #dataTable th .sort-icon {
-            font-size: 0.7rem;
-            margin-left: 4px;
-            color: #6c757d;
-        }
+        #dataTable th:hover { background: #e9ecef; }
+        #dataTable th .sort-icon { font-size: 0.7rem; margin-left: 4px; color: #6c757d; }
 
         #dataTable td {
             padding: 12px 10px;
@@ -273,13 +243,8 @@
             vertical-align: top;
         }
 
-        #dataTable tbody tr:hover {
-            background: #f8f9fa;
-        }
-
-        #dataTable tbody tr:nth-child(even) {
-            background: #fcfcfd;
-        }
+        #dataTable tbody tr:hover { background: #f8f9fa; }
+        #dataTable tbody tr:nth-child(even) { background: #fcfcfd; }
 
         .filter-input {
             width: 100%;
@@ -299,11 +264,7 @@
             box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.1);
         }
 
-        .filter-input:disabled {
-            background: #f1f3f5;
-            color: #6c757d;
-            cursor: not-allowed;
-        }
+        .filter-input:disabled { background: #f1f3f5; color: #6c757d; cursor: not-allowed; }
 
         .chart-container {
             background: var(--bg-card);
@@ -347,18 +308,9 @@
             margin-bottom: 20px;
         }
 
-        .modal-header h2 {
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
+        .modal-header h2 { font-size: 1.3rem; font-weight: 600; }
 
-        .close {
-            font-size: 28px;
-            font-weight: 300;
-            cursor: pointer;
-            color: #6c757d;
-            transition: var(--transition);
-        }
+        .close { font-size: 28px; font-weight: 300; cursor: pointer; color: #6c757d; transition: var(--transition); }
         .close:hover { color: var(--text-dark); }
 
         .modal-body label {
@@ -384,12 +336,7 @@
             box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
         }
 
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
+        .modal-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
 
         .spinner {
             display: none;
@@ -418,19 +365,9 @@
             z-index: 9998;
         }
 
-        @keyframes spin {
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .progress-container {
             width: 100%;
@@ -466,11 +403,7 @@
             gap: 12px;
         }
 
-        .date-filter-container label {
-            font-weight: 500;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
+        .date-filter-container label { font-weight: 500; font-size: 0.85rem; color: var(--text-muted); }
 
         .date-filter-container input {
             padding: 8px 12px;
@@ -505,12 +438,7 @@
             margin-top: 8px;
         }
 
-        .titulo-licencias, .titulo-casos {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
+        .titulo-licencias, .titulo-casos { font-size: 2rem; font-weight: 700; margin-bottom: 16px; }
         .titulo-licencias { color: var(--accent); }
         .titulo-casos { color: var(--primary); }
 
@@ -548,6 +476,9 @@
             font-weight: 600;
             text-align: left;
             border-bottom: 2px solid #dee2e6;
+            position: sticky;
+            top: 0;
+            z-index: 5;
         }
 
         #tablaLicencias td, #tablaCasosOM td, #tablaPendientes td {
@@ -565,7 +496,6 @@
             width: 100%;
         }
 
-        /* ===== ESTILOS PARA REPORTE POR AGENTES ===== */
         #tablaReporteAgentes {
             width: 100%;
             border-collapse: collapse;
@@ -586,26 +516,17 @@
             transition: var(--transition);
         }
 
-        #tablaReporteAgentes th:hover {
-            background: #e9ecef;
-        }
+        #tablaReporteAgentes th:hover { background: #e9ecef; }
 
         #tablaReporteAgentes td {
             padding: 10px 14px;
             border-bottom: 1px solid #f1f3f5;
         }
 
-        #tablaReporteAgentes tbody tr:nth-child(even) {
-            background: #fcfcfd;
-        }
+        #tablaReporteAgentes tbody tr:nth-child(even) { background: #fcfcfd; }
+        #tablaReporteAgentes tbody tr:hover { background: #f8f9fa; }
 
-        #tablaReporteAgentes tbody tr:hover {
-            background: #f8f9fa;
-        }
-
-        #pendientesPage .input-licencias {
-            width: 180px;
-        }
+        #pendientesPage .input-licencias { width: 180px; }
 
         #pendientesPage > div:first-of-type {
             display: flex;
@@ -615,11 +536,7 @@
             margin-bottom: 16px;
         }
 
-        #contadorPendientes {
-            font-weight: 600;
-            color: var(--secondary);
-            margin: 8px 0;
-        }
+        #contadorPendientes { font-weight: 600; color: var(--secondary); margin: 8px 0; }
 
         #modalReporteAgentes {
             display: none;
@@ -658,7 +575,6 @@
             border-top: 1px solid #dee2e6;
         }
 
-        /* ===== MEJORAS EN CASOS OM ===== */
         .casos-om-wrapper {
             display: flex;
             gap: 24px;
@@ -668,11 +584,7 @@
             margin-top: 20px;
         }
 
-        .casos-om-tabla-container {
-            flex: 1.2;
-            min-width: 320px;
-            max-width: 700px;
-        }
+        .casos-om-tabla-container { flex: 1.2; min-width: 320px; max-width: 700px; }
 
         .casos-om-grafico-container {
             flex: 1;
@@ -709,35 +621,15 @@
         @media (max-width: 768px) {
             body { padding: 12px; }
             .main-header h1 { font-size: 1.5rem; }
-            .search-grid {
-                flex-direction: column;
-                align-items: stretch;
-                padding: 16px;
-            }
+            .search-grid { flex-direction: column; align-items: stretch; padding: 16px; }
             .search-grid label { width: 100%; }
             .search-grid input { width: 100%; }
-            .search-actions {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
+            .search-actions { justify-content: center; flex-wrap: wrap; }
             .top-buttons { gap: 6px; }
-            .top-buttons button, .custom-file-btn {
-                padding: 8px 14px;
-                font-size: 0.75rem;
-            }
-            .modal-content {
-                margin: 20% auto;
-                padding: 20px;
-                width: 95%;
-            }
-            .casos-om-wrapper {
-                flex-direction: column;
-                align-items: center;
-            }
-            .casos-om-tabla-container, .casos-om-grafico-container {
-                max-width: 100%;
-                width: 100%;
-            }
+            .top-buttons button, .custom-file-btn { padding: 8px 14px; font-size: 0.75rem; }
+            .modal-content { margin: 20% auto; padding: 20px; width: 95%; }
+            .casos-om-wrapper { flex-direction: column; align-items: center; }
+            .casos-om-tabla-container, .casos-om-grafico-container { max-width: 100%; width: 100%; }
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -758,23 +650,23 @@
 
     <div class="top-buttons">
         <button onclick="goToLicencias()" id="buscarLicenciasBtn">🔎 Buscar licencias</button>
-        <a href="https://juank930.github.io/Tracking/" target="_blank" class="custom-file-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-      ♾️ Traking
-</a>
         <a href="https://teamdigitalrrss-jpg.github.io/Fallas-BOT/" target="_blank" class="custom-file-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-     🔴 Fallas BOT
-</a>
+            🐞 Fallas BOT
+        </a>
         <button onclick="goToCasosOM()" id="casosOMBtn">📁 Casos OM</button>
         <button onclick="goToPendientes()" id="pendientesBtn" title="Cargas sábana de DESCARGA CHATS">📌 Pendientes</button>
         
-        <!-- Enlace externo a Conexiones -->
         <a href="https://teamdigitalrrss-jpg.github.io/ConexionesOM/" target="_blank" class="custom-file-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
             🔌 Conexiones
         </a>
 
         <a href="https://teamdigitalrrss-jpg.github.io/Tiempoderespuestas/" target="_blank" class="custom-file-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-    ⌛ Tiempos de respuesta
-</a>
+            ⌛ Tiempos de respuesta
+        </a>
+
+        <a href="https://juank930.github.io/Tracking/" target="_blank" class="custom-file-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+            ♾️ Traking
+        </a>
 
         <label for="fileInput" class="custom-file-btn" title="Cargas sábana de DESCARGA CHATS">
             📁 Cargar documentos
@@ -821,7 +713,6 @@
         <button id="resetDateFilter" onclick="resetDateFilter()">Restablecer</button>
     </div>
 
-    <!-- MODAL PARA SELECCIÓN DE FECHAS -->
     <div id="dateModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -831,7 +722,6 @@
             <div class="modal-body">
                 <label for="modalStartDate">Fecha desde:</label>
                 <input type="text" id="modalStartDate" class="flatpickr-input" placeholder="Seleccione fecha inicio">
-              
                 <label for="modalEndDate">Fecha hasta:</label>
                 <input type="text" id="modalEndDate" class="flatpickr-input" placeholder="Seleccione fecha fin">
             </div>
@@ -892,7 +782,6 @@
     </div>
 </div>
 
-<!-- ===== SECCIÓN CASOS OM ===== -->
 <div id="casosOMPage" style="display:none;">
     <div style="text-align:center; margin-bottom:20px;">
         <h1 class="titulo-casos">📁 Casos OM</h1>
@@ -903,7 +792,6 @@
     </div>
 
     <div class="casos-om-wrapper">
-        <!-- Tabla -->
         <div class="casos-om-tabla-container">
             <div class="table-container" style="max-height:500px; overflow-y:auto;">
                 <table id="tablaCasosOM">
@@ -943,13 +831,11 @@
             </div>
         </div>
 
-        <!-- Gráfico -->
         <div class="casos-om-grafico-container">
             <canvas id="graficoCasosOM" height="400"></canvas>
         </div>
     </div>
 
-    <!-- Análisis -->
     <div id="cardAnalisisCasos" class="card-analisis-casos" style="margin:20px auto;">
         <div id="textoAnalisisCasos">Ingresa datos en la tabla para ver el análisis...</div>
     </div>
@@ -960,11 +846,13 @@
     <button onclick="backFromPendientes()" class="btn-volver">⬅ Volver</button>
 
     <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:16px 0;">
-        <input type="text" id="pendienteAgente" placeholder="Buscar agente" class="input-licencias">
+        <input type="text" id="pendienteAgente" placeholder="Buscar asesor" class="input-licencias">
         <input type="text" id="pendienteMovil" placeholder="Buscar móvil" class="input-licencias">
         <input type="text" id="pendienteTexto" placeholder="Buscar texto" class="input-licencias">
         <input type="text" id="fechaInicioPendienteFiltro" placeholder="Fecha inicio" class="input-licencias">
         <input type="text" id="fechaFinPendienteFiltro" placeholder="Fecha fin" class="input-licencias">
+        <input type="time" id="horaInicioPendienteFiltro" class="input-licencias" style="width:130px;" title="Hora inicio">
+        <input type="time" id="horaFinPendienteFiltro" class="input-licencias" style="width:130px;" title="Hora fin">
         <button onclick="buscarPendientes()">🔍 Buscar</button>
         <button onclick="limpiarPendientes()">🔄 Limpiar</button>
         <button onclick="mostrarReporteAgentes()">📊 Reporte por agentes</button>
@@ -978,12 +866,13 @@
     <input type="file" id="pendientesFileInput" accept=".csv" multiple hidden />
     <div id="estadoPendientes" style="margin-top:8px; font-weight:600; color:var(--accent);"></div>
 
-    <div class="table-container" style="margin-top:16px;">
+    <div class="table-container" style="margin-top:16px; max-height:280px; overflow-y:auto;">
         <table id="tablaPendientes" style="display:none;">
             <thead>
                 <tr>
                     <th>Fecha</th>
-                    <th>Agente</th>
+                    <th>Agente (envía)</th>
+                    <th>Asesor Reconocido</th>
                     <th>Supervisor</th>
                     <th>Site</th>
                     <th>Área</th>
@@ -993,6 +882,21 @@
             </thead>
             <tbody></tbody>
         </table>
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap:20px; margin-top:20px;">
+        <div style="background:var(--bg-card); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow-sm); border:1px solid #f1f3f5;">
+            <h3 style="font-size:1rem; font-weight:600; color:var(--secondary); margin-bottom:12px;">📊 Pendientes manuales vs automáticos por hora</h3>
+            <div style="position:relative; height:320px;">
+                <canvas id="graficoPendientesPorHora"></canvas>
+            </div>
+        </div>
+        <div style="background:var(--bg-card); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow-sm); border:1px solid #f1f3f5;">
+            <h3 style="font-size:1rem; font-weight:600; color:var(--secondary); margin-bottom:12px;">🏆 Top 10 asesores con más pendientes manuales</h3>
+            <div style="position:relative; height:320px;">
+                <canvas id="graficoTopAsesoresPendientes"></canvas>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -1048,6 +952,28 @@ let sortDirection = 1;
 let mapaLicencias = {};
 let dataLicencias = [];
 let graficoCasosOMInstance = null;
+
+// ===== FUNCIONES AUXILIARES =====
+
+// Extrae el asesor reconocido del texto del pendiente
+function extraerAsesorReconocido(texto) {
+    if (!texto) return "";
+    const t = texto.toLowerCase();
+    const m = t.match(/(?:caso marcado pendiente auto para|caso marcado pendiente para)\s+(\S+)/i);
+    if (!m) return "";
+    return m[1].replace(/[.,;:]+$/, "").trim();
+}
+
+// Busca la licencia del asesor (coincidencia exacta o parcial)
+function buscarLicenciaAsesor(asesor) {
+    if (!asesor) return {};
+    const key = asesor.toLowerCase().trim();
+    if (mapaLicencias[key]) return mapaLicencias[key];
+    for (const k in mapaLicencias) {
+        if (k.includes(key) || key.includes(k)) return mapaLicencias[k];
+    }
+    return {};
+}
 
 // ===== FUNCIONES =====
 
@@ -1394,7 +1320,6 @@ function applyDateFilter() {
     currentStartDate = startDate;
     currentEndDate = endDate;
     dateFilterActive = true;
-    // Nota: ya no hay gráficos de eventos, se mantiene solo para compatibilidad con filtros de fecha
 }
 
 function resetDateFilter() {
@@ -1407,100 +1332,49 @@ function resetDateFilter() {
 
 function renderTable(dataArray) {
     const tbody = document.querySelector("#dataTable tbody");
-    tbody.innerHTML = ""; // Limpiar
+    tbody.innerHTML = "";
     updateResultCounter(dataArray.length);
-
     const displayData = dataArray.length > 1000 ? dataArray.slice(0, 1000) : dataArray;
-    if (displayData.length === 0) {
-        document.getElementById("dataTable").style.display = "none";
-        // Habilitar/deshabilitar filtros
-        for (let i = 1; i <= 8; i++) {
-            document.getElementById(`filter${i}`).disabled = true;
-        }
-        return;
-    }
-
-    // Usar DocumentFragment para mejorar rendimiento
-    const fragment = document.createDocumentFragment();
-
     displayData.forEach((row, index) => {
         const tr = document.createElement("tr");
-        // Color de fila según Remoto
         const remoto = parseInt(row.Remoto);
         if (remoto === 1) {
-            tr.style.backgroundColor = "#d4edda"; // verde claro
+            tr.style.backgroundColor = "#d4edda";
         } else if (remoto === 0) {
-            tr.style.backgroundColor = "#d6eaf8"; // celeste claro
+            tr.style.backgroundColor = "#d6eaf8";
         }
-
-        // Crear celdas con createElement (más rápido que innerHTML)
-        const cellIndex = document.createElement("td");
-        cellIndex.textContent = index + 1;
-        tr.appendChild(cellIndex);
-
-        const cellFecha = document.createElement("td");
-        cellFecha.textContent = row.Fecha || "";
-        tr.appendChild(cellFecha);
-
-        const cellAgente = document.createElement("td");
-        cellAgente.textContent = row.Agente || "";
-        tr.appendChild(cellAgente);
-
-        const cellSupervisor = document.createElement("td");
-        cellSupervisor.textContent = row.Supervisor || "";
-        tr.appendChild(cellSupervisor);
-
-        const cellMovil = document.createElement("td");
-        cellMovil.textContent = row.Movil || "";
-        tr.appendChild(cellMovil);
-
-        const cellRemoto = document.createElement("td");
-        cellRemoto.textContent = row.Remoto || "";
-        tr.appendChild(cellRemoto);
-
-        const cellEvent = document.createElement("td");
-        cellEvent.textContent = row.Event || "";
-        tr.appendChild(cellEvent);
-
-        const cellTexto = document.createElement("td");
-        cellTexto.textContent = row.Texto || "";
-        tr.appendChild(cellTexto);
-
-        const cellHora = document.createElement("td");
-        cellHora.textContent = row.Hora || "";
-        tr.appendChild(cellHora);
-
-        fragment.appendChild(tr);
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${row.Fecha || ""}</td>
+            <td>${row.Agente || ""}</td>
+            <td>${row.Supervisor || ""}</td>
+            <td>${row.Movil || ""}</td>
+            <td>${row.Remoto || ""}</td>
+            <td>${row.Event || ""}</td>
+            <td>${row.Texto || ""}</td>
+            <td>${row.Hora || ""}</td>
+        `;
+        tbody.appendChild(tr);
     });
-
-    // Si hay más de 1000, agregar mensaje
     if (dataArray.length > 1000) {
         const tr = document.createElement("tr");
-        const td = document.createElement("td");
-        td.colSpan = 9;
-        td.style.textAlign = "center";
-        td.style.backgroundColor = "#444";
-        td.style.color = "#ffcc00";
-        td.textContent = `Mostrando 1000 de ${dataArray.length} registros. Use los filtros para reducir los resultados.`;
-        tr.appendChild(td);
-        fragment.appendChild(tr);
+        tr.innerHTML = `
+            <td colspan="9" style="text-align: center; background-color: #444; color: #ffcc00;">
+                Mostrando 1000 de ${dataArray.length} registros. Use los filtros para reducir los resultados.
+            </td>
+        `;
+        tbody.appendChild(tr);
     }
-
-    tbody.appendChild(fragment);
-    document.getElementById("dataTable").style.display = "table";
-
-    // Habilitar o deshabilitar filtros de columna
+    document.getElementById("dataTable").style.display = dataArray.length > 0 ? "table" : "none";
     for (let i = 1; i <= 8; i++) {
         document.getElementById(`filter${i}`).disabled = dataArray.length === 0;
     }
 }
 
 function filterTable() {
-    // Mostrar spinner y overlay
     document.getElementById('loadingSpinner').style.display = 'block';
     document.getElementById('loadingOverlay').style.display = 'block';
 
-    // Capturar valores de búsqueda actuales
     const textInput = document.getElementById("textSearch").value.toLowerCase().trim();
     const mobileInput = document.getElementById("mobileSearch").value.trim();
     const agentInput = document.getElementById("agentSearch").value.toLowerCase().trim();
@@ -1508,9 +1382,7 @@ function filterTable() {
     const mobileKeywords = mobileInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
     const agentKeywords = agentInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
 
-    // Ejecutar el filtro en un setTimeout para no bloquear el UI
     setTimeout(() => {
-        // Si no hay datos, salir
         if (data.length === 0) {
             filteredData = [];
             renderTable(filteredData);
@@ -1519,8 +1391,7 @@ function filterTable() {
             return;
         }
 
-        // Usar chunking para procesar grandes volúmenes sin bloquear
-        const chunkSize = 5000; // Procesar de a 5000 registros por vez
+        const chunkSize = 5000;
         let results = [];
         let index = 0;
         const total = data.length;
@@ -1529,7 +1400,6 @@ function filterTable() {
             const end = Math.min(index + chunkSize, total);
             for (let i = index; i < end; i++) {
                 const row = data[i];
-                // Filtrar por texto
                 const matchText = textKeywords.length === 0 || textKeywords.some(word =>
                     row.Texto.toLowerCase().includes(word) || row.Event.toLowerCase().includes(word)
                 );
@@ -1538,7 +1408,6 @@ function filterTable() {
                 if (!matchMobile) continue;
                 const matchAgent = agentKeywords.length === 0 || agentKeywords.some(word => row.Agente.toLowerCase().includes(word));
                 if (!matchAgent) continue;
-                // Fecha (solo si está activo)
                 if (modalDateFilterActive) {
                     if (!row.FechaDate) continue;
                     const itemDate = new Date(row.FechaDate);
@@ -1547,21 +1416,17 @@ function filterTable() {
                 results.push(row);
             }
             index = end;
-            // Si aún no hemos terminado, continuar en el próximo ciclo
             if (index < total) {
                 setTimeout(processChunk, 0);
             } else {
-                // Terminado: asignar y renderizar
                 filteredData = results;
                 renderTable(filteredData);
                 document.getElementById('loadingSpinner').style.display = 'none';
                 document.getElementById('loadingOverlay').style.display = 'none';
             }
         }
-
-        // Iniciar el procesamiento por chunks
         processChunk();
-    }, 50); // pequeño retraso para que el spinner se muestre
+    }, 50);
 }
 
 function columnFilter(columnIndex, searchValue) {
@@ -1766,12 +1631,7 @@ function analizarCasosOM() {
     let total = 0;
     let fijos = {};
     let moviles = {};
-    let canales = {
-        WhatsApp: 0,
-        Messenger: 0,
-        Instagram: 0,
-        X: 0
-    };
+    let canales = { WhatsApp: 0, Messenger: 0, Instagram: 0, X: 0 };
     let countFijo = 0;
     let countMovil = 0;
 
@@ -1801,16 +1661,13 @@ function analizarCasosOM() {
         return Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, 3).map(x => `${x[0]} (${x[1]})`).join(", ");
     }
 
-    // Construir el desglose de canales
     let canalTexto = "";
     let partes = [];
     if (canales.WhatsApp > 0) partes.push(`${canales.WhatsApp} WhatsApp`);
     if (canales.Messenger > 0) partes.push(`${canales.Messenger} Messenger`);
     if (canales.Instagram > 0) partes.push(`${canales.Instagram} Instagram`);
     if (canales.X > 0) partes.push(`${canales.X} X`);
-    if (partes.length > 0) {
-        canalTexto = ` (${partes.join(" - ")})`;
-    }
+    if (partes.length > 0) canalTexto = ` (${partes.join(" - ")})`;
 
     const topFijos = top3(fijos) || "Sin datos";
     const topMoviles = top3(moviles) || "Sin datos";
@@ -1962,7 +1819,6 @@ async function copiarGraficoComoImagen() {
     });
 }
 
-// Detectar cambios en la tabla de casos OM y actualizar gráfico y análisis
 document.addEventListener("input", function(e) {
     if (e.target.closest("#tablaCasosOM")) {
         setTimeout(() => {
@@ -1980,6 +1836,117 @@ document.addEventListener("change", function(e) {
         }, 50);
     }
 });
+
+// ===== GRÁFICOS DE PENDIENTES =====
+function generarGraficoPendientesPorHora(datos) {
+    const canvas = document.getElementById("graficoPendientesPorHora");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+
+    const horas = {};
+    datos.forEach(row => {
+        const partes = (row.Fecha || "").split(" ");
+        const horaTexto = partes.length >= 2 ? partes[1].substring(0, 2) : "";
+        if (!horaTexto || isNaN(parseInt(horaTexto))) return;
+        if (!horas[horaTexto]) horas[horaTexto] = { manual: 0, auto: 0 };
+        const texto = (row.Texto || "").toLowerCase();
+        if (texto.includes("caso marcado pendiente auto")) {
+            horas[horaTexto].auto++;
+        } else {
+            horas[horaTexto].manual++;
+        }
+    });
+
+    const labels = Object.keys(horas).sort();
+    const manuales = labels.map(h => horas[h].manual);
+    const autos = labels.map(h => horas[h].auto);
+
+    if (window.graficoPendientesPorHoraInstance) window.graficoPendientesPorHoraInstance.destroy();
+
+    window.graficoPendientesPorHoraInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels.map(h => h + ":00"),
+            datasets: [
+                { label: "Manuales", data: manuales, backgroundColor: "#F2D049", borderRadius: 4 },
+                { label: "Automáticos", data: autos, backgroundColor: "#6f42c1", borderRadius: 4 }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: "top", labels: { font: { size: 11, weight: "600" } } },
+                datalabels: {
+                    color: "#000",
+                    anchor: "end",
+                    align: "end",
+                    font: { weight: "bold", size: 10 },
+                    formatter: v => v > 0 ? v : ""
+                }
+            },
+            scales: {
+                x: { title: { display: true, text: "Hora" }, grid: { display: false } },
+                y: { beginAtZero: true, ticks: { precision: 0 }, title: { display: true, text: "Cantidad" } }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
+}
+
+function generarGraficoTopAsesoresPendientes(datos) {
+    const canvas = document.getElementById("graficoTopAsesoresPendientes");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+
+    const conteo = {};
+    datos.forEach(row => {
+        const texto = (row.Texto || "").toLowerCase();
+        if (texto.includes("caso marcado pendiente auto")) return;
+        const asesor = row.AsesorReconocido || "";
+        if (!asesor) return;
+        conteo[asesor] = (conteo[asesor] || 0) + 1;
+    });
+
+    const sorted = Object.entries(conteo).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const labels = sorted.map(x => x[0]);
+    const valores = sorted.map(x => x[1]);
+
+    if (window.graficoTopAsesoresPendientesInstance) window.graficoTopAsesoresPendientesInstance.destroy();
+
+    window.graficoTopAsesoresPendientesInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels.length ? labels : ["Sin datos"],
+            datasets: [{
+                label: "Pendientes manuales",
+                data: valores.length ? valores : [0],
+                backgroundColor: "#0396a6",
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: "y",
+            plugins: {
+                legend: { display: false },
+                datalabels: {
+                    color: "#fff",
+                    anchor: "center",
+                    align: "center",
+                    font: { weight: "bold", size: 11 },
+                    formatter: v => v > 0 ? v : ""
+                }
+            },
+            scales: {
+                x: { beginAtZero: true, ticks: { precision: 0 } },
+                y: { grid: { display: false }, ticks: { font: { size: 11, weight: "600" } } }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
+}
 
 // ===== PENDIENTES =====
 function cerrarReporteAgentes() {
@@ -2026,35 +1993,29 @@ function mostrarReporteAgentes() {
     const resumen = {};
     pendientesResultados.forEach(row => {
         const texto = (row.Texto || "").toLowerCase();
-        const movil = row.Movil || "";
-        let agenteObjetivo = null;
-        const autoMatch = texto.match(/caso marcado pendiente auto para\s+([^\s]+)/i);
-        const pendienteMatch = texto.match(/caso marcado pendiente para\s+([^\s]+)/i);
-        if (autoMatch) {
-            agenteObjetivo = autoMatch[1].toLowerCase();
-        } else if (pendienteMatch) {
-            agenteObjetivo = pendienteMatch[1].toLowerCase();
-        }
-        if (!agenteObjetivo) return;
-        if (!resumen[agenteObjetivo]) {
-            resumen[agenteObjetivo] = {
-                Agente: agenteObjetivo,
+        const asesorReconocido = row.AsesorReconocido || "";
+        if (!asesorReconocido) return;
+
+        if (!resumen[asesorReconocido]) {
+            resumen[asesorReconocido] = {
+                Agente: asesorReconocido,
                 Pendientes: 0,
                 Auto: 0,
                 Moviles: new Set()
             };
         }
-        if (autoMatch) {
-            resumen[agenteObjetivo].Auto++;
+        if (texto.includes("caso marcado pendiente auto")) {
+            resumen[asesorReconocido].Auto++;
         } else {
-            resumen[agenteObjetivo].Pendientes++;
+            resumen[asesorReconocido].Pendientes++;
         }
-        resumen[agenteObjetivo].Moviles.add(movil);
+        resumen[asesorReconocido].Moviles.add(row.Movil || "");
     });
+
     reporteAgentesData = Object.values(resumen).map(item => {
         const total = item.Pendientes + item.Auto;
         const interacciones = item.Moviles.size;
-        const licencia = mapaLicencias[item.Agente.toLowerCase()] || {};
+        const licencia = buscarLicenciaAsesor(item.Agente);
         return {
             Agente: item.Agente,
             Supervisor: licencia.Supervisor || "",
@@ -2120,20 +2081,26 @@ window.addEventListener("load", function() {
         Promise.all(promises)
             .then(data => {
                 document.getElementById("estadoPendientes").innerHTML = "✅ Registros cargados";
-                const textosPendientes = [
-                    "caso marcado pendiente",
-                    "quedo al pendiente",
-                    "quedo a la espera",
-                    "quedamos a la espera",
-                    "quedo pendiente",
-                    "quedamos a la orden",
-                    "quedamos a tus órdenes",
-                    "quedamos a tus ordenes"
-                ];
                 pendientesData = data.flat()
-                    .filter(row => {
+                    .map(row => {
                         const texto = (row.Texto || "").toLowerCase();
-                        return textosPendientes.some(frase => texto.includes(frase));
+                        const asesorReconocido = extraerAsesorReconocido(row.Texto);
+                        const licencia = buscarLicenciaAsesor(asesorReconocido);
+                        return {
+                            Fecha: row.Fecha,
+                            Agente: row.Agente,
+                            Movil: row.Movil,
+                            Texto: row.Texto,
+                            AsesorReconocido: asesorReconocido,
+                            Supervisor: licencia.Supervisor || "",
+                            Site: licencia.Site || "",
+                            Area: licencia.Area || ""
+                        };
+                    })
+                    .filter(row => {
+                        if (!row.Texto || !row.Texto.toLowerCase().includes("caso marcado pendiente")) return false;
+                        const area = (row.Area || "").trim().toUpperCase();
+                        return area === "SAC";
                     })
                     .sort((a, b) => (a.Movil || "").localeCompare(b.Movil || "", undefined, { numeric: true }));
                 pendientesResultados = [...pendientesData];
@@ -2170,6 +2137,8 @@ window.addEventListener("load", function() {
                     enable: fechasDisponiblesPendientes
                 });
                 renderPendientesTable();
+                generarGraficoPendientesPorHora(pendientesResultados);
+                generarGraficoTopAsesoresPendientes(pendientesResultados);
                 document.getElementById("loadingSpinner").style.display = "none";
                 document.getElementById("loadingOverlay").style.display = "none";
             })
@@ -2188,10 +2157,17 @@ function buscarPendientes() {
     const texto = document.getElementById("pendienteTexto").value.toLowerCase().trim();
     const fechaInicio = document.getElementById("fechaInicioPendienteFiltro").value;
     const fechaFin = document.getElementById("fechaFinPendienteFiltro").value;
+    const horaInicio = document.getElementById("horaInicioPendienteFiltro").value;
+    const horaFin = document.getElementById("horaFinPendienteFiltro").value;
+
     pendientesResultados = pendientesData.filter(row => {
-        const matchAgente = agentes.length === 0 || agentes.some(nombre => (row.Agente || "").toLowerCase().includes(nombre));
+        const matchAgente = agentes.length === 0 || agentes.some(nombre =>
+            (row.Agente || "").toLowerCase().includes(nombre) ||
+            (row.AsesorReconocido || "").toLowerCase().includes(nombre)
+        );
         const matchMovil = movil === "" || (row.Movil || "").toLowerCase().includes(movil);
         const matchTexto = texto === "" || (row.Texto || "").toLowerCase().includes(texto);
+
         let matchFecha = true;
         if (fechaInicio && fechaFin) {
             const fechaTexto = (row.Fecha || "").split(" ")[0];
@@ -2204,9 +2180,25 @@ function buscarPendientes() {
                 matchFecha = fechaRegistro >= inicio && fechaRegistro <= fin;
             }
         }
-        return matchAgente && matchMovil && matchTexto && matchFecha;
+
+        let matchHora = true;
+        if (horaInicio || horaFin) {
+            const partes = (row.Fecha || "").split(" ");
+            const horaTexto = partes.length >= 2 ? partes[1].substring(0, 5) : "";
+            if (!horaTexto) {
+                matchHora = false;
+            } else {
+                const cumpleInicio = !horaInicio || horaTexto >= horaInicio;
+                const cumpleFin = !horaFin || horaTexto <= horaFin;
+                matchHora = cumpleInicio && cumpleFin;
+            }
+        }
+
+        return matchAgente && matchMovil && matchTexto && matchFecha && matchHora;
     });
     renderPendientesTable();
+    generarGraficoPendientesPorHora(pendientesResultados);
+    generarGraficoTopAsesoresPendientes(pendientesResultados);
 }
 
 function limpiarPendientes() {
@@ -2215,8 +2207,12 @@ function limpiarPendientes() {
     document.getElementById("pendienteTexto").value = "";
     document.getElementById("fechaInicioPendienteFiltro").value = "";
     document.getElementById("fechaFinPendienteFiltro").value = "";
+    document.getElementById("horaInicioPendienteFiltro").value = "";
+    document.getElementById("horaFinPendienteFiltro").value = "";
     pendientesResultados = [...pendientesData];
     renderPendientesTable();
+    generarGraficoPendientesPorHora(pendientesResultados);
+    generarGraficoTopAsesoresPendientes(pendientesResultados);
 }
 
 document.addEventListener("keydown", function(e) {
@@ -2230,16 +2226,15 @@ function renderPendientesTable() {
     tbody.innerHTML = "";
     const LIMITE = 300;
     const datosMostrar = pendientesResultados.slice(0, LIMITE);
-    datosMostrar.forEach((row, index) => {
-        const usuarioOM = (row.Agente || "").toLowerCase().trim();
-        const licencia = mapaLicencias[usuarioOM] || {};
+    datosMostrar.forEach(row => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
             <td>${row.Fecha || ""}</td>
             <td>${row.Agente || ""}</td>
-            <td>${licencia.Supervisor || ""}</td>
-            <td>${licencia.Site || ""}</td>
-            <td>${licencia.Area || ""}</td>
+            <td><strong>${row.AsesorReconocido || ""}</strong></td>
+            <td>${row.Supervisor || ""}</td>
+            <td>${row.Site || ""}</td>
+            <td>${row.Area || ""}</td>
             <td>${row.Movil || ""}</td>
             <td>${row.Texto || ""}</td>
         `;
@@ -2249,7 +2244,7 @@ function renderPendientesTable() {
     if (pendientesResultados.length > LIMITE) {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td colspan="7" style="text-align:center;font-weight:bold;background:#f3f3f3;">
+            <td colspan="8" style="text-align:center;font-weight:bold;background:#f3f3f3;">
                 Mostrando solamente ${LIMITE} registros de un total de ${pendientesResultados.length} resultados
             </td>
         `;
