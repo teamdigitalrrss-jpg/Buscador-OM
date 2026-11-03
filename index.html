@@ -460,7 +460,7 @@
             background: #fff;
         }
 
-        #tablaLicencias, #tablaCasosOM, #tablaPendientes {
+        #tablaLicencias, #tablaCasosOM, #tablaPendientes, #tablaMora, #tablaFallaGeneral, #tablaAverias {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.875rem;
@@ -470,7 +470,7 @@
             box-shadow: var(--shadow-sm);
         }
 
-        #tablaLicencias th, #tablaCasosOM th, #tablaPendientes th {
+        #tablaLicencias th, #tablaCasosOM th, #tablaPendientes th, #tablaMora th, #tablaFallaGeneral th, #tablaAverias th {
             background: #f1f3f5;
             padding: 12px 14px;
             font-weight: 600;
@@ -481,7 +481,7 @@
             z-index: 5;
         }
 
-        #tablaLicencias td, #tablaCasosOM td, #tablaPendientes td {
+        #tablaLicencias td, #tablaCasosOM td, #tablaPendientes td, #tablaMora td, #tablaFallaGeneral td, #tablaAverias td {
             padding: 10px 14px;
             border-bottom: 1px solid #f1f3f5;
         }
@@ -694,6 +694,12 @@
         </label>
         <div class="search-actions">
             <button id="searchBtn" onclick="openDateModal()">🔍 Buscar</button>
+            
+            <!-- NUEVOS BOTONES -->
+            <button id="moraBtn" onclick="abrirModalMora()">💰 Mora</button>
+            <button id="fallaGeneralBtn" onclick="abrirModalFallaGeneral()">🚨 Falla General</button>
+            <button id="averiasBtn" onclick="abrirModalAverias()">🛠️ Averías</button>
+
             <button id="resetBtn" onclick="resetSearch()">🔄 Nueva búsqueda</button>
             <button id="downloadBtn" onclick="downloadExcel()">📥 Descargar Excel</button>
             <button id="backBtn" onclick="goBack()">⬅ Inicio</button>
@@ -756,6 +762,99 @@
 
     <div class="overlay" id="loadingOverlay"></div>
     <div class="spinner" id="loadingSpinner"></div>
+</div>
+
+<!-- MODAL MORA -->
+<div id="modalMora" class="modal">
+    <div class="modal-content" style="max-width: 850px;">
+        <div class="modal-header">
+            <h2>💰 Números con Mora Detectada</h2>
+            <span class="close" onclick="cerrarModalMora()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">
+                Números proporcionados por el cliente antes de recibir el mensaje "Tu saldo vencido es...".
+            </p>
+            <div class="table-container" style="max-height: 400px; overflow-y: auto; margin-top: 0;">
+                <table id="tablaMora">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Móvil Cliente</th>
+                            <th>Número Compartido</th>
+                            <th>Mensaje (Saldo Vencido)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button onclick="cerrarModalMora()">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL FALLA GENERAL -->
+<div id="modalFallaGeneral" class="modal">
+    <div class="modal-content" style="max-width: 850px;">
+        <div class="modal-header">
+            <h2>🚨 Números con Falla General</h2>
+            <span class="close" onclick="cerrarModalFallaGeneral()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">
+                Números proporcionados por el cliente antes de recibir el mensaje de "interrupción general del servicio en tu zona".
+            </p>
+            <div class="table-container" style="max-height: 400px; overflow-y: auto; margin-top: 0;">
+                <table id="tablaFallaGeneral">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Móvil Cliente</th>
+                            <th>Número Compartido</th>
+                            <th>Mensaje (Falla General)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button onclick="cerrarModalFallaGeneral()">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL AVERÍAS -->
+<div id="modalAverias" class="modal">
+    <div class="modal-content" style="max-width: 850px;">
+        <div class="modal-header">
+            <h2>🛠️ Números con Averías</h2>
+            <span class="close" onclick="cerrarModalAverias()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">
+                Números proporcionados por el cliente antes de recibir el mensaje de "visita técnica ya está registrada en nuestro sistema".
+            </p>
+            <div class="table-container" style="max-height: 400px; overflow-y: auto; margin-top: 0;">
+                <table id="tablaAverias">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Móvil Cliente</th>
+                            <th>Número Compartido</th>
+                            <th>Mensaje (Averías)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button onclick="cerrarModalAverias()">Cerrar</button>
+        </div>
+    </div>
 </div>
 
 <div id="licenciasPage" style="display:none; text-align:center;">
@@ -970,9 +1069,111 @@ function buscarLicenciaAsesor(asesor) {
     const key = asesor.toLowerCase().trim();
     if (mapaLicencias[key]) return mapaLicencias[key];
     for (const k in mapaLicencias) {
-        if (k.includes(key) || key.includes(k)) return mapaLicencias[k];
+        if (k.includes(key) || key.includes(asesor)) return mapaLicencias[k];
     }
     return {};
+}
+
+// Convierte el string de fecha y hora a un objeto Date real para ordenar
+function parseFullDate(fechaStr) {
+    if (!fechaStr) return new Date(0);
+    try {
+        const parts = fechaStr.split(' ');
+        if (parts.length < 2) return new Date(0);
+        const [day, month, year] = parts[0].split('/').map(Number);
+        const [hours, minutes, seconds] = parts[1].split(':').map(Number);
+        return new Date(year, month - 1, day, hours, minutes, seconds || 0);
+    } catch(e) { return new Date(0); }
+}
+
+// ===== FUNCIONES MODALES DE EXTRACCIÓN =====
+
+// Función genérica para procesar y llenar la tabla del modal
+function procesarYMostrarModal(textoBuscado, idTabla, idModal) {
+    if (data.length === 0) {
+        alert("Primero debe cargar archivos CSV.");
+        return;
+    }
+
+    const resultados = [];
+    const ultimoNumeroPorMovil = {}; 
+
+    // Ordenar los datos cronológicamente con fecha y hora
+    const sortedData = [...data].sort((a, b) => {
+        return parseFullDate(a.Fecha) - parseFullDate(b.Fecha);
+    });
+
+    for (let i = 0; i < sortedData.length; i++) {
+        const row = sortedData[i];
+        const movil = row.Movil;
+        const texto = row.Texto || "";
+        const textoLower = texto.toLowerCase();
+
+        // Si es un mensaje del cliente (Remoto 1)
+        if (String(row.Remoto).trim() === "1") {
+            const soloNumeros = texto.replace(/\D/g, '');
+            if (soloNumeros.length >= 7) {
+                ultimoNumeroPorMovil[movil] = soloNumeros;
+            }
+        } 
+        // Si es un mensaje del bot/agente (Remoto 0)
+        else if (String(row.Remoto).trim() === "0") {
+            if (textoLower.includes(textoBuscado)) {
+                if (ultimoNumeroPorMovil[movil]) {
+                    const existe = resultados.some(r => r.Movil === movil && r.Numero === ultimoNumeroPorMovil[movil]);
+                    if (!existe) {
+                        resultados.push({
+                            Fecha: row.Fecha,
+                            Movil: movil,
+                            Numero: ultimoNumeroPorMovil[movil],
+                            Evento: texto
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    const tbody = document.querySelector(`#${idTabla} tbody`);
+    tbody.innerHTML = "";
+    
+    if (resultados.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px;">No se encontraron números asociados a este mensaje.</td></tr>`;
+    } else {
+        resultados.forEach(res => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${res.Fecha}</td>
+                <td>${res.Movil}</td>
+                <td><strong>${res.Numero}</strong></td>
+                <td>${res.Evento}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    document.getElementById(idModal).style.display = "block";
+}
+
+function abrirModalMora() {
+    procesarYMostrarModal("tu saldo vencido es", "tablaMora", "modalMora");
+}
+function cerrarModalMora() {
+    document.getElementById("modalMora").style.display = "none";
+}
+
+function abrirModalFallaGeneral() {
+    procesarYMostrarModal("interrupción general del servicio en tu zona", "tablaFallaGeneral", "modalFallaGeneral");
+}
+function cerrarModalFallaGeneral() {
+    document.getElementById("modalFallaGeneral").style.display = "none";
+}
+
+function abrirModalAverias() {
+    procesarYMostrarModal("visita técnica ya está registrada en nuestro sistema", "tablaAverias", "modalAverias");
+}
+function cerrarModalAverias() {
+    document.getElementById("modalAverias").style.display = "none";
 }
 
 // ===== FUNCIONES =====
