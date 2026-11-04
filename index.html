@@ -692,10 +692,14 @@
             Búsqueda por Agente
             <input type="text" id="agentSearch" placeholder="Ej: Juan Figueroa" />
         </label>
+        <!-- NUEVA OPCIÓN DE BÚSQUEDA POR SKILL -->
+        <label>
+            Búsqueda por Skill
+            <input type="text" id="skillSearch" placeholder="Ej: WhatsApp Multimedia" />
+        </label>
         <div class="search-actions">
             <button id="searchBtn" onclick="openDateModal()">🔍 Buscar</button>
             
-            <!-- NUEVOS BOTONES -->
             <button id="moraBtn" onclick="abrirModalMora()">💰 Mora</button>
             <button id="fallaGeneralBtn" onclick="abrirModalFallaGeneral()">🚨 Falla General</button>
             <button id="averiasBtn" onclick="abrirModalAverias()">🛠️ Averías</button>
@@ -748,9 +752,10 @@
                     <th onclick="sortTable(3)">Supervisor<span class="sort-icon">↕</span><br><input class="filter-input" id="filter3" onkeyup="columnFilter(3, this.value)" placeholder="Filtrar" disabled></th>
                     <th onclick="sortTable(4)">Movil<span class="sort-icon">↕</span><br><input class="filter-input" id="filter4" onkeyup="columnFilter(4, this.value)" placeholder="Filtrar" disabled></th>
                     <th onclick="sortTable(5)">Remoto<span class="sort-icon">↕</span><br><input class="filter-input" id="filter5" onkeyup="columnFilter(5, this.value)" placeholder="Filtrar" disabled></th>
-                    <th onclick="sortTable(6)">Event<span class="sort-icon">↕</span><br><input class="filter-input" id="filter6" onkeyup="columnFilter(6, this.value)" placeholder="Filtrar" disabled></th>
-                    <th onclick="sortTable(7)">Texto<span class="sort-icon">↕</span><br><input class="filter-input" id="filter7" onkeyup="columnFilter(7, this.value)" placeholder="Filtrar" disabled></th>
-                    <th onclick="sortTable(8)">Hora<span class="sort-icon">↕</span><br><input class="filter-input" id="filter8" onkeyup="columnFilter(8, this.value)" placeholder="Filtrar" disabled></th>
+                    <th onclick="sortTable(6)">Skill Conversación<span class="sort-icon">↕</span><br><input class="filter-input" id="filter6" onkeyup="columnFilter(6, this.value)" placeholder="Filtrar" disabled></th>
+                    <th onclick="sortTable(7)">Event<span class="sort-icon">↕</span><br><input class="filter-input" id="filter7" onkeyup="columnFilter(7, this.value)" placeholder="Filtrar" disabled></th>
+                    <th onclick="sortTable(8)">Texto<span class="sort-icon">↕</span><br><input class="filter-input" id="filter8" onkeyup="columnFilter(8, this.value)" placeholder="Filtrar" disabled></th>
+                    <th onclick="sortTable(9)">Hora<span class="sort-icon">↕</span><br><input class="filter-input" id="filter9" onkeyup="columnFilter(9, this.value)" placeholder="Filtrar" disabled></th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -1054,7 +1059,6 @@ let graficoCasosOMInstance = null;
 
 // ===== FUNCIONES AUXILIARES =====
 
-// Extrae el asesor reconocido del texto del pendiente
 function extraerAsesorReconocido(texto) {
     if (!texto) return "";
     const t = texto.toLowerCase();
@@ -1063,7 +1067,6 @@ function extraerAsesorReconocido(texto) {
     return m[1].replace(/[.,;:]+$/, "").trim();
 }
 
-// Busca la licencia del asesor (coincidencia exacta o parcial)
 function buscarLicenciaAsesor(asesor) {
     if (!asesor) return {};
     const key = asesor.toLowerCase().trim();
@@ -1074,7 +1077,6 @@ function buscarLicenciaAsesor(asesor) {
     return {};
 }
 
-// Convierte el string de fecha y hora a un objeto Date real para ordenar
 function parseFullDate(fechaStr) {
     if (!fechaStr) return new Date(0);
     try {
@@ -1086,9 +1088,33 @@ function parseFullDate(fechaStr) {
     } catch(e) { return new Date(0); }
 }
 
-// ===== FUNCIONES MODALES DE EXTRACCIÓN =====
+function calcularSkills(arr) {
+    const sortedData = [...arr].sort((a, b) => {
+        if (a.Movil !== b.Movil) return (a.Movil || "").localeCompare(b.Movil || "");
+        return parseFullDate(a.Fecha) - parseFullDate(b.Fecha);
+    });
 
-// Función genérica para procesar y llenar la tabla del modal
+    let skillActual = "";
+    let movilActual = "";
+
+    sortedData.forEach(row => {
+        if (row.Movil !== movilActual) {
+            movilActual = row.Movil;
+            skillActual = "";
+        }
+
+        const texto = row.Texto || "";
+        if (texto.toLowerCase().includes("bot transfiere a skill")) {
+            const match = texto.match(/skill\s*:\s*([^\n]+)/i);
+            if (match && match[1]) {
+                skillActual = match[1].trim();
+            }
+        }
+        row.SkillConversacion = skillActual;
+    });
+}
+
+// ===== FUNCIONES MODALES DE EXTRACCIÓN =====
 function procesarYMostrarModal(textoBuscado, idTabla, idModal) {
     if (data.length === 0) {
         alert("Primero debe cargar archivos CSV.");
@@ -1098,10 +1124,7 @@ function procesarYMostrarModal(textoBuscado, idTabla, idModal) {
     const resultados = [];
     const ultimoNumeroPorMovil = {}; 
 
-    // Ordenar los datos cronológicamente con fecha y hora
-    const sortedData = [...data].sort((a, b) => {
-        return parseFullDate(a.Fecha) - parseFullDate(b.Fecha);
-    });
+    const sortedData = [...data].sort((a, b) => parseFullDate(a.Fecha) - parseFullDate(b.Fecha));
 
     for (let i = 0; i < sortedData.length; i++) {
         const row = sortedData[i];
@@ -1109,25 +1132,17 @@ function procesarYMostrarModal(textoBuscado, idTabla, idModal) {
         const texto = row.Texto || "";
         const textoLower = texto.toLowerCase();
 
-        // Si es un mensaje del cliente (Remoto 1)
         if (String(row.Remoto).trim() === "1") {
             const soloNumeros = texto.replace(/\D/g, '');
             if (soloNumeros.length >= 7) {
                 ultimoNumeroPorMovil[movil] = soloNumeros;
             }
-        } 
-        // Si es un mensaje del bot/agente (Remoto 0)
-        else if (String(row.Remoto).trim() === "0") {
+        } else if (String(row.Remoto).trim() === "0") {
             if (textoLower.includes(textoBuscado)) {
                 if (ultimoNumeroPorMovil[movil]) {
                     const existe = resultados.some(r => r.Movil === movil && r.Numero === ultimoNumeroPorMovil[movil]);
                     if (!existe) {
-                        resultados.push({
-                            Fecha: row.Fecha,
-                            Movil: movil,
-                            Numero: ultimoNumeroPorMovil[movil],
-                            Evento: texto
-                        });
+                        resultados.push({ Fecha: row.Fecha, Movil: movil, Numero: ultimoNumeroPorMovil[movil], Evento: texto });
                     }
                 }
             }
@@ -1142,39 +1157,21 @@ function procesarYMostrarModal(textoBuscado, idTabla, idModal) {
     } else {
         resultados.forEach(res => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td>${res.Fecha}</td>
-                <td>${res.Movil}</td>
-                <td><strong>${res.Numero}</strong></td>
-                <td>${res.Evento}</td>
-            `;
+            tr.innerHTML = `<td>${res.Fecha}</td><td>${res.Movil}</td><td><strong>${res.Numero}</strong></td><td>${res.Evento}</td>`;
             tbody.appendChild(tr);
         });
     }
-
     document.getElementById(idModal).style.display = "block";
 }
 
-function abrirModalMora() {
-    procesarYMostrarModal("tu saldo vencido es", "tablaMora", "modalMora");
-}
-function cerrarModalMora() {
-    document.getElementById("modalMora").style.display = "none";
-}
+function abrirModalMora() { procesarYMostrarModal("tu saldo vencido es", "tablaMora", "modalMora"); }
+function cerrarModalMora() { document.getElementById("modalMora").style.display = "none"; }
 
-function abrirModalFallaGeneral() {
-    procesarYMostrarModal("interrupción general del servicio en tu zona", "tablaFallaGeneral", "modalFallaGeneral");
-}
-function cerrarModalFallaGeneral() {
-    document.getElementById("modalFallaGeneral").style.display = "none";
-}
+function abrirModalFallaGeneral() { procesarYMostrarModal("interrupción general del servicio en tu zona", "tablaFallaGeneral", "modalFallaGeneral"); }
+function cerrarModalFallaGeneral() { document.getElementById("modalFallaGeneral").style.display = "none"; }
 
-function abrirModalAverias() {
-    procesarYMostrarModal("visita técnica ya está registrada en nuestro sistema", "tablaAverias", "modalAverias");
-}
-function cerrarModalAverias() {
-    document.getElementById("modalAverias").style.display = "none";
-}
+function abrirModalAverias() { procesarYMostrarModal("visita técnica ya está registrada en nuestro sistema", "tablaAverias", "modalAverias"); }
+function cerrarModalAverias() { document.getElementById("modalAverias").style.display = "none"; }
 
 // ===== FUNCIONES =====
 
@@ -1207,9 +1204,10 @@ function sortTable(columnIndex) {
             case 3: valueA = a.Supervisor || ""; valueB = b.Supervisor || ""; break;
             case 4: valueA = a.Movil; valueB = b.Movil; break;
             case 5: valueA = a.Remoto; valueB = b.Remoto; break;
-            case 6: valueA = a.Event; valueB = b.Event; break;
-            case 7: valueA = a.Texto; valueB = b.Texto; break;
-            case 8: valueA = a.Hora; valueB = b.Hora; break;
+            case 6: valueA = a.SkillConversacion || ""; valueB = b.SkillConversacion || ""; break;
+            case 7: valueA = a.Event; valueB = b.Event; break;
+            case 8: valueA = a.Texto; valueB = b.Texto; break;
+            case 9: valueA = a.Hora; valueB = b.Hora; break;
             default: return 0;
         }
         if (valueA < valueB) return -1 * sortDirection;
@@ -1220,25 +1218,17 @@ function sortTable(columnIndex) {
 }
 
 function openDateModal() {
-    if (data.length === 0) {
-        alert("Primero debe cargar archivos CSV.");
-        return;
-    }
+    if (data.length === 0) { alert("Primero debe cargar archivos CSV."); return; }
     setupModalDatePickers();
     document.getElementById('dateModal').style.display = 'block';
 }
 
-function closeDateModal() {
-    document.getElementById('dateModal').style.display = 'none';
-}
+function closeDateModal() { document.getElementById('dateModal').style.display = 'none'; }
 
 function applyDateSelection() {
     const startDateStr = document.getElementById('modalStartDate').value;
     const endDateStr = document.getElementById('modalEndDate').value;
-    if (!startDateStr || !endDateStr) {
-        alert('Por favor seleccione ambas fechas (inicio y fin)');
-        return;
-    }
+    if (!startDateStr || !endDateStr) { alert('Por favor seleccione ambas fechas (inicio y fin)'); return; }
     const [startDay, startMonth, startYear] = startDateStr.split('/').map(Number);
     modalStartDate = new Date(startYear, startMonth - 1, startDay);
     const [endDay, endMonth, endYear] = endDateStr.split('/').map(Number);
@@ -1250,62 +1240,42 @@ function applyDateSelection() {
 }
 
 function setupModalDatePickers() {
-    if (document.getElementById('modalStartDate')._flatpickr) {
-        document.getElementById('modalStartDate')._flatpickr.destroy();
-    }
-    if (document.getElementById('modalEndDate')._flatpickr) {
-        document.getElementById('modalEndDate')._flatpickr.destroy();
-    }
+    if (document.getElementById('modalStartDate')._flatpickr) { document.getElementById('modalStartDate')._flatpickr.destroy(); }
+    if (document.getElementById('modalEndDate')._flatpickr) { document.getElementById('modalEndDate')._flatpickr.destroy(); }
     flatpickr("#modalStartDate", {
-        locale: "es",
-        dateFormat: "d/m/Y",
-        enable: availableDates,
+        locale: "es", dateFormat: "d/m/Y", enable: availableDates,
         onChange: function(selectedDates, dateStr, instance) {
             if (selectedDates.length) {
                 const endDatePicker = document.querySelector("#modalEndDate")._flatpickr;
-                if (endDatePicker) {
-                    endDatePicker.set("minDate", selectedDates[0]);
-                }
+                if (endDatePicker) { endDatePicker.set("minDate", selectedDates[0]); }
             }
         }
     });
-    flatpickr("#modalEndDate", {
-        locale: "es",
-        dateFormat: "d/m/Y",
-        enable: availableDates
-    });
+    flatpickr("#modalEndDate", { locale: "es", dateFormat: "d/m/Y", enable: availableDates });
 }
 
 function setupEnterKey() {
-    document.getElementById('textSearch').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') openDateModal();
-    });
-    document.getElementById('mobileSearch').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') openDateModal();
-    });
-    document.getElementById('agentSearch').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') openDateModal();
-    });
+    document.getElementById('textSearch').addEventListener('keypress', function(e) { if (e.key === 'Enter') openDateModal(); });
+    document.getElementById('mobileSearch').addEventListener('keypress', function(e) { if (e.key === 'Enter') openDateModal(); });
+    document.getElementById('agentSearch').addEventListener('keypress', function(e) { if (e.key === 'Enter') openDateModal(); });
+    document.getElementById('skillSearch').addEventListener('keypress', function(e) { if (e.key === 'Enter') openDateModal(); });
 }
 
 function resetSearch() {
     document.getElementById('textSearch').value = '';
     document.getElementById('mobileSearch').value = '';
     document.getElementById('agentSearch').value = '';
+    document.getElementById('skillSearch').value = ''; // Limpiar el nuevo campo
     modalDateFilterActive = false;
     modalStartDate = null;
     modalEndDate = null;
     document.getElementById("dataTable").style.display = "table";
-    document.querySelectorAll('.chart-container').forEach(el => {
-        el.style.display = 'none';
-    });
+    document.querySelectorAll('.chart-container').forEach(el => { el.style.display = 'none'; });
     document.getElementById("backBtn").style.display = "none";
     document.getElementById("dateFilterContainer").style.display = "none";
     currentSortColumn = -1;
     sortDirection = 1;
-    document.querySelectorAll('th .sort-icon').forEach(icon => {
-        icon.textContent = '↕';
-    });
+    document.querySelectorAll('th .sort-icon').forEach(icon => { icon.textContent = '↕'; });
     filteredData = data;
     renderTable(data);
 }
@@ -1335,27 +1305,16 @@ function processCSVFile(file) {
                         const area = licencia.Area || "";
                       
                         fileData.push({
-                            Fecha: fecha,
-                            Agente: agente,
-                            Supervisor: supervisor,
-                            Area: area,
-                            Movil: cols[2] || "",
-                            Remoto: cols[3] || "",
-                            Event: cols[4] || "",
-                            Texto: cols[5] || "",
-                            Hora: hora,
-                            FechaDate: parseFechaToDate(fecha)
+                            Fecha: fecha, Agente: agente, Supervisor: supervisor, Area: area,
+                            Movil: cols[2] || "", Remoto: cols[3] || "", Event: cols[4] || "", Texto: cols[5] || "",
+                            Hora: hora, FechaDate: parseFechaToDate(fecha)
                         });
                     }
                 }
                 const progress = Math.round((index / lines.length) * 100);
                 document.getElementById('progressBar').style.width = progress + '%';
                 document.getElementById('progressBar').textContent = progress + '%';
-                if (index < lines.length) {
-                    setTimeout(processBatch, 0);
-                } else {
-                    resolve(fileData);
-                }
+                if (index < lines.length) { setTimeout(processBatch, 0); } else { resolve(fileData); }
             }
             processBatch();
         };
@@ -1365,28 +1324,19 @@ function processCSVFile(file) {
 
 function cargarLicenciasInicial() {
     const urlLicencias = "https://raw.githubusercontent.com/teamdigitalrrss-jpg/tNPS-diario/main/Licencias.xlsx";
-    fetch(urlLicencias)
-        .then(res => res.arrayBuffer())
-        .then(data => {
-            const workbook = XLSX.read(data, { type: "array" });
-            const sheetName = workbook.SheetNames[0];
-            const sheet = workbook.Sheets[sheetName];
-            dataLicencias = XLSX.utils.sheet_to_json(sheet);
-            mapaLicencias = {};
-            dataLicencias.forEach(row => {
-                const usuario = (row["Usuario nuevo"] || "").toLowerCase().trim();
-                if (usuario) {
-                    mapaLicencias[usuario] = {
-                        Supervisor: row["Supervisor"] || "",
-                        Site: row["Site"] || "",
-                        Area: row["Area"] || ""
-                    };
-                }
-            });
-        })
-        .catch(error => {
-            console.error("Error cargando Excel de licencias:", error);
+    fetch(urlLicencias).then(res => res.arrayBuffer()).then(data => {
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        dataLicencias = XLSX.utils.sheet_to_json(sheet);
+        mapaLicencias = {};
+        dataLicencias.forEach(row => {
+            const usuario = (row["Usuario nuevo"] || "").toLowerCase().trim();
+            if (usuario) {
+                mapaLicencias[usuario] = { Supervisor: row["Supervisor"] || "", Site: row["Site"] || "", Area: row["Area"] || "" };
+            }
         });
+    }).catch(error => console.error("Error cargando Excel de licencias:", error));
 }
 
 cargarLicenciasInicial();
@@ -1394,27 +1344,15 @@ cargarLicenciasInicial();
 document.getElementById('fileInput').addEventListener('change', function(e) {
     const files = e.target.files;
     const fileNameSpan = document.getElementById('fileName');
-    
-    if (!files || files.length === 0) {
-        fileNameSpan.textContent = 'Sin archivos seleccionados';
-        return;
-    }
+    if (!files || files.length === 0) { fileNameSpan.textContent = 'Sin archivos seleccionados'; return; }
    
-    if (files.length === 1) {
-        fileNameSpan.textContent = `📄 1 archivo cargado: ${files[0].name}`;
-    } else {
-        const nombres = Array.from(files).map(f => f.name).join(', ');
-        fileNameSpan.textContent = `📄 ${files.length} archivos cargados: ${nombres}`;
-    }
+    if (files.length === 1) { fileNameSpan.textContent = `📄 1 archivo cargado: ${files[0].name}`; } 
+    else { const nombres = Array.from(files).map(f => f.name).join(', '); fileNameSpan.textContent = `📄 ${files.length} archivos cargados: ${nombres}`; }
    
     if (Object.keys(mapaLicencias).length === 0) {
         cargarLicenciasInicial();
-        setTimeout(() => {
-            procesarArchivos(files);
-        }, 1000);
-    } else {
-        procesarArchivos(files);
-    }
+        setTimeout(() => { procesarArchivos(files); }, 1000);
+    } else { procesarArchivos(files); }
 });
 
 function procesarArchivos(files) {
@@ -1422,11 +1360,10 @@ function procesarArchivos(files) {
     document.getElementById('loadingOverlay').style.display = 'block';
     document.getElementById('progressContainer').style.display = 'block';
     const filePromises = [];
-    for (let i = 0; i < files.length; i++) {
-        filePromises.push(processCSVFile(files[i]));
-    }
+    for (let i = 0; i < files.length; i++) { filePromises.push(processCSVFile(files[i])); }
     Promise.all(filePromises).then(fileDataArrays => {
         data = fileDataArrays.flat();
+        calcularSkills(data); 
         extractAvailableDates();
         filteredData = data;
         renderTable(data);
@@ -1448,9 +1385,7 @@ function extractAvailableDates() {
     data.forEach(item => {
         if (item.Fecha) {
             const dateMatch = item.Fecha.match(/(\d{1,2}\/\d{1,2}\/\d{4})/);
-            if (dateMatch && dateMatch[1]) {
-                dateSet.add(dateMatch[1]);
-            }
+            if (dateMatch && dateMatch[1]) { dateSet.add(dateMatch[1]); }
         }
     });
     availableDates = Array.from(dateSet).sort();
@@ -1458,34 +1393,22 @@ function extractAvailableDates() {
 }
 
 function setupDatePickers() {
-    if (document.getElementById('startDate')._flatpickr) {
-        document.getElementById('startDate')._flatpickr.destroy();
-    }
-    if (document.getElementById('endDate')._flatpickr) {
-        document.getElementById('endDate')._flatpickr.destroy();
-    }
+    if (document.getElementById('startDate')._flatpickr) { document.getElementById('startDate')._flatpickr.destroy(); }
+    if (document.getElementById('endDate')._flatpickr) { document.getElementById('endDate')._flatpickr.destroy(); }
     const dateObjects = availableDates.map(dateStr => {
         const [day, month, year] = dateStr.split('/').map(Number);
         return new Date(year, month - 1, day);
     });
     flatpickr("#startDate", {
-        locale: "es",
-        dateFormat: "d/m/Y",
-        enable: dateObjects,
+        locale: "es", dateFormat: "d/m/Y", enable: dateObjects,
         onChange: function(selectedDates, dateStr, instance) {
             if (selectedDates.length) {
                 const endDatePicker = document.querySelector("#endDate")._flatpickr;
-                if (endDatePicker) {
-                    endDatePicker.set("minDate", selectedDates[0]);
-                }
+                if (endDatePicker) { endDatePicker.set("minDate", selectedDates[0]); }
             }
         }
     });
-    flatpickr("#endDate", {
-        locale: "es",
-        dateFormat: "d/m/Y",
-        enable: dateObjects
-    });
+    flatpickr("#endDate", { locale: "es", dateFormat: "d/m/Y", enable: dateObjects });
 }
 
 function parseFechaToDate(fechaStr) {
@@ -1495,29 +1418,18 @@ function parseFechaToDate(fechaStr) {
         const [day, month, year] = datePart.split('/').map(Number);
         if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
         return new Date(year, month - 1, day);
-    } catch (error) {
-        console.error('Error al parsear fecha:', fechaStr, error);
-        return null;
-    }
+    } catch (error) { return null; }
 }
 
 function applyDateFilter() {
     const startDateStr = document.getElementById('startDate').value;
     const endDateStr = document.getElementById('endDate').value;
-    if (!startDateStr || !endDateStr) {
-        alert('Por favor seleccione ambas fechas (inicio y fin)');
-        return;
-    }
+    if (!startDateStr || !endDateStr) { alert('Por favor seleccione ambas fechas (inicio y fin)'); return; }
     const [startDay, startMonth, startYear] = startDateStr.split('/').map(Number);
     const startDate = new Date(startYear, startMonth - 1, startDay);
     const [endDay, endMonth, endYear] = endDateStr.split('/').map(Number);
     const endDate = new Date(endYear, endMonth - 1, endDay);
     endDate.setHours(23, 59, 59, 999);
-    const filteredByDate = filteredData.filter(item => {
-        if (!item.FechaDate) return false;
-        const itemDate = new Date(item.FechaDate);
-        return itemDate >= startDate && itemDate <= endDate;
-    });
     currentStartDate = startDate;
     currentEndDate = endDate;
     dateFilterActive = true;
@@ -1539,11 +1451,9 @@ function renderTable(dataArray) {
     displayData.forEach((row, index) => {
         const tr = document.createElement("tr");
         const remoto = parseInt(row.Remoto);
-        if (remoto === 1) {
-            tr.style.backgroundColor = "#d4edda";
-        } else if (remoto === 0) {
-            tr.style.backgroundColor = "#d6eaf8";
-        }
+        if (remoto === 1) { tr.style.backgroundColor = "#d4edda"; } 
+        else if (remoto === 0) { tr.style.backgroundColor = "#d6eaf8"; }
+        
         tr.innerHTML = `
             <td>${index + 1}</td>
             <td>${row.Fecha || ""}</td>
@@ -1551,6 +1461,7 @@ function renderTable(dataArray) {
             <td>${row.Supervisor || ""}</td>
             <td>${row.Movil || ""}</td>
             <td>${row.Remoto || ""}</td>
+            <td><strong>${row.SkillConversacion || ""}</strong></td>
             <td>${row.Event || ""}</td>
             <td>${row.Texto || ""}</td>
             <td>${row.Hora || ""}</td>
@@ -1559,17 +1470,11 @@ function renderTable(dataArray) {
     });
     if (dataArray.length > 1000) {
         const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td colspan="9" style="text-align: center; background-color: #444; color: #ffcc00;">
-                Mostrando 1000 de ${dataArray.length} registros. Use los filtros para reducir los resultados.
-            </td>
-        `;
+        tr.innerHTML = `<td colspan="10" style="text-align: center; background-color: #444; color: #ffcc00;">Mostrando 1000 de ${dataArray.length} registros.</td>`;
         tbody.appendChild(tr);
     }
     document.getElementById("dataTable").style.display = dataArray.length > 0 ? "table" : "none";
-    for (let i = 1; i <= 8; i++) {
-        document.getElementById(`filter${i}`).disabled = dataArray.length === 0;
-    }
+    for (let i = 1; i <= 9; i++) { document.getElementById(`filter${i}`).disabled = dataArray.length === 0; }
 }
 
 function filterTable() {
@@ -1579,9 +1484,12 @@ function filterTable() {
     const textInput = document.getElementById("textSearch").value.toLowerCase().trim();
     const mobileInput = document.getElementById("mobileSearch").value.trim();
     const agentInput = document.getElementById("agentSearch").value.toLowerCase().trim();
+    const skillInput = document.getElementById("skillSearch").value.toLowerCase().trim(); // Nueva búsqueda
+    
     const textKeywords = textInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
     const mobileKeywords = mobileInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
     const agentKeywords = agentInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
+    const skillKeywords = skillInput.split(/[;,]+/).map(w => w.trim()).filter(Boolean);
 
     setTimeout(() => {
         if (data.length === 0) {
@@ -1601,14 +1509,22 @@ function filterTable() {
             const end = Math.min(index + chunkSize, total);
             for (let i = index; i < end; i++) {
                 const row = data[i];
+                
                 const matchText = textKeywords.length === 0 || textKeywords.some(word =>
                     row.Texto.toLowerCase().includes(word) || row.Event.toLowerCase().includes(word)
                 );
                 if (!matchText) continue;
+
                 const matchMobile = mobileKeywords.length === 0 || mobileKeywords.some(word => row.Movil.includes(word));
                 if (!matchMobile) continue;
+
                 const matchAgent = agentKeywords.length === 0 || agentKeywords.some(word => row.Agente.toLowerCase().includes(word));
                 if (!matchAgent) continue;
+
+                // Validación de la nueva columna Skill
+                const matchSkill = skillKeywords.length === 0 || skillKeywords.some(word => (row.SkillConversacion || "").toLowerCase().includes(word));
+                if (!matchSkill) continue;
+
                 if (modalDateFilterActive) {
                     if (!row.FechaDate) continue;
                     const itemDate = new Date(row.FechaDate);
@@ -1645,10 +1561,7 @@ function columnFilter(columnIndex, searchValue) {
 }
 
 function downloadExcel() {
-    if (filteredData.length === 0) {
-        alert("No hay datos filtrados para exportar.");
-        return;
-    }
+    if (filteredData.length === 0) { alert("No hay datos filtrados para exportar."); return; }
     let dataToExport = filteredData;
     if (modalDateFilterActive) {
         dataToExport = dataToExport.filter(item => {
@@ -1664,10 +1577,7 @@ function downloadExcel() {
             return itemDate >= currentStartDate && itemDate <= currentEndDate;
         });
     }
-    if (dataToExport.length === 0) {
-        alert("No hay datos para exportar.");
-        return;
-    }
+    if (dataToExport.length === 0) { alert("No hay datos para exportar."); return; }
     const worksheet = XLSX.utils.json_to_sheet(dataToExport);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Resultados");
@@ -1675,9 +1585,7 @@ function downloadExcel() {
 }
 
 function goBack() {
-    document.querySelectorAll('.chart-container').forEach(el => {
-        el.style.display = 'none';
-    });
+    document.querySelectorAll('.chart-container').forEach(el => { el.style.display = 'none'; });
     document.getElementById("dataTable").style.display = "table";
     document.getElementById("backBtn").style.display = "none";
     document.getElementById("dateFilterContainer").style.display = "none";
@@ -1687,9 +1595,7 @@ function goBack() {
 function goToLicencias() {
     document.getElementById("mainContent").style.display = "none";
     document.getElementById("licenciasPage").style.display = "block";
-    if (dataLicencias.length === 0) {
-        cargarLicencias();
-    }
+    if (dataLicencias.length === 0) { cargarLicencias(); }
 }
 
 function backToMain() {
@@ -1704,10 +1610,7 @@ function goToCasosOM() {
     document.getElementById("licenciasPage").style.display = "none";
     document.getElementById("casosOMPage").style.display = "block";
     generarFilasCasosOM();
-    setTimeout(() => {
-        generarGraficoCasosOM();
-        analizarCasosOM();
-    }, 150);
+    setTimeout(() => { generarGraficoCasosOM(); analizarCasosOM(); }, 150);
 }
 
 function backFromCasosOM() {
@@ -1716,23 +1619,13 @@ function backFromCasosOM() {
 }
 
 function goToPendientes() {
-    if (Object.keys(mapaLicencias).length === 0) {
-        cargarLicencias();
-    }
+    if (Object.keys(mapaLicencias).length === 0) { cargarLicencias(); }
     document.getElementById("mainContent").style.display = "none";
     document.getElementById("licenciasPage").style.display = "none";
     document.getElementById("casosOMPage").style.display = "none";
     document.getElementById("pendientesPage").style.display = "block";
-    flatpickr("#fechaInicioPendienteFiltro", {
-        locale: "es",
-        dateFormat: "d/m/Y",
-        enable: fechasDisponiblesPendientes
-    });
-    flatpickr("#fechaFinPendienteFiltro", {
-        locale: "es",
-        dateFormat: "d/m/Y",
-        enable: fechasDisponiblesPendientes
-    });
+    flatpickr("#fechaInicioPendienteFiltro", { locale: "es", dateFormat: "d/m/Y", enable: fechasDisponiblesPendientes });
+    flatpickr("#fechaFinPendienteFiltro", { locale: "es", dateFormat: "d/m/Y", enable: fechasDisponiblesPendientes });
 }
 
 function backFromPendientes() {
@@ -1744,30 +1637,23 @@ function backFromPendientes() {
 const urlLicencias = "https://raw.githubusercontent.com/teamdigitalrrss-jpg/tNPS-diario/main/Licencias.xlsx";
 
 function cargarLicencias() {
-    fetch(urlLicencias)
-        .then(res => res.arrayBuffer())
-        .then(data => {
-            const workbook = XLSX.read(data, { type: "array" });
-            const sheetName = workbook.SheetNames[0];
-            const sheet = workbook.Sheets[sheetName];
-            dataLicencias = XLSX.utils.sheet_to_json(sheet);
-            mapaLicencias = {};
-            dataLicencias.forEach(row => {
-                const usuario = (row["Usuario nuevo"] || "").toLowerCase().trim();
-                if (usuario) {
-                    mapaLicencias[usuario] = {
-                        Supervisor: row["Supervisor"] || "",
-                        Site: row["Site"] || "",
-                        Area: row["Area"] || ""
-                    };
-                }
-            });
-            buscarLicencias();
-        })
-        .catch(error => {
-            console.error("Error cargando Excel:", error);
-            alert("No se pudo cargar el archivo de licencias.");
+    fetch(urlLicencias).then(res => res.arrayBuffer()).then(data => {
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        dataLicencias = XLSX.utils.sheet_to_json(sheet);
+        mapaLicencias = {};
+        dataLicencias.forEach(row => {
+            const usuario = (row["Usuario nuevo"] || "").toLowerCase().trim();
+            if (usuario) {
+                mapaLicencias[usuario] = { Supervisor: row["Supervisor"] || "", Site: row["Site"] || "", Area: row["Area"] || "" };
+            }
         });
+        buscarLicencias();
+    }).catch(error => {
+        console.error("Error cargando Excel:", error);
+        alert("No se pudo cargar el archivo de licencias.");
+    });
 }
 
 function buscarLicencias() {
@@ -1775,9 +1661,8 @@ function buscarLicencias() {
     const tbody = document.querySelector("#tablaLicencias tbody");
     tbody.innerHTML = "";
     let resultados = [];
-    if (!input) {
-        resultados = dataLicencias;
-    } else {
+    if (!input) { resultados = dataLicencias; } 
+    else {
         resultados = dataLicencias.filter(row => {
             const usuario = (row["Usuario nuevo"] || "").toLowerCase();
             const agente = (row["Agente Asignado"] || "").toLowerCase();
@@ -1786,14 +1671,7 @@ function buscarLicencias() {
     }
     resultados.forEach(row => {
         const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${row["Usuario nuevo"] || ""}</td>
-            <td>${row["Area"] || ""}</td>
-            <td>${row["Agente Asignado"] || ""}</td>
-            <td>${row["Supervisor"] || ""}</td>
-            <td>${row["Skill"] || ""}</td>
-            <td>${row["Site"] || ""}</td>
-        `;
+        tr.innerHTML = `<td>${row["Usuario nuevo"] || ""}</td><td>${row["Area"] || ""}</td><td>${row["Agente Asignado"] || ""}</td><td>${row["Supervisor"] || ""}</td><td>${row["Skill"] || ""}</td><td>${row["Site"] || ""}</td>`;
         tbody.appendChild(tr);
     });
     document.getElementById("tablaLicencias").style.display = resultados.length > 0 ? "table" : "none";
@@ -1807,20 +1685,8 @@ function generarFilasCasosOM() {
     for (let i = 0; i < 25; i++) {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td>
-                <select>
-                    <option>WhatsApp</option>
-                    <option>Messenger</option>
-                    <option>Instagram</option>
-                    <option>X</option>
-                </select>
-            </td>
-            <td>
-                <select>
-                    <option>Fijo</option>
-                    <option>Móvil</option>
-                </select>
-            </td>
+            <td><select><option>WhatsApp</option><option>Messenger</option><option>Instagram</option><option>X</option></select></td>
+            <td><select><option>Fijo</option><option>Móvil</option></select></td>
             <td contenteditable="true"></td>
         `;
         tbody.appendChild(tr);
@@ -1829,13 +1695,7 @@ function generarFilasCasosOM() {
 
 function analizarCasosOM() {
     const filas = document.querySelectorAll("#tablaCasosOM tbody tr");
-    let total = 0;
-    let fijos = {};
-    let moviles = {};
-    let canales = { WhatsApp: 0, Messenger: 0, Instagram: 0, X: 0 };
-    let countFijo = 0;
-    let countMovil = 0;
-
+    let total = 0, fijos = {}, moviles = {}, canales = { WhatsApp: 0, Messenger: 0, Instagram: 0, X: 0 }, countFijo = 0, countMovil = 0;
     filas.forEach(fila => {
         const canal = fila.cells[0].querySelector("select").value;
         const servicio = fila.cells[1].querySelector("select").value;
@@ -1843,14 +1703,8 @@ function analizarCasosOM() {
         if (reclamo === "") return;
         total++;
         canales[canal] = (canales[canal] || 0) + 1;
-        if (servicio === "Fijo") {
-            countFijo++;
-            fijos[reclamo] = (fijos[reclamo] || 0) + 1;
-        }
-        if (servicio === "Móvil") {
-            countMovil++;
-            moviles[reclamo] = (moviles[reclamo] || 0) + 1;
-        }
+        if (servicio === "Fijo") { countFijo++; fijos[reclamo] = (fijos[reclamo] || 0) + 1; }
+        if (servicio === "Móvil") { countMovil++; moviles[reclamo] = (moviles[reclamo] || 0) + 1; }
     });
 
     if (total === 0) {
@@ -1858,37 +1712,19 @@ function analizarCasosOM() {
         return;
     }
 
-    function top3(obj) {
-        return Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, 3).map(x => `${x[0]} (${x[1]})`).join(", ");
-    }
-
-    let canalTexto = "";
-    let partes = [];
+    function top3(obj) { return Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, 3).map(x => `${x[0]} (${x[1]})`).join(", "); }
+    let canalTexto = "", partes = [];
     if (canales.WhatsApp > 0) partes.push(`${canales.WhatsApp} WhatsApp`);
     if (canales.Messenger > 0) partes.push(`${canales.Messenger} Messenger`);
     if (canales.Instagram > 0) partes.push(`${canales.Instagram} Instagram`);
     if (canales.X > 0) partes.push(`${canales.X} X`);
     if (partes.length > 0) canalTexto = ` (${partes.join(" - ")})`;
 
-    const topFijos = top3(fijos) || "Sin datos";
-    const topMoviles = top3(moviles) || "Sin datos";
-    const porcentajeFijo = ((countFijo / total) * 100).toFixed(1);
-    const porcentajeMovil = ((countMovil / total) * 100).toFixed(1);
+    const topFijos = top3(fijos) || "Sin datos", topMoviles = top3(moviles) || "Sin datos";
+    const porcentajeFijo = ((countFijo / total) * 100).toFixed(1), porcentajeMovil = ((countMovil / total) * 100).toFixed(1);
     const saludo = obtenerSaludo();
 
-    const texto = `${saludo}
-
-Se validan interacciones en OM. De la muestra de ${total} interacciones${canalTexto}, se obtuvo el siguiente análisis:
-
-* Servicios fijos: ${porcentajeFijo}%
-* Servicios móviles: ${porcentajeMovil}%
-
-Top 3 reclamos en servicios fijos:
-${topFijos}
-
-Top 3 reclamos en servicios móviles:
-${topMoviles}`;
-
+    const texto = `${saludo}\n\nSe validan interacciones en OM. De la muestra de ${total} interacciones${canalTexto}, se obtuvo el siguiente análisis:\n\n* Servicios fijos: ${porcentajeFijo}%\n* Servicios móviles: ${porcentajeMovil}%\n\nTop 3 reclamos en servicios fijos:\n${topFijos}\n\nTop 3 reclamos en servicios móviles:\n${topMoviles}`;
     document.getElementById("textoAnalisisCasos").innerText = texto;
 }
 
@@ -1905,8 +1741,7 @@ function generarGraficoCasosOM() {
     const ctx = canvas.getContext("2d");
 
     const filas = document.querySelectorAll("#tablaCasosOM tbody tr");
-    let fijo = {};
-    let movil = {};
+    let fijo = {}, movil = {};
     filas.forEach(fila => {
         const servicio = fila.cells[1].querySelector("select").value;
         const reclamo = fila.cells[2].innerText.trim();
@@ -1915,82 +1750,36 @@ function generarGraficoCasosOM() {
         if (servicio === "Móvil") movil[reclamo] = (movil[reclamo] || 0) + 1;
     });
 
-    const labelsFijo = Object.keys(fijo);
-    const valoresFijo = Object.values(fijo);
-    const labelsMovil = Object.keys(movil);
-    const valoresMovil = Object.values(movil);
-    const labels = [...labelsFijo, "", ...labelsMovil];
-    const valores = [...valoresFijo, 0, ...valoresMovil];
+    const labelsFijo = Object.keys(fijo), valoresFijo = Object.values(fijo);
+    const labelsMovil = Object.keys(movil), valoresMovil = Object.values(movil);
+    const labels = [...labelsFijo, "", ...labelsMovil], valores = [...valoresFijo, 0, ...valoresMovil];
 
     if (graficoCasosOMInstance) graficoCasosOMInstance.destroy();
 
     graficoCasosOMInstance = new Chart(ctx, {
         type: "bar",
-        data: {
-            labels: labels,
-            datasets: [{
-                data: valores,
-                backgroundColor: "#F2D049",
-                borderRadius: 6
-            }]
-        },
+        data: { labels: labels, datasets: [{ data: valores, backgroundColor: "#F2D049", borderRadius: 6 }] },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            layout: { padding: { top: 10, bottom: 120 } },
+            responsive: true, maintainAspectRatio: false, layout: { padding: { top: 10, bottom: 120 } },
             plugins: {
                 legend: { display: false },
-                datalabels: {
-                    color: "#000",
-                    anchor: "center",
-                    align: "center",
-                    font: { weight: "bold" },
-                    formatter: value => value > 0 ? value : ""
-                }
+                datalabels: { color: "#000", anchor: "center", align: "center", font: { weight: "bold" }, formatter: value => value > 0 ? value : "" }
             },
             scales: {
-                x: {
-                    grid: { display: false },
-                    ticks: {
-                        color: "#000",
-                        maxRotation: 45,
-                        minRotation: 45,
-                        callback: function(val, index) {
-                            const label = this.getLabelForValue(val);
-                            if (label === "FIJO" || label === "MÓVIL") return label;
-                            if (label === "") return "";
-                            return label;
-                        }
-                    }
-                },
-                y: {
-                    grid: { display: false },
-                    beginAtZero: true,
-                    suggestedMax: Math.max(5, ...valores) + 2,
-                    ticks: { precision: 0, color: "#000" }
-                }
+                x: { grid: { display: false }, ticks: { color: "#000", maxRotation: 45, minRotation: 45 } },
+                y: { grid: { display: false }, beginAtZero: true, suggestedMax: Math.max(5, ...valores) + 2, ticks: { precision: 0, color: "#000" } }
             }
         },
         plugins: [ChartDataLabels, {
             id: 'secciones',
             afterDraw(chart) {
                 const { ctx, chartArea, scales } = chart;
-                const xScale = scales.x;
-                const labels = chart.data.labels;
-                const separadorIndex = labels.indexOf("");
+                const xScale = scales.x, labels = chart.data.labels, separadorIndex = labels.indexOf("");
                 if (separadorIndex === -1) return;
-                const fijoMid = Math.floor(separadorIndex / 2);
-                const movilMid = separadorIndex + Math.floor((labels.length - separadorIndex) / 2);
-                const fijoX = xScale.getPixelForValue(fijoMid);
-                const movilX = xScale.getPixelForValue(movilMid);
-                const y = chartArea.bottom + 140;
-                ctx.save();
-                ctx.font = "bold 14px Arial";
-                ctx.fillStyle = "#000";
-                ctx.textAlign = "center";
-                ctx.fillText("FIJO", fijoX, y);
-                ctx.fillText("MÓVIL", movilX, y);
-                ctx.restore();
+                const fijoMid = Math.floor(separadorIndex / 2), movilMid = separadorIndex + Math.floor((labels.length - separadorIndex) / 2);
+                const fijoX = xScale.getPixelForValue(fijoMid), movilX = xScale.getPixelForValue(movilMid), y = chartArea.bottom + 140;
+                ctx.save(); ctx.font = "bold 14px Arial"; ctx.fillStyle = "#000"; ctx.textAlign = "center";
+                ctx.fillText("FIJO", fijoX, y); ctx.fillText("MÓVIL", movilX, y); ctx.restore();
             }
         }]
     });
@@ -1998,44 +1787,21 @@ function generarGraficoCasosOM() {
 
 async function copiarGraficoComoImagen() {
     const grafico = document.getElementById("graficoCasosOM");
-    if (!grafico) {
-        alert("No se encontró el gráfico");
-        return;
-    }
-    const canvas = await html2canvas(grafico, {
-        scale: 4,
-        useCORS: true,
-        backgroundColor: "#ffffff"
-    });
+    if (!grafico) { alert("No se encontró el gráfico"); return; }
+    const canvas = await html2canvas(grafico, { scale: 4, useCORS: true, backgroundColor: "#ffffff" });
     canvas.toBlob(async (blob) => {
         try {
-            await navigator.clipboard.write([
-                new ClipboardItem({ "image/png": blob })
-            ]);
+            await navigator.clipboard.write([ new ClipboardItem({ "image/png": blob }) ]);
             alert("✅ Gráfico copiado en alta calidad");
-        } catch (err) {
-            console.error(err);
-            alert("❌ Error al copiar gráfico");
-        }
+        } catch (err) { console.error(err); alert("❌ Error al copiar gráfico"); }
     });
 }
 
 document.addEventListener("input", function(e) {
-    if (e.target.closest("#tablaCasosOM")) {
-        setTimeout(() => {
-            generarGraficoCasosOM();
-            analizarCasosOM();
-        }, 50);
-    }
+    if (e.target.closest("#tablaCasosOM")) { setTimeout(() => { generarGraficoCasosOM(); analizarCasosOM(); }, 50); }
 });
-
 document.addEventListener("change", function(e) {
-    if (e.target.closest("#tablaCasosOM")) {
-        setTimeout(() => {
-            generarGraficoCasosOM();
-            analizarCasosOM();
-        }, 50);
-    }
+    if (e.target.closest("#tablaCasosOM")) { setTimeout(() => { generarGraficoCasosOM(); analizarCasosOM(); }, 50); }
 });
 
 // ===== GRÁFICOS DE PENDIENTES =====
@@ -2051,11 +1817,8 @@ function generarGraficoPendientesPorHora(datos) {
         if (!horaTexto || isNaN(parseInt(horaTexto))) return;
         if (!horas[horaTexto]) horas[horaTexto] = { manual: 0, auto: 0 };
         const texto = (row.Texto || "").toLowerCase();
-        if (texto.includes("caso marcado pendiente auto")) {
-            horas[horaTexto].auto++;
-        } else {
-            horas[horaTexto].manual++;
-        }
+        if (texto.includes("caso marcado pendiente auto")) { horas[horaTexto].auto++; } 
+        else { horas[horaTexto].manual++; }
     });
 
     const labels = Object.keys(horas).sort();
@@ -2074,17 +1837,10 @@ function generarGraficoPendientesPorHora(datos) {
             ]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
+            responsive: true, maintainAspectRatio: false,
             plugins: {
                 legend: { position: "top", labels: { font: { size: 11, weight: "600" } } },
-                datalabels: {
-                    color: "#000",
-                    anchor: "end",
-                    align: "end",
-                    font: { weight: "bold", size: 10 },
-                    formatter: v => v > 0 ? v : ""
-                }
+                datalabels: { color: "#000", anchor: "end", align: "end", font: { weight: "bold", size: 10 }, formatter: v => v > 0 ? v : "" }
             },
             scales: {
                 x: { title: { display: true, text: "Hora" }, grid: { display: false } },
@@ -2110,8 +1866,7 @@ function generarGraficoTopAsesoresPendientes(datos) {
     });
 
     const sorted = Object.entries(conteo).sort((a, b) => b[1] - a[1]).slice(0, 10);
-    const labels = sorted.map(x => x[0]);
-    const valores = sorted.map(x => x[1]);
+    const labels = sorted.map(x => x[0]), valores = sorted.map(x => x[1]);
 
     if (window.graficoTopAsesoresPendientesInstance) window.graficoTopAsesoresPendientesInstance.destroy();
 
@@ -2119,26 +1874,13 @@ function generarGraficoTopAsesoresPendientes(datos) {
         type: "bar",
         data: {
             labels: labels.length ? labels : ["Sin datos"],
-            datasets: [{
-                label: "Pendientes manuales",
-                data: valores.length ? valores : [0],
-                backgroundColor: "#0396a6",
-                borderRadius: 6
-            }]
+            datasets: [{ label: "Pendientes manuales", data: valores.length ? valores : [0], backgroundColor: "#0396a6", borderRadius: 6 }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            indexAxis: "y",
+            responsive: true, maintainAspectRatio: false, indexAxis: "y",
             plugins: {
                 legend: { display: false },
-                datalabels: {
-                    color: "#fff",
-                    anchor: "center",
-                    align: "center",
-                    font: { weight: "bold", size: 11 },
-                    formatter: v => v > 0 ? v : ""
-                }
+                datalabels: { color: "#fff", anchor: "center", align: "center", font: { weight: "bold", size: 11 }, formatter: v => v > 0 ? v : "" }
             },
             scales: {
                 x: { beginAtZero: true, ticks: { precision: 0 } },
@@ -2150,41 +1892,24 @@ function generarGraficoTopAsesoresPendientes(datos) {
 }
 
 // ===== PENDIENTES =====
-function cerrarReporteAgentes() {
-    document.getElementById("modalReporteAgentes").style.display = "none";
-}
+function cerrarReporteAgentes() { document.getElementById("modalReporteAgentes").style.display = "none"; }
 
 function renderReporteAgentes() {
     const tbody = document.querySelector("#tablaReporteAgentes tbody");
     tbody.innerHTML = "";
     reporteAgentesData.forEach(row => {
         const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td><strong>${row.Agente}</strong></td>
-            <td>${row.Pendientes}</td>
-            <td>${row.Auto}</td>
-            <td>${row.Total}</td>
-            <td>${row.Interacciones}</td>
-            <td>${row.Ratio}</td>
-            <td>${row.Supervisor || ""}</td>
-        `;
+        tr.innerHTML = `<td><strong>${row.Agente}</strong></td><td>${row.Pendientes}</td><td>${row.Auto}</td><td>${row.Total}</td><td>${row.Interacciones}</td><td>${row.Ratio}</td><td>${row.Supervisor || ""}</td>`;
         tbody.appendChild(tr);
     });
 }
 
 function ordenarReporteAgentes(columna) {
-    if (reporteSortColumn === columna) {
-        reporteSortDirection *= -1;
-    } else {
-        reporteSortColumn = columna;
-        reporteSortDirection = 1;
-    }
+    if (reporteSortColumn === columna) { reporteSortDirection *= -1; } 
+    else { reporteSortColumn = columna; reporteSortDirection = 1; }
     reporteAgentesData.sort((a, b) => {
-        const valorA = a[columna];
-        const valorB = b[columna];
-        if (typeof valorA === "string") {
-            return valorA.localeCompare(valorB) * reporteSortDirection;
-        }
+        const valorA = a[columna], valorB = b[columna];
+        if (typeof valorA === "string") { return valorA.localeCompare(valorB) * reporteSortDirection; }
         return (valorA - valorB) * reporteSortDirection;
     });
     renderReporteAgentes();
@@ -2197,19 +1922,9 @@ function mostrarReporteAgentes() {
         const asesorReconocido = row.AsesorReconocido || "";
         if (!asesorReconocido) return;
 
-        if (!resumen[asesorReconocido]) {
-            resumen[asesorReconocido] = {
-                Agente: asesorReconocido,
-                Pendientes: 0,
-                Auto: 0,
-                Moviles: new Set()
-            };
-        }
-        if (texto.includes("caso marcado pendiente auto")) {
-            resumen[asesorReconocido].Auto++;
-        } else {
-            resumen[asesorReconocido].Pendientes++;
-        }
+        if (!resumen[asesorReconocido]) { resumen[asesorReconocido] = { Agente: asesorReconocido, Pendientes: 0, Auto: 0, Moviles: new Set() }; }
+        if (texto.includes("caso marcado pendiente auto")) { resumen[asesorReconocido].Auto++; } 
+        else { resumen[asesorReconocido].Pendientes++; }
         resumen[asesorReconocido].Moviles.add(row.Movil || "");
     });
 
@@ -2218,12 +1933,8 @@ function mostrarReporteAgentes() {
         const interacciones = item.Moviles.size;
         const licencia = buscarLicenciaAsesor(item.Agente);
         return {
-            Agente: item.Agente,
-            Supervisor: licencia.Supervisor || "",
-            Pendientes: item.Pendientes,
-            Auto: item.Auto,
-            Total: total,
-            Interacciones: interacciones,
+            Agente: item.Agente, Supervisor: licencia.Supervisor || "",
+            Pendientes: item.Pendientes, Auto: item.Auto, Total: total, Interacciones: interacciones,
             Ratio: interacciones > 0 ? (total / interacciones).toFixed(2) : "0.00"
         };
     }).sort((a, b) => b.Total - a.Total);
@@ -2232,10 +1943,7 @@ function mostrarReporteAgentes() {
 }
 
 function descargarReporteAgentes() {
-    if (reporteAgentesData.length === 0) {
-        alert("No hay datos para exportar");
-        return;
-    }
+    if (reporteAgentesData.length === 0) { alert("No hay datos para exportar"); return; }
     const ws = XLSX.utils.json_to_sheet(reporteAgentesData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Reporte");
@@ -2264,14 +1972,7 @@ window.addEventListener("load", function() {
                         const resultados = [];
                         lines.forEach(line => {
                             const cols = line.split(";");
-                            if (cols.length >= 6) {
-                                resultados.push({
-                                    Fecha: cols[0],
-                                    Agente: cols[1],
-                                    Movil: cols[2],
-                                    Texto: cols[5]
-                                });
-                            }
+                            if (cols.length >= 6) { resultados.push({ Fecha: cols[0], Agente: cols[1], Movil: cols[2], Texto: cols[5] }); }
                         });
                         resolve(resultados);
                     };
@@ -2279,76 +1980,48 @@ window.addEventListener("load", function() {
                 })
             );
         }
-        Promise.all(promises)
-            .then(data => {
-                document.getElementById("estadoPendientes").innerHTML = "✅ Registros cargados";
-                pendientesData = data.flat()
-                    .map(row => {
-                        const texto = (row.Texto || "").toLowerCase();
-                        const asesorReconocido = extraerAsesorReconocido(row.Texto);
-                        const licencia = buscarLicenciaAsesor(asesorReconocido);
-                        return {
-                            Fecha: row.Fecha,
-                            Agente: row.Agente,
-                            Movil: row.Movil,
-                            Texto: row.Texto,
-                            AsesorReconocido: asesorReconocido,
-                            Supervisor: licencia.Supervisor || "",
-                            Site: licencia.Site || "",
-                            Area: licencia.Area || ""
-                        };
-                    })
-                    .filter(row => {
-                        if (!row.Texto || !row.Texto.toLowerCase().includes("caso marcado pendiente")) return false;
-                        const area = (row.Area || "").trim().toUpperCase();
-                        return area === "SAC";
-                    })
-                    .sort((a, b) => (a.Movil || "").localeCompare(b.Movil || "", undefined, { numeric: true }));
-                pendientesResultados = [...pendientesData];
-                const fechasUnicas = new Set();
-                pendientesData.forEach(row => {
-                    const fechaTexto = (row.Fecha || "").split(" ")[0];
-                    if (fechaTexto) fechasUnicas.add(fechaTexto);
-                });
-                fechasDisponiblesPendientes = Array.from(fechasUnicas)
-                    .map(fecha => {
-                        const partes = fecha.trim().split("/");
-                        if (partes.length !== 3) return null;
-                        const dia = parseInt(partes[0], 10);
-                        const mes = parseInt(partes[1], 10);
-                        const anio = parseInt(partes[2], 10);
-                        if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return null;
-                        return new Date(anio, mes - 1, dia);
-                    })
-                    .filter(f => f instanceof Date && !isNaN(f));
-                if (document.getElementById("fechaInicioPendienteFiltro")?._flatpickr) {
-                    document.getElementById("fechaInicioPendienteFiltro")._flatpickr.destroy();
-                }
-                flatpickr("#fechaInicioPendienteFiltro", {
-                    locale: "es",
-                    dateFormat: "d/m/Y",
-                    enable: fechasDisponiblesPendientes
-                });
-                if (document.getElementById("fechaFinPendienteFiltro")?._flatpickr) {
-                    document.getElementById("fechaFinPendienteFiltro")._flatpickr.destroy();
-                }
-                flatpickr("#fechaFinPendienteFiltro", {
-                    locale: "es",
-                    dateFormat: "d/m/Y",
-                    enable: fechasDisponiblesPendientes
-                });
-                renderPendientesTable();
-                generarGraficoPendientesPorHora(pendientesResultados);
-                generarGraficoTopAsesoresPendientes(pendientesResultados);
-                document.getElementById("loadingSpinner").style.display = "none";
-                document.getElementById("loadingOverlay").style.display = "none";
-            })
-            .catch(error => {
-                console.error(error);
-                document.getElementById("loadingSpinner").style.display = "none";
-                document.getElementById("loadingOverlay").style.display = "none";
-                alert("Error al cargar los archivos.");
+        Promise.all(promises).then(data => {
+            document.getElementById("estadoPendientes").innerHTML = "✅ Registros cargados";
+            pendientesData = data.flat().map(row => {
+                const texto = (row.Texto || "").toLowerCase();
+                const asesorReconocido = extraerAsesorReconocido(row.Texto);
+                const licencia = buscarLicenciaAsesor(asesorReconocido);
+                return { Fecha: row.Fecha, Agente: row.Agente, Movil: row.Movil, Texto: row.Texto, AsesorReconocido: asesorReconocido, Supervisor: licencia.Supervisor || "", Site: licencia.Site || "", Area: licencia.Area || "" };
+            }).filter(row => {
+                if (!row.Texto || !row.Texto.toLowerCase().includes("caso marcado pendiente")) return false;
+                return (row.Area || "").trim().toUpperCase() === "SAC";
+            }).sort((a, b) => (a.Movil || "").localeCompare(b.Movil || "", undefined, { numeric: true }));
+            
+            pendientesResultados = [...pendientesData];
+            const fechasUnicas = new Set();
+            pendientesData.forEach(row => {
+                const fechaTexto = (row.Fecha || "").split(" ")[0];
+                if (fechaTexto) fechasUnicas.add(fechaTexto);
             });
+            fechasDisponiblesPendientes = Array.from(fechasUnicas).map(fecha => {
+                const partes = fecha.trim().split("/");
+                if (partes.length !== 3) return null;
+                const dia = parseInt(partes[0], 10), mes = parseInt(partes[1], 10), anio = parseInt(partes[2], 10);
+                if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return null;
+                return new Date(anio, mes - 1, dia);
+            }).filter(f => f instanceof Date && !isNaN(f));
+            
+            if (document.getElementById("fechaInicioPendienteFiltro")?._flatpickr) { document.getElementById("fechaInicioPendienteFiltro")._flatpickr.destroy(); }
+            flatpickr("#fechaInicioPendienteFiltro", { locale: "es", dateFormat: "d/m/Y", enable: fechasDisponiblesPendientes });
+            if (document.getElementById("fechaFinPendienteFiltro")?._flatpickr) { document.getElementById("fechaFinPendienteFiltro")._flatpickr.destroy(); }
+            flatpickr("#fechaFinPendienteFiltro", { locale: "es", dateFormat: "d/m/Y", enable: fechasDisponiblesPendientes });
+            
+            renderPendientesTable();
+            generarGraficoPendientesPorHora(pendientesResultados);
+            generarGraficoTopAsesoresPendientes(pendientesResultados);
+            document.getElementById("loadingSpinner").style.display = "none";
+            document.getElementById("loadingOverlay").style.display = "none";
+        }).catch(error => {
+            console.error(error);
+            document.getElementById("loadingSpinner").style.display = "none";
+            document.getElementById("loadingOverlay").style.display = "none";
+            alert("Error al cargar los archivos.");
+        });
     });
 });
 
@@ -2362,10 +2035,7 @@ function buscarPendientes() {
     const horaFin = document.getElementById("horaFinPendienteFiltro").value;
 
     pendientesResultados = pendientesData.filter(row => {
-        const matchAgente = agentes.length === 0 || agentes.some(nombre =>
-            (row.Agente || "").toLowerCase().includes(nombre) ||
-            (row.AsesorReconocido || "").toLowerCase().includes(nombre)
-        );
+        const matchAgente = agentes.length === 0 || agentes.some(nombre => (row.Agente || "").toLowerCase().includes(nombre) || (row.AsesorReconocido || "").toLowerCase().includes(nombre));
         const matchMovil = movil === "" || (row.Movil || "").toLowerCase().includes(movil);
         const matchTexto = texto === "" || (row.Texto || "").toLowerCase().includes(texto);
 
@@ -2381,20 +2051,17 @@ function buscarPendientes() {
                 matchFecha = fechaRegistro >= inicio && fechaRegistro <= fin;
             }
         }
-
         let matchHora = true;
         if (horaInicio || horaFin) {
             const partes = (row.Fecha || "").split(" ");
             const horaTexto = partes.length >= 2 ? partes[1].substring(0, 5) : "";
-            if (!horaTexto) {
-                matchHora = false;
-            } else {
+            if (!horaTexto) { matchHora = false; } 
+            else {
                 const cumpleInicio = !horaInicio || horaTexto >= horaInicio;
                 const cumpleFin = !horaFin || horaTexto <= horaFin;
                 matchHora = cumpleInicio && cumpleFin;
             }
         }
-
         return matchAgente && matchMovil && matchTexto && matchFecha && matchHora;
     });
     renderPendientesTable();
@@ -2417,9 +2084,7 @@ function limpiarPendientes() {
 }
 
 document.addEventListener("keydown", function(e) {
-    if (document.getElementById("pendientesPage").style.display === "block" && e.key === "Enter") {
-        buscarPendientes();
-    }
+    if (document.getElementById("pendientesPage").style.display === "block" && e.key === "Enter") { buscarPendientes(); }
 });
 
 function renderPendientesTable() {
@@ -2430,25 +2095,15 @@ function renderPendientesTable() {
     datosMostrar.forEach(row => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td>${row.Fecha || ""}</td>
-            <td>${row.Agente || ""}</td>
-            <td><strong>${row.AsesorReconocido || ""}</strong></td>
-            <td>${row.Supervisor || ""}</td>
-            <td>${row.Site || ""}</td>
-            <td>${row.Area || ""}</td>
-            <td>${row.Movil || ""}</td>
-            <td>${row.Texto || ""}</td>
+            <td>${row.Fecha || ""}</td><td>${row.Agente || ""}</td><td><strong>${row.AsesorReconocido || ""}</strong></td>
+            <td>${row.Supervisor || ""}</td><td>${row.Site || ""}</td><td>${row.Area || ""}</td><td>${row.Movil || ""}</td><td>${row.Texto || ""}</td>
         `;
         tbody.appendChild(tr);
     });
     document.getElementById("contadorPendientes").innerHTML = `<b>Total encontrados:</b> ${pendientesResultados.length}`;
     if (pendientesResultados.length > LIMITE) {
         const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td colspan="8" style="text-align:center;font-weight:bold;background:#f3f3f3;">
-                Mostrando solamente ${LIMITE} registros de un total de ${pendientesResultados.length} resultados
-            </td>
-        `;
+        tr.innerHTML = `<td colspan="8" style="text-align:center;font-weight:bold;background:#f3f3f3;">Mostrando solamente ${LIMITE} registros de un total de ${pendientesResultados.length} resultados</td>`;
         tbody.appendChild(tr);
     }
     document.getElementById("tablaPendientes").style.display = pendientesResultados.length > 0 ? "table" : "none";
